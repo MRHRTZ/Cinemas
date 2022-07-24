@@ -27,4 +27,8 @@ public class DashboardController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
+    
+    public void getNowPlaying() {
+        
+    }
 }

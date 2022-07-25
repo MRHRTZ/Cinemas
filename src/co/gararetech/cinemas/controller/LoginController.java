@@ -78,7 +78,8 @@ public class LoginController {
 
     public void submit(LoginView login, DashboardView dashboard) {
         String email = login.getTxtEmail().getText();
-        String password = login.getTxtPassword().getText();
+        String password = String.valueOf(login.getTxtPassword().getPassword());
+        
         JSONObject userData = null;
         
         try {

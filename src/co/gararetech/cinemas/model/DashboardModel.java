@@ -15,12 +15,9 @@ public class DashboardModel {
     private HttpURLConnection connection;
     private String token;
     private JSONObject userData;
-    private String activeTab; 
-
     
     public DashboardModel() {
         try {
-            this.activeTab = "nowPlaying";
             this.tokenEndpoint = new URL("https://api.tix.id/v1/token");
             this.nowPlayingUrl = new URL("https://api.tix.id/v1/movies/now_playing?tz=7");
         } catch (MalformedURLException ex) {
@@ -31,8 +28,6 @@ public class DashboardModel {
     public URL getTokenEndpoint() {
         return tokenEndpoint;
     }
-    
-    
 
     public HttpURLConnection getConnection() {
         return connection;

@@ -2,6 +2,7 @@ package co.gararetech.cinemas.controller;
 
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.ScaleImage;
+import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -10,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -70,7 +73,7 @@ public class NowPlayingController {
         model.setPlayingList(response.getJSONArray("results"));
     }
 
-    public void setGrid(JPanel content) throws MalformedURLException, IOException {
+    public void setGrid(DashboardView view) throws MalformedURLException, IOException {
         
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 3));
@@ -182,7 +185,14 @@ public class NowPlayingController {
                 detailButton.setForeground(Color.WHITE);
                 detailButton.setBackground(Color.decode("#555553"));
                 detailButton.setText("Detail Film");
-                detailButton.setName("detail-" + i);
+                detailButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        DetailFilmController detailFilmController = new DetailFilmController();
+                        detailFilmController.setModel(model);
+                        detailFilmController.showDetail(view, rowData.getString("id"));
+                    }
+                });
                 detailButton.setFont(new Font("Serif", Font.PLAIN, 18));
                 detailButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 detailButton.setPreferredSize(new Dimension(200, 30));
@@ -201,7 +211,14 @@ public class NowPlayingController {
                 orderButton.setForeground(Color.WHITE);
                 orderButton.setBackground(Color.decode("#A27B5C"));
                 orderButton.setText("Beli Tiket");
-                orderButton.setName("order-" + i);
+                orderButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        OrderTicketController orderTicketController = new OrderTicketController();
+                        orderTicketController.setModel(model);
+                        orderTicketController.showDetail(rowData.getString("id"));
+                    } 
+                });
                 orderButton.setFont(new Font("Serif", Font.PLAIN, 18));
                 orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 orderButton.setPreferredSize(new Dimension(200, 30));
@@ -212,11 +229,12 @@ public class NowPlayingController {
             contentPanel.add(cardPanel);
             gridPane.add(contentPanel);
         }
-        content.add(gridPane);
+        view.getContent().add(gridPane);
+        
     }
     
-    public void setNewGrid(JPanel content) throws IOException {
+    public void setNewGrid(DashboardView view) throws IOException {
         this.getNowPlaying();
-        this.setGrid(content);
+        this.setGrid(view);
     }
 }

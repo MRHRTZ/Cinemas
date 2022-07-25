@@ -49,7 +49,7 @@ public class DashboardView extends javax.swing.JFrame {
         nowPlayingController.setModel(dashboardModel);
         try {
             dashboardController.initToken();
-            nowPlayingController.setNewGrid(this.getContent());
+            nowPlayingController.setNewGrid(this);
         } catch (IOException ex) {
             Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -85,7 +85,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
-        setMinimumSize(new java.awt.Dimension(1035, 730));
+        setMinimumSize(new java.awt.Dimension(1028, 730));
         setPreferredSize(new java.awt.Dimension(1045, 732));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

@@ -11,6 +11,7 @@ import co.gararetech.cinemas.view.elements.RoundJTextField;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -26,10 +27,14 @@ public class RegisterView extends javax.swing.JFrame {
      */
     private RegisterController registerController;
     private RegisterModel registerModel;
+    private ImageIcon appIcon;
+
     public RegisterView() {
         registerController = new RegisterController();
         registerModel = new RegisterModel();
         initComponents();
+        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
+        this.setIconImage(appIcon.getImage());
         registerController.setModel(registerModel);
     }
 

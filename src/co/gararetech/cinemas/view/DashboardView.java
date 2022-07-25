@@ -10,10 +10,14 @@ import co.gararetech.cinemas.model.DashboardModel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
@@ -31,6 +35,7 @@ public class DashboardView extends javax.swing.JFrame {
     private NowPlayingController nowPlayingController;
     private DashboardController dashboardController;
     private DashboardModel dashboardModel;
+    private ImageIcon appIcon;
 
     public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
@@ -38,6 +43,8 @@ public class DashboardView extends javax.swing.JFrame {
         dashboardModel = new DashboardModel();
         nowPlayingController = new NowPlayingController();
         initComponents();
+        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
+        this.setIconImage(appIcon.getImage());
         dashboardController.setModel(dashboardModel);
         nowPlayingController.setModel(dashboardModel);
         try {
@@ -77,14 +84,16 @@ public class DashboardView extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cinemas Booking App");
         setMinimumSize(new java.awt.Dimension(1035, 730));
         setPreferredSize(new java.awt.Dimension(1045, 732));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
         jPanel1.setPreferredSize(new java.awt.Dimension(1050, 85));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
 
         jButton1.setBackground(Color.decode("#3D3C3A"));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -130,7 +139,7 @@ public class DashboardView extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 90));

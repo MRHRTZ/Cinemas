@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -27,12 +28,15 @@ public class LoginView extends javax.swing.JFrame {
 
     private LoginController loginController;
     private LoginModel loginModel;
+    private ImageIcon appIcon;
 
     public LoginView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         loginController = new LoginController();
         loginModel = new LoginModel();
         initComponents();
+        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
+        this.setIconImage(appIcon.getImage());
         setResizable(false);
         loginController.setModel(loginModel);
     }

@@ -120,7 +120,7 @@ public class NowPlayingController {
                 ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.X_AXIS));
                 ratingPanel.setBackground(Color.decode("#222222"));
                 
-                 // Top Rating Space
+                // Top Rating Space
                 JLabel topRatingSpace = new JLabel();
                 topRatingSpace.setText("---------");
                 topRatingSpace.setForeground(Color.decode("#222222"));
@@ -129,28 +129,35 @@ public class NowPlayingController {
 
                     // Rating Icon
                     JLabel starIcon = new JLabel();
-                    URL starIconPath = getClass().getResource("../view/images/star-white.png");
+                    URL starIconPath = getClass().getResource("../view/images/star-25.png");
                     ImageIcon starImage = new ImageIcon(starIconPath);
                     starIcon.setIcon(starImage);
                     starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
                     ratingPanel.add(starIcon);
 
-                    // Rating Score
+                    // Rating Score & Age
                     JLabel ratingScore = new JLabel();
                     ratingScore.setForeground(Color.WHITE);
-                    ratingScore.setText(String.valueOf(rowData.getFloat("rating_score")));
+                    ratingScore.setText("  " + String.valueOf(rowData.getFloat("rating_score") + "                    " + rowData.getString("age_category")));
                     ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
                     ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
                     ratingPanel.add(ratingScore);
                     
                     // Rating Space
                     JLabel ratingSpace = new JLabel();
-                    ratingSpace.setText("--------------------------------");
+                    ratingSpace.setText("-----");
                     ratingSpace.setForeground(Color.decode("#222222"));
                     ratingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
                     ratingPanel.add(ratingSpace);
-
+                    
                 cardPanel.add(ratingPanel);
+                
+                // Top Film Space
+                JLabel topFilmSpace = new JLabel();
+                topFilmSpace.setText("---------");
+                topFilmSpace.setForeground(Color.decode("#222222"));
+                topFilmSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cardPanel.add(topFilmSpace);
                 
                 // Film Title
                 JLabel filmTitle = new JLabel();

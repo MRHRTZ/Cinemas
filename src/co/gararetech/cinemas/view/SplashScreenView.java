@@ -6,6 +6,11 @@ package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.SplashScreenController;
 import co.gararetech.cinemas.model.SplashScreenModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -16,13 +21,17 @@ public class SplashScreenView extends javax.swing.JFrame {
     /**
      * Creates new form SplashScreenView
      */
-    SplashScreenController splashController;
-    SplashScreenModel splashModel;
-    
-    public SplashScreenView() {
+    private SplashScreenController splashController;
+    private SplashScreenModel splashModel;
+    private ImageIcon appIcon;
+
+    public SplashScreenView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
         splashController = new SplashScreenController();
         splashModel = new SplashScreenModel();
         initComponents();
+        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
+        this.setIconImage(appIcon.getImage());
         splashModel.setSplashView(this);
         splashController.setModel(splashModel);
     }
@@ -45,7 +54,7 @@ public class SplashScreenView extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/splash.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/revisi-splash.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -60,7 +69,7 @@ public class SplashScreenView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 533, Short.MAX_VALUE)
+            .addGap(0, 534, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -107,7 +116,17 @@ public class SplashScreenView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SplashScreenView().setVisible(true);
+                try {
+                    new SplashScreenView().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(SplashScreenView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(SplashScreenView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(SplashScreenView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(SplashScreenView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

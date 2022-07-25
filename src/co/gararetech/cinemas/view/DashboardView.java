@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+// Dashboard View
 public class DashboardView extends javax.swing.JFrame {
 
     private NowPlayingController nowPlayingController;

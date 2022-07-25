@@ -20,6 +20,24 @@ public class DashboardView extends javax.swing.JFrame {
     private DashboardController dashboardController;
     private DashboardModel dashboardModel;
     private ImageIcon appIcon;
+    private int mousepX;
+    private int mousepY;
+
+    public int getMousepX() {
+        return mousepX;
+    }
+
+    public void setMousepX(int mousepX) {
+        this.mousepX = mousepX;
+    }
+
+    public int getMousepY() {
+        return mousepY;
+    }
+
+    public void setMousepY(int mousepY) {
+        this.mousepY = mousepY;
+    }
 
     public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
         Properties p = new Properties();
@@ -74,14 +92,23 @@ public class DashboardView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
-        setMinimumSize(new java.awt.Dimension(1028, 730));
+        setMinimumSize(new java.awt.Dimension(1028, 632));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1045, 732));
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(1045, 300));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
         jPanel1.setPreferredSize(new java.awt.Dimension(1050, 85));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
 
@@ -90,15 +117,12 @@ public class DashboardView extends javax.swing.JFrame {
         jButton1.setText("Sedang Tayang");
 
         jButton2.setBackground(Color.decode("#D9D9D9"));
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Segera");
 
         jButton3.setBackground(Color.decode("#D9D9D9"));
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Bioskop");
 
         jButton4.setBackground(Color.decode("#D9D9D9"));
-        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("Riwayat Pesanan");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -145,6 +169,20 @@ public class DashboardView extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int kordinatX = evt.getXOnScreen();
+        int kordinatY = evt.getYOnScreen();
+        
+        this.setLocation(kordinatX-this.getMousepX(), kordinatY-this.getMousepY());
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        this.setMousepX(evt.getX());
+        this.setMousepY(evt.getY());
+    }//GEN-LAST:event_jPanel1MousePressed
 
     /**
      * @param args the command line arguments

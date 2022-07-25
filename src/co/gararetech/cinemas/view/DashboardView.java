@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.DashboardController;
@@ -23,15 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- *
- * @author user
- */
 public class DashboardView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DashboardView
-     */
     private NowPlayingController nowPlayingController;
     private DashboardController dashboardController;
     private DashboardModel dashboardModel;

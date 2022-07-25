@@ -8,12 +8,15 @@ import co.gararetech.cinemas.controller.RegisterController;
 import co.gararetech.cinemas.model.RegisterModel;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
@@ -29,7 +32,13 @@ public class RegisterView extends javax.swing.JFrame {
     private RegisterModel registerModel;
     private ImageIcon appIcon;
 
-    public RegisterView() {
+    public RegisterView() throws ClassNotFoundException, IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException {
+        Properties p = new Properties();
+        p.put("windowTitleFont", "Ebrima PLAIN 15");
+        p.put("logoString", "");
+        p.put("windowDecoration", "off");
+        AluminiumLookAndFeel.setCurrentTheme(p);
+        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         registerController = new RegisterController();
         registerModel = new RegisterModel();
         initComponents();
@@ -73,6 +82,7 @@ public class RegisterView extends javax.swing.JFrame {
         txtPassword2 = new RoundJPasswordField(50);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
         jPanel1.setPreferredSize(new java.awt.Dimension(849, 785));
@@ -158,12 +168,11 @@ public class RegisterView extends javax.swing.JFrame {
                 .addGap(99, 99, 99)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtPassword2, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtPassword1)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel3)))
+                    .addComponent(txtPassword1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -285,7 +294,17 @@ public class RegisterView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegisterView().setVisible(true);
+                try {
+                    new RegisterView().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

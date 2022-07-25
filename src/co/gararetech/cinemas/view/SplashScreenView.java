@@ -6,6 +6,8 @@ package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.SplashScreenController;
 import co.gararetech.cinemas.model.SplashScreenModel;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -26,10 +28,15 @@ public class SplashScreenView extends javax.swing.JFrame {
     private ImageIcon appIcon;
 
     public SplashScreenView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
+        Properties p = new Properties();
+        p.put("windowTitleFont", "Ebrima PLAIN 15");
+        p.put("logoString", "");
+        p.put("windowDecoration", "off");
+        AluminiumLookAndFeel.setCurrentTheme(p);
+        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         splashController = new SplashScreenController();
         splashModel = new SplashScreenModel();
         initComponents();
-        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
         splashModel.setSplashView(this);

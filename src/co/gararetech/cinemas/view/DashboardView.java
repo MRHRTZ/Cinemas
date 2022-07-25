@@ -3,8 +3,10 @@ package co.gararetech.cinemas.view;
 import co.gararetech.cinemas.controller.DashboardController;
 import co.gararetech.cinemas.controller.NowPlayingController;
 import co.gararetech.cinemas.model.DashboardModel;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -20,6 +22,11 @@ public class DashboardView extends javax.swing.JFrame {
     private ImageIcon appIcon;
 
     public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
+        Properties p = new Properties();
+        p.put("windowTitleFont", "Ebrima PLAIN 15");
+        p.put("logoString", "");
+        p.put("windowDecoration", "off");
+        AluminiumLookAndFeel.setCurrentTheme(p);
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         dashboardController = new DashboardController();
         dashboardModel = new DashboardModel();
@@ -68,6 +75,7 @@ public class DashboardView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
         setMinimumSize(new java.awt.Dimension(1028, 730));
+        setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1045, 732));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

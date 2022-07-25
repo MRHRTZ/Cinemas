@@ -9,7 +9,9 @@ import co.gararetech.cinemas.model.LoginModel;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.model.LoginModel;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -31,6 +33,11 @@ public class LoginView extends javax.swing.JFrame {
     private ImageIcon appIcon;
 
     public LoginView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        Properties p = new Properties();
+        p.put("windowTitleFont", "Ebrima PLAIN 15");
+        p.put("logoString", "");
+        p.put("windowDecoration", "off");
+        AluminiumLookAndFeel.setCurrentTheme(p);
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         loginController = new LoginController();
         loginModel = new LoginModel();
@@ -73,6 +80,7 @@ public class LoginView extends javax.swing.JFrame {
         txtPassword = new RoundJPasswordField(50);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
         jPanel1.setPreferredSize(new java.awt.Dimension(849, 584));

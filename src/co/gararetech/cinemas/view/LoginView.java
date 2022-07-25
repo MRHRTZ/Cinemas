@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -22,19 +23,22 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author user
  */
-
-
 public class LoginView extends javax.swing.JFrame {
 
     private LoginController loginController;
     private LoginModel loginModel;
+
     public LoginView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
         loginController = new LoginController();
         loginModel = new LoginModel();
         initComponents();
-        setResizable(false); 
+        setResizable(false);
         loginController.setModel(loginModel);
+    }
+
+    public JButton getBtnLoginSave() {
+        return btnLoginSave;
     }
 
     public JTextField getTxtEmail() {
@@ -44,7 +48,7 @@ public class LoginView extends javax.swing.JFrame {
     public JPasswordField getTxtPassword() {
         return txtPassword;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -110,6 +114,14 @@ public class LoginView extends javax.swing.JFrame {
         btnLoginSave.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         btnLoginSave.setForeground(new java.awt.Color(255, 255, 255));
         btnLoginSave.setText("LOGIN");
+        btnLoginSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnLoginSaveMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnLoginSaveMouseReleased(evt);
+            }
+        });
         btnLoginSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginSaveActionPerformed(evt);
@@ -210,6 +222,15 @@ public class LoginView extends javax.swing.JFrame {
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginSaveActionPerformed
+
+    private void btnLoginSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginSaveMouseReleased
+        
+    }//GEN-LAST:event_btnLoginSaveMouseReleased
+
+    private void btnLoginSaveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginSaveMousePressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnLoginSaveMousePressed
 
     /**
      * @param args the command line arguments

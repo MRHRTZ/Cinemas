@@ -4,9 +4,18 @@
  */
 package co.gararetech.cinemas.view;
 
+import co.gararetech.cinemas.controller.DashboardController;
+import co.gararetech.cinemas.controller.NowPlayingController;
+import co.gararetech.cinemas.model.DashboardModel;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -19,11 +28,35 @@ public class DashboardView extends javax.swing.JFrame {
     /**
      * Creates new form DashboardView
      */
+    private NowPlayingController nowPlayingController;
+    private DashboardController dashboardController;
+    private DashboardModel dashboardModel;
+
     public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+        dashboardController = new DashboardController();
+        dashboardModel = new DashboardModel();
+        nowPlayingController = new NowPlayingController();
         initComponents();
+        dashboardController.setModel(dashboardModel);
+        nowPlayingController.setModel(dashboardModel);
+        try {
+            dashboardController.initToken();
+            nowPlayingController.setNewGrid(this.getContent());
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    public JPanel getContent() {
+        return content;
+    }
+    
+    public DashboardModel getModel() {
+        return dashboardModel;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,10 +72,13 @@ public class DashboardView extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        contentPane = new javax.swing.JScrollPane();
+        contentPane.getVerticalScrollBar().setUnitIncrement(25);
+        content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1050, 732));
+        setMinimumSize(new java.awt.Dimension(1035, 730));
+        setPreferredSize(new java.awt.Dimension(1045, 732));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
@@ -99,8 +135,13 @@ public class DashboardView extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 90));
 
-        jScrollPane1.setBackground(new java.awt.Color(102, 102, 102));
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1050, 640));
+        contentPane.setBackground(new java.awt.Color(102, 102, 102));
+        contentPane.setBorder(null);
+
+        content.setLayout(new java.awt.GridLayout(1, 0));
+        contentPane.setViewportView(content);
+
+        getContentPane().add(contentPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1050, 640));
 
         pack();
         setLocationRelativeTo(null);
@@ -152,12 +193,13 @@ public class DashboardView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel content;
+    private javax.swing.JScrollPane contentPane;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

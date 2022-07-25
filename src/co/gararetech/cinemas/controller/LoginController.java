@@ -10,14 +10,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.MessageDigest;
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class LoginController {
+
     private LoginModel model;
 
     public LoginModel getModel() {
@@ -26,39 +28,6 @@ public class LoginController {
 
     public void setModel(LoginModel model) {
         this.model = model;
-    }
-
-    public void initToken() throws MalformedURLException, IOException {
-        URL tokenUrl = model.getTokenEndpoint();
-
-        model.setConnection((HttpURLConnection) tokenUrl.openConnection());
-        model.getConnection().setRequestMethod("POST");
-        model.getConnection().setRequestProperty("Content-Type", "application/json");
-        model.getConnection().setRequestProperty("Client-Secret", "123456");
-        model.getConnection().setConnectTimeout(5000);
-        model.getConnection().setReadTimeout(5000);
-
-        BufferedReader reader;
-        String line;
-        StringBuffer responseContent = new StringBuffer();
-        int status = model.getConnection().getResponseCode();
-
-        if (status > 299) {
-            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
-            while ((line = reader.readLine()) != null) {
-                responseContent.append(line);
-            }
-            reader.close();
-        } else {
-            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
-            while ((line = reader.readLine()) != null) {
-                responseContent.append(line);
-            }
-            reader.close();
-        }
-
-        JSONObject result = new JSONObject(responseContent.toString());
-        model.setToken(result.getJSONObject("results").getString("token"));
     }
 
     public JSONArray getUserList() throws MalformedURLException, IOException {
@@ -91,6 +60,7 @@ public class LoginController {
         return new JSONArray(responseContent.toString());
     }
 
+
     public String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -112,13 +82,15 @@ public class LoginController {
         JSONObject userData = null;
         
         try {
-            for (int i = 0; i < getUserList().length(); i++) {
-                JSONObject row = getUserList().getJSONObject(i);
+            JSONArray userList = getUserList();
+            for (int i = 0; i < userList.length(); i++) {
+                JSONObject row = userList.getJSONObject(i);
+                
                 if (row.getString("email").equals(email)) {
                     userData = row;
                 }
             }
-
+            
             if (email.equals("") && password.equals("")) {
                 JOptionPane.showMessageDialog(login, "Data email dan password tidak boleh kosong");
             } else if (userData == null) {
@@ -126,6 +98,7 @@ public class LoginController {
             } else {
                 String md5Password = MD5(password);
                 if (md5Password.equals(userData.getString("password"))) {
+                    model.setUserData(userData);
                     JOptionPane.showMessageDialog(login, "Login berhasil");
                     login.dispose();
                     dashboard.setVisible(true);
@@ -137,7 +110,8 @@ public class LoginController {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+
     public void viewRegister(LoginView login, RegisterView register) {
         login.dispose();
         register.setVisible(true);

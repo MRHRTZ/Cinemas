@@ -11,8 +11,8 @@ public class LoginModel {
     private URL tokenEndpoint;
     private URL usersEndpoint;
     private HttpURLConnection connection;
-    private String token;
     private JSONObject userData;
+
 
     public LoginModel() {
         try {
@@ -22,6 +22,16 @@ public class LoginModel {
             Logger.getLogger(LoginModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public JSONObject getUserData() {
+        return userData;
+    }
+
+    public void setUserData(JSONObject userData) {
+        this.userData = userData;
+    }
+    
+    
 
     public URL getTokenEndpoint() {
         return tokenEndpoint;
@@ -38,22 +48,6 @@ public class LoginModel {
 
     public void setConnection(HttpURLConnection connection) {
         this.connection = connection;
-    }
-    
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public JSONObject getUserData() {
-        return userData;
-    }
-
-    public void setUserData(JSONObject userData) {
-        this.userData = userData;
     }
     
 }

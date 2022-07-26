@@ -185,7 +185,6 @@ public class ProfileView extends javax.swing.JFrame {
         jCity.setBackground(Color.decode("#E3DDDD"));
         jCity.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         jCity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bandung", "Jakarta" }));
-        jCity.setBorder(null);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

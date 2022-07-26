@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,6 +21,24 @@ public class ProfileModel {
     private String email;
     private String newPassword;
     private String oldPassword;
+    private JSONObject userData;
+
+    public ProfileModel() {
+        try {
+            this.showUserURL = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
+            this.UpdateUserURL = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/update_user.php");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RegisterModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public JSONObject getUserData() {
+        return userData;
+    }
+
+    public void setUserData(JSONObject userData) {
+        this.userData = userData;
+    }
 
     public URL getShowUserURL() {
         return showUserURL;
@@ -78,14 +97,5 @@ public class ProfileModel {
     }
     private String cityId;
     private HttpURLConnection connection;
-
-    public ProfileModel() {
-        try {
-            this.showUserURL = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
-            this.UpdateUserURL = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/update_user.php");
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(RegisterModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
 }

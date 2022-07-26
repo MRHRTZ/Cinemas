@@ -29,7 +29,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -160,6 +162,15 @@ public class DashboardController {
     public void removeLoadingContent(JPanel content, JPanel loading) {
         content.remove(loading);
         content.revalidate();
+    }
+    public void exitButton(){
+        JFrame frame = new JFrame("Exit");
+        if (JOptionPane.showConfirmDialog( frame,"Apakah Anda Mau Keluar ?","Cinemas",
+            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            System.exit(0);
+    }
+    public void minimizeButton(DashboardView view){
+        view.setState(DashboardView.ICONIFIED);
     }
 
 }

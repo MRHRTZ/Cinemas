@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -155,5 +156,14 @@ public class RegisterController {
         } else {
             button.setIcon(null);
         }
+    }
+    public void exitButton(){
+        JFrame frame = new JFrame("Exit");
+        if (JOptionPane.showConfirmDialog( frame,"Apakah Anda Mau Keluar ?","Cinemas",
+            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            System.exit(0);
+    }
+    public void minimizeButton(RegisterView view){
+        view.setState(RegisterView.ICONIFIED);
     }
 }

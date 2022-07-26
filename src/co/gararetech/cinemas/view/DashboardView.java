@@ -125,15 +125,16 @@ public class DashboardView extends javax.swing.JFrame {
         btnUpcoming = new javax.swing.JButton();
         btnCinema = new javax.swing.JButton();
         btnOrderHistory = new javax.swing.JButton();
+        minimize = new javax.swing.JLabel();
+        exit = new javax.swing.JLabel();
         contentPane = new javax.swing.JScrollPane();
         contentPane.getVerticalScrollBar().setUnitIncrement(25);
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
-        setMinimumSize(new java.awt.Dimension(1028, 640));
+        setMinimumSize(new java.awt.Dimension(1070, 640));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1045, 640));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -176,6 +177,24 @@ public class DashboardView extends javax.swing.JFrame {
         btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
         btnOrderHistory.setText("Riwayat Pesanan");
 
+        minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
+        minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        minimize.setIconTextGap(0);
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+        });
+
+        exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
+        exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        exit.setIconTextGap(0);
+        exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exitMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -183,7 +202,7 @@ public class DashboardView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(80, 80, 80)
+                .addGap(100, 100, 100)
                 .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -191,7 +210,11 @@ public class DashboardView extends javax.swing.JFrame {
                 .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(minimize)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exit)
+                .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,11 +226,14 @@ public class DashboardView extends javax.swing.JFrame {
                         .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(minimize)
+                        .addComponent(exit)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 90));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1110, 90));
 
         contentPane.setBackground(new java.awt.Color(102, 102, 102));
         contentPane.setBorder(null);
@@ -216,7 +242,7 @@ public class DashboardView extends javax.swing.JFrame {
         content.setLayout(new java.awt.GridLayout(1, 0));
         contentPane.setViewportView(content);
 
-        getContentPane().add(contentPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1070, 550));
+        getContentPane().add(contentPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1110, 550));
 
         pack();
         setLocationRelativeTo(null);
@@ -276,6 +302,16 @@ public class DashboardView extends javax.swing.JFrame {
         }.execute();
     }//GEN-LAST:event_btnNowPlayingActionPerformed
 
+    private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
+        // TODO add your handling code here:
+        dashboardController.exitButton();
+    }//GEN-LAST:event_exitMouseClicked
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        // TODO add your handling code here:
+        dashboardController.minimizeButton(this);
+    }//GEN-LAST:event_minimizeMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -328,7 +364,9 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JButton btnUpcoming;
     private javax.swing.JPanel content;
     private javax.swing.JScrollPane contentPane;
+    private javax.swing.JLabel exit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel minimize;
     // End of variables declaration//GEN-END:variables
 }

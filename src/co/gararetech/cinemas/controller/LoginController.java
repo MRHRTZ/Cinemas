@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.net.http.*;
 import java.net.http.HttpResponse.*;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 
 public class LoginController {
@@ -149,5 +150,14 @@ public class LoginController {
         } else {
             button.setIcon(null);
         }
+    }
+    public void exitButton(){
+        JFrame frame = new JFrame("Exit");
+        if (JOptionPane.showConfirmDialog( frame,"Apakah Anda Mau Keluar ?","Cinemas",
+            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+            System.exit(0);
+    }
+    public void minimizeButton(LoginView view){
+        view.setState(LoginView.ICONIFIED);
     }
 }

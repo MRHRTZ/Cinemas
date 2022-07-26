@@ -10,66 +10,88 @@ import org.json.JSONObject;
 
 public class DashboardModel {
     private URL nowPlayingUrl;
+    private URL upcomingUrl;
+    private URL cinemaUrl;
+    private URL movieScheduleUrl;
     private URL tokenEndpoint;
     private JSONArray playingList;
+    private JSONArray upcomingList;
+    private JSONArray cinemaList;
+    private JSONArray movieScheduleList;
     private HttpURLConnection connection;
     private String token;
     private JSONObject userData;
     
     public DashboardModel() {
         try {
-            this.tokenEndpoint = new URL("https://api.tix.id/v1/token");
-            this.nowPlayingUrl = new URL("https://api.tix.id/v1/movies/now_playing?tz=7");
+            String baseUrl = "https://api.tix.id";
+            this.tokenEndpoint = new URL(baseUrl + "/v1/token");
+            this.nowPlayingUrl = new URL(baseUrl + "/v1/movies/now_playing?tz=7");
+            this.upcomingUrl = new URL(baseUrl + "/v1/movies/upcoming");
+            this.movieScheduleUrl = new URL(baseUrl + "v3/schedule");
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public URL getUpcomingUrl() {
+        return upcomingUrl;
+    }
+    public URL getCinemaUrl() {
+        return cinemaUrl;
+    }
+    public URL getMovieScheduleUrl() {
+        return movieScheduleUrl;
+    }
+    public JSONArray getUpcomingList() {
+        return upcomingList;
+    }
+    public void setUpcomingList(JSONArray upcomingList) {
+        this.upcomingList = upcomingList;
+    }
+    public JSONArray getCinemaList() {
+        return cinemaList;
+    }
+    public void setCinemaList(JSONArray cinemaList) {
+        this.cinemaList = cinemaList;
+    }
+    public JSONArray getMovieScheduleList() {
+        return movieScheduleList;
+    }
+    public void setMovieScheduleList(JSONArray movieScheduleList) {
+        this.movieScheduleList = movieScheduleList;
+    }
     public URL getTokenEndpoint() {
         return tokenEndpoint;
     }
-
     public HttpURLConnection getConnection() {
         return connection;
     }
-
     public void setConnection(HttpURLConnection connection) {
         this.connection = connection;
     }
-    
     public URL getNowPlayingUrl() {
         return nowPlayingUrl;
     }
-
     public void setNowPlayingUrl(URL nowPlayingUrl) {
         this.nowPlayingUrl = nowPlayingUrl;
     }
-
     public JSONArray getPlayingList() {
         return playingList;
     }
-
     public void setPlayingList(JSONArray playingList) {
         this.playingList = playingList;
     }
-
     public String getToken() {
         return token;
     }
-
     public void setToken(String token) {
         this.token = token;
     }
-
     public JSONObject getUserData() {
         return userData;
     }
-
     public void setUserData(JSONObject userData) {
         this.userData = userData;
-    }
-    
-    
-    
-    
+    }   
 }

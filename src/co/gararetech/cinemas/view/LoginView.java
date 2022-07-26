@@ -31,6 +31,8 @@ public class LoginView extends javax.swing.JFrame {
     private LoginController loginController;
     private LoginModel loginModel;
     private ImageIcon appIcon;
+    private int mouseX;
+    private int mouseY;
 
     public LoginView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         Properties p = new Properties();
@@ -47,6 +49,23 @@ public class LoginView extends javax.swing.JFrame {
         setResizable(false);
         loginController.setModel(loginModel);
     }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public void setMouseX(int mouseX) {
+        this.mouseX = mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
+    }
+
+    public void setMouseY(int mouseY) {
+        this.mouseY = mouseY;
+    }
+    
 
     public JButton getBtnLoginSave() {
         return btnLoginSave;
@@ -84,6 +103,16 @@ public class LoginView extends javax.swing.JFrame {
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
         jPanel1.setPreferredSize(new java.awt.Dimension(849, 584));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(Color.decode("#222222"));
@@ -142,6 +171,11 @@ public class LoginView extends javax.swing.JFrame {
 
         txtPassword.setBackground(Color.decode("#E3DDDD"));
         txtPassword.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -213,6 +247,7 @@ public class LoginView extends javax.swing.JFrame {
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
+        this.getTxtEmail().requestFocus();
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
@@ -231,28 +266,59 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLoginSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginSaveActionPerformed
-        try {
-            // TODO add your handling code here:
-            loginController.submit(this, new DashboardView());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // TODO add your handling code here:
+        loginController.loading(this.getBtnLoginSave(), true);
+        new Thread() {
+            public void run() {
+                try {
+                    loginController.submit(LoginView.this, new DashboardView());
+                    loginController.loading(LoginView.this.getBtnLoginSave(), false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }//GEN-LAST:event_btnLoginSaveActionPerformed
 
     private void btnLoginSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginSaveMouseReleased
-        
+
     }//GEN-LAST:event_btnLoginSaveMouseReleased
 
     private void btnLoginSaveMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginSaveMousePressed
         // TODO add your handling code here:
 
     }//GEN-LAST:event_btnLoginSaveMousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        
+        this.setLocation(x-this.getMouseX(), y-this.getMouseY());
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        this.setMouseX(evt.getX());
+        this.setMouseY(evt.getY());
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+        loginController.loading(this.getBtnLoginSave(), true);
+        new Thread() {
+            public void run() {
+                try {
+                    loginController.submit(LoginView.this, new DashboardView());
+                    loginController.loading(LoginView.this.getBtnLoginSave(), false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+    }//GEN-LAST:event_txtPasswordActionPerformed
 
     /**
      * @param args the command line arguments

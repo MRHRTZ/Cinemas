@@ -13,6 +13,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -145,5 +147,13 @@ public class RegisterController {
     public void viewLogin(RegisterView register, LoginView login) {
         register.dispose();
         login.setVisible(true);
+    }
+    
+    public void loading(JButton button, Boolean status) {
+        if (status) {
+            button.setIcon(new ImageIcon(getClass().getResource("../view/images/loading-25.gif")));
+        } else {
+            button.setIcon(null);
+        }
     }
 }

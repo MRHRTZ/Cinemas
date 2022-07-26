@@ -1,7 +1,10 @@
 package co.gararetech.cinemas.view;
 
+import co.gararetech.cinemas.controller.CinemaListController;
 import co.gararetech.cinemas.controller.DashboardController;
 import co.gararetech.cinemas.controller.NowPlayingController;
+import co.gararetech.cinemas.controller.OrderHistoryContoller;
+import co.gararetech.cinemas.controller.UpcomingController;
 import co.gararetech.cinemas.model.DashboardModel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
@@ -10,18 +13,78 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class DashboardView extends javax.swing.JFrame {
 
     private NowPlayingController nowPlayingController;
+    private UpcomingController upcomingController;
+    private OrderHistoryContoller orderHistoryContoller;
+    private CinemaListController cinemaListController;
     private DashboardController dashboardController;
     private DashboardModel dashboardModel;
     private ImageIcon appIcon;
+    private JPanel loadingPanel;
     private int mousepX;
     private int mousepY;
+
+    public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
+        Properties p = new Properties();
+        p.put("windowTitleFont", "Ebrima PLAIN 15");
+        p.put("logoString", "");
+        p.put("windowDecoration", "off");
+        AluminiumLookAndFeel.setCurrentTheme(p);
+        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+        
+        dashboardController = new DashboardController();
+        dashboardModel = new DashboardModel();
+        nowPlayingController = new NowPlayingController();
+        upcomingController = new UpcomingController();
+        
+        initComponents();
+        
+        dashboardController.setModel(dashboardModel);
+        nowPlayingController.setModel(dashboardModel);
+        upcomingController.setModel(dashboardModel);
+        
+        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
+        this.setIconImage(appIcon.getImage());
+        dashboardController.setActiveButton(this, "nowplaying");
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    dashboardController.initToken();
+                    nowPlayingController.setNewGrid(DashboardView.this);
+                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public JButton getBtnCinema() {
+        return btnCinema;
+    }
+
+    public JButton getBtnNowPlaying() {
+        return btnNowPlaying;
+    }
+
+    public JButton getBtnOrderHistory() {
+        return btnOrderHistory;
+    }
+
+    public JButton getBtnUpcoming() {
+        return btnUpcoming;
+    }
 
     public int getMousepX() {
         return mousepX;
@@ -39,38 +102,14 @@ public class DashboardView extends javax.swing.JFrame {
         this.mousepY = mousepY;
     }
 
-    public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
-        Properties p = new Properties();
-        p.put("windowTitleFont", "Ebrima PLAIN 15");
-        p.put("logoString", "");
-        p.put("windowDecoration", "off");
-        AluminiumLookAndFeel.setCurrentTheme(p);
-        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-        dashboardController = new DashboardController();
-        dashboardModel = new DashboardModel();
-        nowPlayingController = new NowPlayingController();
-        initComponents();
-        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
-        this.setIconImage(appIcon.getImage());
-        dashboardController.setModel(dashboardModel);
-        nowPlayingController.setModel(dashboardModel);
-        try {
-            dashboardController.initToken();
-            nowPlayingController.setNewGrid(this);
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public JPanel getContent() {
         return content;
     }
-    
+
     public DashboardModel getModel() {
         return dashboardModel;
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,19 +121,20 @@ public class DashboardView extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnNowPlaying = new javax.swing.JButton();
+        btnUpcoming = new javax.swing.JButton();
+        btnCinema = new javax.swing.JButton();
+        btnOrderHistory = new javax.swing.JButton();
         contentPane = new javax.swing.JScrollPane();
         contentPane.getVerticalScrollBar().setUnitIncrement(25);
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
-        setMinimumSize(new java.awt.Dimension(1028, 632));
+        setMinimumSize(new java.awt.Dimension(1028, 640));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1045, 300));
+        setPreferredSize(new java.awt.Dimension(1045, 640));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
@@ -112,18 +152,29 @@ public class DashboardView extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
 
-        jButton1.setBackground(Color.decode("#3D3C3A"));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Sedang Tayang");
+        btnNowPlaying.setBackground(Color.decode("#3D3C3A"));
+        btnNowPlaying.setForeground(new java.awt.Color(255, 255, 255));
+        btnNowPlaying.setText("Sedang Tayang");
+        btnNowPlaying.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNowPlayingActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(Color.decode("#D9D9D9"));
-        jButton2.setText("Segera");
+        btnUpcoming.setBackground(Color.decode("#D9D9D9"));
+        btnUpcoming.setForeground(new java.awt.Color(204, 204, 204));
+        btnUpcoming.setText("Segera");
+        btnUpcoming.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpcomingActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(Color.decode("#D9D9D9"));
-        jButton3.setText("Bioskop");
+        btnCinema.setBackground(Color.decode("#D9D9D9"));
+        btnCinema.setText("Bioskop");
 
-        jButton4.setBackground(Color.decode("#D9D9D9"));
-        jButton4.setText("Riwayat Pesanan");
+        btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
+        btnOrderHistory.setText("Riwayat Pesanan");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,13 +184,13 @@ public class DashboardView extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
                 .addGap(80, 80, 80)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(121, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -149,10 +200,10 @@ public class DashboardView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -160,11 +211,12 @@ public class DashboardView extends javax.swing.JFrame {
 
         contentPane.setBackground(new java.awt.Color(102, 102, 102));
         contentPane.setBorder(null);
+        contentPane.setPreferredSize(new java.awt.Dimension(1050, 600));
 
         content.setLayout(new java.awt.GridLayout(1, 0));
         contentPane.setViewportView(content);
 
-        getContentPane().add(contentPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1050, 640));
+        getContentPane().add(contentPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1070, 550));
 
         pack();
         setLocationRelativeTo(null);
@@ -174,8 +226,8 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         int kordinatX = evt.getXOnScreen();
         int kordinatY = evt.getYOnScreen();
-        
-        this.setLocation(kordinatX-this.getMousepX(), kordinatY-this.getMousepY());
+
+        this.setLocation(kordinatX - this.getMousepX(), kordinatY - this.getMousepY());
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
@@ -183,6 +235,46 @@ public class DashboardView extends javax.swing.JFrame {
         this.setMousepX(evt.getX());
         this.setMousepY(evt.getY());
     }//GEN-LAST:event_jPanel1MousePressed
+
+    private void btnUpcomingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpcomingActionPerformed
+        // TODO add your handling code here:
+        dashboardController.setActiveButton(this, "upcoming");
+        dashboardController.removeContent(this);
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    upcomingController.setNewGrid(DashboardView.this);
+                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
+                    DashboardView.this.revalidate();
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }//GEN-LAST:event_btnUpcomingActionPerformed
+
+    private void btnNowPlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNowPlayingActionPerformed
+        // TODO add your handling code here:
+        dashboardController.setActiveButton(this, "nowplaying");
+        dashboardController.removeContent(this);
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    nowPlayingController.setNewGrid(DashboardView.this);
+                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
+                    DashboardView.this.revalidate();
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }//GEN-LAST:event_btnNowPlayingActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,12 +322,12 @@ public class DashboardView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCinema;
+    private javax.swing.JButton btnNowPlaying;
+    private javax.swing.JButton btnOrderHistory;
+    private javax.swing.JButton btnUpcoming;
     private javax.swing.JPanel content;
     private javax.swing.JScrollPane contentPane;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

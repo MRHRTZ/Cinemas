@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.util.logging.Level;
@@ -17,6 +18,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.net.http.*;
+import java.net.http.HttpResponse.*;
+import javax.swing.JButton;
+import javax.swing.SwingWorker;
 
 public class LoginController {
 
@@ -60,7 +65,6 @@ public class LoginController {
         return new JSONArray(responseContent.toString());
     }
 
-
     public String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -76,12 +80,35 @@ public class LoginController {
         return null;
     }
 
+    public void testRequest() {
+        String uri = "https://postman-echo.com/get";
+        HttpRequest req = HttpRequest
+                .newBuilder()
+                .uri(URI.create(uri))
+                .GET()
+                .version(HttpClient.Version.HTTP_2)
+                .build();
+
+        HttpClient client = HttpClient.newBuilder()
+                .build();
+
+        try {
+            HttpResponse<String> resp = client.send(req, BodyHandlers.ofString());
+            System.out.println(resp.statusCode());
+            System.out.println(resp.body());
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void submit(LoginView login, DashboardView dashboard) {
         String email = login.getTxtEmail().getText();
         String password = String.valueOf(login.getTxtPassword().getPassword());
-        
+
         JSONObject userData = null;
-        
+
         try {
             JSONArray userList = getUserList();
             for (int i = 0; i < userList.length(); i++) {
@@ -110,11 +137,17 @@ public class LoginController {
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-
+}
     public void viewRegister(LoginView login, RegisterView register) {
         login.dispose();
         register.setVisible(true);
+    }
+    
+    public void loading(JButton button, Boolean status) {
+        if (status) {
+            button.setIcon(new ImageIcon(getClass().getResource("../view/images/loading-25.gif")));
+        } else {
+            button.setIcon(null);
+        }
     }
 }

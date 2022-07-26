@@ -10,15 +10,12 @@ public class SplashScreenModel {
     public LoginView getLoginPage() {
         return loginPage;
     }
-
     public void setLoginPage(LoginView loginPage) {
         this.loginPage = loginPage;
     }
-
     public SplashScreenView getSplashView() {
         return splashView;
     }
-
     public void setSplashView(SplashScreenView splashView) {
         this.splashView = splashView;
     }

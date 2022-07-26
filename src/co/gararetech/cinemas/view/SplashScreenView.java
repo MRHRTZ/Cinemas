@@ -28,17 +28,21 @@ public class SplashScreenView extends javax.swing.JFrame {
     private ImageIcon appIcon;
 
     public SplashScreenView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
+        //--------[ Tema Custom ]----------
         Properties p = new Properties();
         p.put("windowTitleFont", "Ebrima PLAIN 15");
         p.put("logoString", "");
         p.put("windowDecoration", "off");
         AluminiumLookAndFeel.setCurrentTheme(p);
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+        //------------------------------
         splashController = new SplashScreenController();
         splashModel = new SplashScreenModel();
         initComponents();
+        //--------[ Custom Icon Aplikasi ]----------
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
+        //------------------------------
         splashModel.setSplashView(this);
         splashController.setModel(splashModel);
     }

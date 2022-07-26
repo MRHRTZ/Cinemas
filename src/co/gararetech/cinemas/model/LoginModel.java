@@ -26,29 +26,20 @@ public class LoginModel {
     public JSONObject getUserData() {
         return userData;
     }
-
     public void setUserData(JSONObject userData) {
         this.userData = userData;
     }
-    
-    
-
     public URL getTokenEndpoint() {
         return tokenEndpoint;
     }
-
     public URL getUsersEndpoint() {
         return usersEndpoint;
     }
-    
-
     public HttpURLConnection getConnection() {
         return connection;
     }
-
     public void setConnection(HttpURLConnection connection) {
         this.connection = connection;
     }
-    
 }
 

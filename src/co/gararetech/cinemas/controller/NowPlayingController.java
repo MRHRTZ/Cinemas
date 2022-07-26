@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -70,6 +71,7 @@ public class NowPlayingController {
         }
         
         JSONObject response = new JSONObject(responseContent.toString());
+        System.out.println("NowPlayingResp:" + response);
         model.setPlayingList(response.getJSONArray("results"));
     }
 
@@ -86,8 +88,9 @@ public class NowPlayingController {
             
             // Grid panel
             final JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new CardLayout(50, 50));
-            contentPanel.setPreferredSize(new Dimension(250, 600));
+            contentPanel.setLayout(new CardLayout(25, 25));
+            contentPanel.setPreferredSize(new Dimension(250, 550));
+            //contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             contentPanel.setBackground(Color.decode("#42382F"));
 
             // Card Panel

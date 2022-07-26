@@ -51,7 +51,7 @@ public class DashboardController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public void initToken() throws MalformedURLException, IOException {
         URL tokenUrl = model.getTokenEndpoint();
 
@@ -83,7 +83,83 @@ public class DashboardController {
 
         JSONObject result = new JSONObject(responseContent.toString());
         String token = result.getJSONObject("results").getString("token");
-        
+
         model.setToken(token);
     }
+
+    public void setActiveButton(DashboardView view, String tabName) {
+        if (tabName.equals("nowplaying")) {
+            view.getBtnNowPlaying().setBackground(Color.decode("#3D3C3A"));
+            view.getBtnNowPlaying().setForeground(Color.WHITE);
+
+            view.getBtnUpcoming().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnUpcoming().setForeground(Color.BLACK);
+
+            view.getBtnOrderHistory().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnOrderHistory().setForeground(Color.BLACK);
+
+            view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnCinema().setForeground(Color.BLACK);
+        } else if (tabName.equals("upcoming")) {
+            view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnNowPlaying().setForeground(Color.BLACK);
+
+            view.getBtnUpcoming().setBackground(Color.decode("#3D3C3A"));
+            view.getBtnUpcoming().setForeground(Color.WHITE);
+
+            view.getBtnOrderHistory().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnOrderHistory().setForeground(Color.BLACK);
+
+            view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnCinema().setForeground(Color.BLACK);
+        } else if (tabName.equals("orderhistory")) {
+            view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnNowPlaying().setForeground(Color.BLACK);
+
+            view.getBtnUpcoming().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnUpcoming().setForeground(Color.BLACK);
+
+            view.getBtnOrderHistory().setBackground(Color.decode("#3D3C3A"));
+            view.getBtnOrderHistory().setForeground(Color.WHITE);
+
+            view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnCinema().setForeground(Color.BLACK);
+        } else if (tabName.equals("cinemas")) {
+            view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnNowPlaying().setForeground(Color.BLACK);
+
+            view.getBtnUpcoming().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnUpcoming().setForeground(Color.BLACK);
+
+            view.getBtnOrderHistory().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnOrderHistory().setForeground(Color.BLACK);
+
+            view.getBtnCinema().setBackground(Color.decode("#3D3C3A"));
+            view.getBtnCinema().setForeground(Color.WHITE);
+        }
+
+    }
+
+    public void removeContent(DashboardView view) {
+        view.getContent().removeAll();
+        view.getContent().revalidate();
+
+    }
+
+    public JPanel addLoadingContent(JPanel content) {
+        JPanel loading = new JPanel(new CardLayout(0, 185));
+        loading.setName("loadingPanel");
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("../view/images/content-load.gif")));
+        loading.setBackground(Color.decode("#42382F"));
+        loading.add(loadingImage);
+        content.add(loading);
+        content.revalidate();
+        return loading;
+    }
+
+    public void removeLoadingContent(JPanel content, JPanel loading) {
+        content.remove(loading);
+        content.revalidate();
+    }
+
 }

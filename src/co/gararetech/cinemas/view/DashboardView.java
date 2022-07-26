@@ -156,6 +156,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnNowPlaying.setBackground(Color.decode("#3D3C3A"));
         btnNowPlaying.setForeground(new java.awt.Color(255, 255, 255));
         btnNowPlaying.setText("Sedang Tayang");
+        btnNowPlaying.setToolTipText("");
         btnNowPlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNowPlayingActionPerformed(evt);
@@ -178,6 +179,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnOrderHistory.setText("Riwayat Pesanan");
 
         minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
+        minimize.setToolTipText("MINIMIZE");
         minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         minimize.setIconTextGap(0);
         minimize.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,6 +189,7 @@ public class DashboardView extends javax.swing.JFrame {
         });
 
         exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
+        exit.setToolTipText("EXIT");
         exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         exit.setIconTextGap(0);
         exit.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -2,22 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/RegisterView.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/elements/RoundJCity.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/SplashScreenView.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/controller/NowPlayingController.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/model/ProfileModel.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/controller/ProfileController.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/controller/SplashScreenController.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/controller/DetailFilmController.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/ProfileView.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/elements/RoundJPasswordField.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/LoginView.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/model/RegisterModel.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/view/DashboardView.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/controller/RegisterController.java</file>
-            <file>file:/D:/Cinemas/src/co/gararetech/cinemas/model/LoginModel.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

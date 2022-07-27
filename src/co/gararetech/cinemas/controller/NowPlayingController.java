@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class NowPlayingController {
+
     private DashboardModel model;
 
     public DashboardModel getModel() {
@@ -41,7 +42,7 @@ public class NowPlayingController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public void getNowPlaying() throws ProtocolException, IOException {
         URL url = model.getNowPlayingUrl();
 
@@ -69,23 +70,33 @@ public class NowPlayingController {
             }
             reader.close();
         }
-        
+
         JSONObject response = new JSONObject(responseContent.toString());
-        System.out.println("NowPlayingResp:" + response);
+//        System.out.println("NowPlayingResp:" + response);
+        System.out.println("Get API Now Playing");
         model.setPlayingList(response.getJSONArray("results"));
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
-        
+
         // Now Playing Container
-        JPanel gridPane = new JPanel(new GridLayout(0, 3));
+        JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
 
         // List Data
         JSONArray listData = model.getPlayingList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
-            
+
+            // Filter jika film belum sepenuhnya rilis jangan ditampilkan
+            Boolean isGrid;
+
+            if (rowData.getInt("presale_flag") == 1) {
+                isGrid = false;
+            } else {
+                isGrid = true;
+            }
+
             // Grid panel
             final JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new CardLayout(25, 25));
@@ -100,32 +111,31 @@ public class NowPlayingController {
             cardPanel.setBackground(Color.decode("#222222"));
 
             // Film Content 
+            // Top Space
+            JLabel topSpace = new JLabel();
+            topSpace.setText("---------");
+            topSpace.setForeground(Color.decode("#222222"));
+            topSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(topSpace);
 
-                // Top Space
-                JLabel topSpace = new JLabel();
-                topSpace.setText("---------");
-                topSpace.setForeground(Color.decode("#222222"));
-                topSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topSpace);
+            // Poster Image
+            URL posterUrl = new URL(rowData.getString("poster_path"));
+            JLabel poster = new JLabel();
+            poster.setPreferredSize(new Dimension(230, 287));
+            Image icon = ImageIO.read(posterUrl);
+            ImageIcon posterIcon = new ImageIcon(icon);
+            ScaleImage scaleImg = new ScaleImage(posterIcon, 230, 287);
+            ImageIcon resizePoster = scaleImg.scaleImage();
+            poster.setIcon(resizePoster);
+            poster.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(poster);
 
-                // Poster Image
-                URL posterUrl = new URL(rowData.getString("poster_path"));
-                JLabel poster = new JLabel();
-                poster.setPreferredSize(new Dimension(230, 287));
-                Image icon = ImageIO.read(posterUrl);
-                ImageIcon posterIcon = new ImageIcon(icon);
-                ScaleImage scaleImg = new ScaleImage(posterIcon, 230, 287);
-                ImageIcon resizePoster = scaleImg.scaleImage();
-                poster.setIcon(resizePoster);
-                poster.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(poster);
+            // Film Rating Panel
+            JPanel ratingPanel = new JPanel();
+            ratingPanel.setPreferredSize(new Dimension(250, 10));
+            ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.X_AXIS));
+            ratingPanel.setBackground(Color.decode("#222222"));
 
-                // Film Rating Panel
-                JPanel ratingPanel = new JPanel();
-                ratingPanel.setPreferredSize(new Dimension(250, 10));
-                ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.X_AXIS));
-                ratingPanel.setBackground(Color.decode("#222222"));
-                
                 // Top Rating Space
                 JLabel topRatingSpace = new JLabel();
                 topRatingSpace.setText("---------");
@@ -133,111 +143,133 @@ public class NowPlayingController {
                 topRatingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
                 cardPanel.add(topRatingSpace);
 
-                    // Rating Icon
-                    JLabel starIcon = new JLabel();
-                    URL starIconPath = getClass().getResource("../view/images/star-25.png");
-                    ImageIcon starImage = new ImageIcon(starIconPath);
-                    starIcon.setIcon(starImage);
-                    starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
-                    ratingPanel.add(starIcon);
+                // Rating Icon
+                JLabel starIcon = new JLabel();
+                URL starIconPath = getClass().getResource("../view/images/star-25.png");
+                ImageIcon starImage = new ImageIcon(starIconPath);
+                starIcon.setIcon(starImage);
+                starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
+                ratingPanel.add(starIcon);
 
-                    // Rating Score & Age
-                    JLabel ratingScore = new JLabel();
-                    ratingScore.setForeground(Color.WHITE);
-                    ratingScore.setText("  " + String.valueOf(rowData.getFloat("rating_score") + "                    " + rowData.getString("age_category")));
-                    ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
-                    ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
-                    ratingPanel.add(ratingScore);
-                    
-                    // Rating Space
-                    JLabel ratingSpace = new JLabel();
-                    ratingSpace.setText("-----");
-                    ratingSpace.setForeground(Color.decode("#222222"));
-                    ratingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    ratingPanel.add(ratingSpace);
-                    
-                cardPanel.add(ratingPanel);
+                // Rating Score
+                JLabel ratingScore = new JLabel();
+                ratingScore.setForeground(Color.WHITE);
+                ratingScore.setText(" " + String.valueOf(rowData.getFloat("rating_score")));
+                ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
+                ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
+                ratingPanel.add(ratingScore);
                 
-                // Top Film Space
-                JLabel topFilmSpace = new JLabel();
-                topFilmSpace.setText("---------");
-                topFilmSpace.setForeground(Color.decode("#222222"));
-                topFilmSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topFilmSpace);
-                
-                // Film Title
-                JLabel filmTitle = new JLabel();
-                filmTitle.setPreferredSize(new Dimension(230, 10));
-                filmTitle.setMaximumSize(new Dimension(220, 30));
-                filmTitle.setHorizontalAlignment(SwingConstants.CENTER);
-                filmTitle.setText(rowData.getString("title"));
-                filmTitle.setForeground(Color.WHITE);
-                filmTitle.setFont(new Font("Serif", Font.PLAIN, 20));
-                filmTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(filmTitle);
-                
-                // Top Button Space
-                JLabel topButtonSpace = new JLabel();
-                topButtonSpace.setText("---------");
-                topButtonSpace.setForeground(Color.decode("#222222"));
-                topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topButtonSpace);
-                
-                // Detail Button
-                JButton detailButton = new JButton();
-                detailButton.setForeground(Color.WHITE);
-                detailButton.setBackground(Color.decode("#555553"));
-                detailButton.setText("Detail Film");
-                detailButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        DetailFilmController detailFilmController = new DetailFilmController();
-                        detailFilmController.setModel(model);
-                        detailFilmController.showDetail(view, rowData.getString("id"));
-                    }
-                });
-                detailButton.setFont(new Font("Serif", Font.PLAIN, 18));
-                detailButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                detailButton.setPreferredSize(new Dimension(200, 30));
-                detailButton.setMaximumSize(new Dimension(200, 30));
-                cardPanel.add(detailButton);
-                
-                // Top Button Space
-                JLabel topButtonSpace2 = new JLabel();
-                topButtonSpace2.setText("---------");
-                topButtonSpace2.setForeground(Color.decode("#222222"));
-                topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topButtonSpace2);
-                
-                // Order Button
-                JButton orderButton = new JButton();
-                orderButton.setForeground(Color.WHITE);
-                orderButton.setBackground(Color.decode("#A27B5C"));
-                orderButton.setText("Beli Tiket");
-                orderButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        OrderTicketController orderTicketController = new OrderTicketController();
-                        orderTicketController.setModel(model);
-                        orderTicketController.showDetail(rowData.getString("id"));
-                    } 
-                });
-                orderButton.setFont(new Font("Serif", Font.PLAIN, 18));
-                orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                orderButton.setPreferredSize(new Dimension(200, 30));
-                orderButton.setMaximumSize(new Dimension(200, 30));
-                cardPanel.add(orderButton);
+                // Rating Age
+                JLabel ageScore = new JLabel();
+                String ageCategory = rowData.getString("age_category");
+                if (ageCategory.equals("R")) {
+                    ageScore.setForeground(Color.GREEN);
+                    ageCategory = "R 13+";
+                } else if (ageCategory.equals("D")) {
+                    ageScore.setForeground(Color.RED);
+                    ageCategory = "D 17+";
+                } else {
+                    ageScore.setForeground(Color.WHITE);
+                }
+                ageScore.setText("                      " + ageCategory);
+                ageScore.setFont(new Font("Serif", Font.PLAIN, 18));
+                ageScore.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                ratingPanel.add(ageScore);
 
+                // Rating Space
+                JLabel ratingSpace = new JLabel();
+                ratingSpace.setText("-----");
+                ratingSpace.setForeground(Color.decode("#222222"));
+                ratingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+                ratingPanel.add(ratingSpace);
+
+            cardPanel.add(ratingPanel);
+
+            // Top Film Space
+            JLabel topFilmSpace = new JLabel();
+            topFilmSpace.setText("---------");
+            topFilmSpace.setForeground(Color.decode("#222222"));
+            topFilmSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(topFilmSpace);
+
+            // Film Title
+            JLabel filmTitle = new JLabel();
+            filmTitle.setPreferredSize(new Dimension(230, 10));
+            filmTitle.setMaximumSize(new Dimension(220, 30));
+            filmTitle.setHorizontalAlignment(SwingConstants.CENTER);
+            filmTitle.setText(rowData.getString("title"));
+            filmTitle.setForeground(Color.WHITE);
+            filmTitle.setFont(new Font("Serif", Font.PLAIN, 20));
+            filmTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(filmTitle);
+
+            // Top Button Space
+            JLabel topButtonSpace = new JLabel();
+            topButtonSpace.setText("---------");
+            topButtonSpace.setForeground(Color.decode("#222222"));
+            topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(topButtonSpace);
+
+            // Detail Button
+            JButton detailButton = new JButton();
+            detailButton.setForeground(Color.WHITE);
+            detailButton.setBackground(Color.decode("#555553"));
+            detailButton.setText("Detail Film");
+            detailButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DetailFilmController detailFilmController = new DetailFilmController();
+                    detailFilmController.setModel(model);
+                    detailFilmController.showDetail(view, rowData.getString("id"));
+                }
+            });
+            detailButton.setFont(new Font("Serif", Font.PLAIN, 18));
+            detailButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            detailButton.setPreferredSize(new Dimension(200, 30));
+            detailButton.setMaximumSize(new Dimension(200, 30));
+            cardPanel.add(detailButton);
+
+            // Top Button Space
+            JLabel topButtonSpace2 = new JLabel();
+            topButtonSpace2.setText("---------");
+            topButtonSpace2.setForeground(Color.decode("#222222"));
+            topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(topButtonSpace2);
+
+            // Order Button
+            JButton orderButton = new JButton();
+            orderButton.setForeground(Color.WHITE);
+            orderButton.setBackground(Color.decode("#A27B5C"));
+            orderButton.setText("Beli Tiket");
+            orderButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    OrderTicketController orderTicketController = new OrderTicketController();
+                    orderTicketController.setModel(model);
+                    orderTicketController.showDetail(rowData.getString("id"));
+                }
+            });
+            orderButton.setFont(new Font("Serif", Font.PLAIN, 18));
+            orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            orderButton.setPreferredSize(new Dimension(200, 30));
+            orderButton.setMaximumSize(new Dimension(200, 30));
+            cardPanel.add(orderButton);
+
+            if (isGrid) {
+                contentPanel.add(cardPanel);
+                gridPane.add(contentPanel);
+            }
             
-            contentPanel.add(cardPanel);
-            gridPane.add(contentPanel);
         }
+
         view.getContent().add(gridPane);
-        
+
     }
-    
+
     public void setNewGrid(DashboardView view) throws IOException {
-        this.getNowPlaying();
+        if (model.getPlayingList() == null) {
+            this.getNowPlaying();
+        }
         this.setGrid(view);
     }
 }

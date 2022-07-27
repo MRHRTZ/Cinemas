@@ -128,7 +128,8 @@ public class LoginController {
                 String md5Password = MD5(password);
                 if (md5Password.equals(userData.getString("password"))) {
                     model.setUserData(userData);
-                    JOptionPane.showMessageDialog(login, "Login berhasil");
+//                    JOptionPane.showMessageDialog(login, "Login berhasil");
+                    System.out.println("Success login " + email + ":" + password);
                     login.dispose();
                     dashboard.setVisible(true);
                 } else {

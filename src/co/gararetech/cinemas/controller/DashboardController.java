@@ -90,7 +90,9 @@ public class DashboardController {
     }
 
     public void setActiveButton(DashboardView view, String tabName) {
-        if (tabName.equals("nowplaying")) {
+        model.setActiveTab(tabName);
+
+        if (model.getActiveTab().equals("nowplaying")) {
             view.getBtnNowPlaying().setBackground(Color.decode("#3D3C3A"));
             view.getBtnNowPlaying().setForeground(Color.WHITE);
 
@@ -102,7 +104,7 @@ public class DashboardController {
 
             view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
             view.getBtnCinema().setForeground(Color.BLACK);
-        } else if (tabName.equals("upcoming")) {
+        } else if (model.getActiveTab().equals("upcoming")) {
             view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
             view.getBtnNowPlaying().setForeground(Color.BLACK);
 
@@ -114,7 +116,7 @@ public class DashboardController {
 
             view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
             view.getBtnCinema().setForeground(Color.BLACK);
-        } else if (tabName.equals("orderhistory")) {
+        } else if (model.getActiveTab().equals("orderhistory")) {
             view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
             view.getBtnNowPlaying().setForeground(Color.BLACK);
 
@@ -126,7 +128,7 @@ public class DashboardController {
 
             view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
             view.getBtnCinema().setForeground(Color.BLACK);
-        } else if (tabName.equals("cinemas")) {
+        } else if (model.getActiveTab().equals("cinemas")) {
             view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
             view.getBtnNowPlaying().setForeground(Color.BLACK);
 

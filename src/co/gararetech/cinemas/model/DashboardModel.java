@@ -21,6 +21,7 @@ public class DashboardModel {
     private HttpURLConnection connection;
     private String token;
     private JSONObject userData;
+    private String activeTab;
     
     public DashboardModel() {
         try {
@@ -34,6 +35,12 @@ public class DashboardModel {
         }
     }
 
+    public String getActiveTab() {
+        return activeTab;
+    }
+    public void setActiveTab(String activeTab) {
+        this.activeTab = activeTab;
+    }
     public URL getUpcomingUrl() {
         return upcomingUrl;
     }

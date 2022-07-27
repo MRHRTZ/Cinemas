@@ -70,16 +70,17 @@ public class UpcomingController {
         }
         
         JSONObject response = new JSONObject(responseContent.toString());
-        model.setPlayingList(response.getJSONArray("results"));
+        System.out.println("Get API Now Upcoming");
+        model.setUpcomingList(response.getJSONArray("results"));
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {        
         // Now Playing Container
-        JPanel gridPane = new JPanel(new GridLayout(0, 3));
+        JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
 
         // List Data
-        JSONArray listData = model.getPlayingList();
+        JSONArray listData = model.getUpcomingList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
             
@@ -138,13 +139,33 @@ public class UpcomingController {
                     starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
                     ratingPanel.add(starIcon);
 
-                    // Rating Score & Age
+                    // Rating Score
                     JLabel ratingScore = new JLabel();
                     ratingScore.setForeground(Color.WHITE);
-                    ratingScore.setText("  " + String.valueOf(rowData.getFloat("rating_score") + "                    " + rowData.getString("age_category")));
+                    ratingScore.setText(" " + String.valueOf(rowData.getFloat("rating_score")));
                     ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
                     ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
                     ratingPanel.add(ratingScore);
+
+                    // Rating Age
+                    JLabel ageScore = new JLabel();
+                    String ageCategory = rowData.getString("age_category");
+                    if (ageCategory.equals("R")) {
+                        ageScore.setForeground(Color.GREEN);
+                        ageCategory = "R 13+";
+                    } else if (ageCategory.equals("D")) {
+                        ageScore.setForeground(Color.RED);
+                        ageCategory = "D 17+";
+                    } else if (ageCategory.equals("P")) {
+                        ageScore.setForeground(Color.WHITE);
+                        ageCategory = "-";
+                    } else {
+                        ageScore.setForeground(Color.WHITE);
+                    }
+                    ageScore.setText("                      " + ageCategory);
+                    ageScore.setFont(new Font("Serif", Font.PLAIN, 18));
+                    ageScore.setAlignmentX(Component.RIGHT_ALIGNMENT);
+                    ratingPanel.add(ageScore);
                     
                     // Rating Space
                     JLabel ratingSpace = new JLabel();
@@ -180,25 +201,7 @@ public class UpcomingController {
                 topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
                 cardPanel.add(topButtonSpace);
                 
-                // Order Button
-                JButton orderButton = new JButton();
-                orderButton.setForeground(Color.WHITE);
-                orderButton.setBackground(Color.decode("#A27B5C"));
-                orderButton.setText("Beli Tiket");
-                orderButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        OrderTicketController orderTicketController = new OrderTicketController();
-                        orderTicketController.setModel(model);
-                        orderTicketController.showDetail(rowData.getString("id"));
-                    } 
-                });
-                orderButton.setFont(new Font("Serif", Font.PLAIN, 18));
-                orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                orderButton.setPreferredSize(new Dimension(200, 30));
-                orderButton.setMaximumSize(new Dimension(200, 30));
-                orderButton.setVisible(false);
-                cardPanel.add(orderButton);
+                // No Order Button for Upcoming
                 
                 // Top Button Space
                 JLabel topButtonSpace2 = new JLabel();
@@ -235,7 +238,9 @@ public class UpcomingController {
     }
     
     public void setNewGrid(DashboardView view) throws IOException {
-        this.getUpcoming();
+        if (model.getUpcomingList() == null) {
+            this.getUpcoming();
+        }
         this.setGrid(view);
     }
 }

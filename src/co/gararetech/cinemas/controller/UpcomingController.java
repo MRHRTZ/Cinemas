@@ -70,11 +70,13 @@ public class UpcomingController {
         }
         
         JSONObject response = new JSONObject(responseContent.toString());
-        System.out.println("Get API Now Upcoming");
+        System.out.println("Get API Now Upcoming ..");
         model.setUpcomingList(response.getJSONArray("results"));
     }
 
-    public void setGrid(DashboardView view) throws MalformedURLException, IOException {        
+    public void setGrid(DashboardView view) throws MalformedURLException, IOException {  
+        System.out.println("Building upcoming content ..");
+
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
@@ -233,8 +235,10 @@ public class UpcomingController {
             contentPanel.add(cardPanel);
             gridPane.add(contentPanel);
         }
-        view.getContent().add(gridPane);
         
+        view.getContent().add(gridPane);
+        System.out.println("Success load upcoming");
+
     }
     
     public void setNewGrid(DashboardView view) throws IOException {

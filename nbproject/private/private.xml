@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/model/DashboardModel.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/LoginView.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/elements/RoundJCity.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/DashboardController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/NowPlayingController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/UpcomingController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/DashboardView.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/RegisterView.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/ProfileView.java</file>
+        </group>
     </open-files>
 </project-private>

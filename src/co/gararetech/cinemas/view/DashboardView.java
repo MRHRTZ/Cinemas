@@ -39,18 +39,20 @@ public class DashboardView extends javax.swing.JFrame {
         p.put("windowDecoration", "off");
         AluminiumLookAndFeel.setCurrentTheme(p);
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-        
+
         dashboardController = new DashboardController();
         dashboardModel = new DashboardModel();
         nowPlayingController = new NowPlayingController();
         upcomingController = new UpcomingController();
-        
+        cinemaListController = new CinemaListController();
+
         initComponents();
-        
+
         dashboardController.setModel(dashboardModel);
         nowPlayingController.setModel(dashboardModel);
         upcomingController.setModel(dashboardModel);
-        
+        cinemaListController.setModel(dashboardModel);
+
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
         dashboardController.setActiveButton(this, "nowplaying");
@@ -59,10 +61,22 @@ public class DashboardView extends javax.swing.JFrame {
             @Override
             public Void doInBackground() {
                 try {
-                    dashboardController.initToken();
+                    Thread.sleep(1000);
+                    dashboardController.initPage(DashboardView.this);
+                    dashboardController.getCities();
                     nowPlayingController.setNewGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                 } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -177,6 +191,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnCinema.setBackground(Color.decode("#D9D9D9"));
         btnCinema.setText("Bioskop");
+        btnCinema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCinemaActionPerformed(evt);
+            }
+        });
 
         btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
         btnOrderHistory.setText("Riwayat Pesanan");
@@ -254,6 +273,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         contentPane.setBackground(new java.awt.Color(102, 102, 102));
         contentPane.setBorder(null);
+        contentPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         contentPane.setPreferredSize(new java.awt.Dimension(1050, 600));
 
         content.setLayout(new java.awt.GridLayout(1, 0));
@@ -328,6 +348,26 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardController.minimizeButton(this);
     }//GEN-LAST:event_minimizeMouseClicked
+
+    private void btnCinemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinemaActionPerformed
+        // TODO add your handling code here:
+        dashboardController.setActiveButton(this, "cinemas");
+        dashboardController.removeContent(this);
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    cinemaListController.setNewGrid(DashboardView.this);
+                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
+                    DashboardView.this.revalidate();
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }//GEN-LAST:event_btnCinemaActionPerformed
 
     /**
      * @param args the command line arguments

@@ -7,6 +7,7 @@ package co.gararetech.cinemas.controller;
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
+import co.gararetech.cinemas.view.LoginView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -35,6 +36,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -85,8 +87,58 @@ public class DashboardController {
 
         JSONObject result = new JSONObject(responseContent.toString());
         String token = result.getJSONObject("results").getString("token");
-
+        System.out.println("Init API Token ..");
         model.setToken(token);
+    }
+    
+    public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
+        if (model.getUserData() == null) {
+            JOptionPane.showMessageDialog(view, "Kredensial tidak valid!");
+            LoginView loginView = new LoginView();
+            loginView.setVisible(true);
+            view.dispose();
+        } else {
+            JSONObject userData = model.getUserData();
+            System.out.println("---[ Get User Data ]---");
+            System.out.println("User ID  : " + userData.getString("user_id"));
+            System.out.println("Email    : " + userData.getString("email"));
+            System.out.println("City ID  : " + userData.getString("city_id"));
+            System.out.println("-----------------------");
+            this.initToken();
+        }
+    }
+
+    public void getCities() throws ProtocolException, IOException {
+        URL url = model.getCitiesUrl();
+
+        model.setConnection((HttpURLConnection) url.openConnection());
+        model.getConnection().setRequestMethod("GET");
+        model.getConnection().setRequestProperty("Authorization", "Bearer " + model.getToken());
+        model.getConnection().setConnectTimeout(5000);
+        model.getConnection().setReadTimeout(5000);
+
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
+        int status = model.getConnection().getResponseCode();
+
+        if (status > 299) {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        } else {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        }
+
+        JSONObject response = new JSONObject(responseContent.toString());
+        System.out.println("Get API Cities ..");
+        model.setCityList(response.getJSONArray("results"));
     }
 
     public void setActiveButton(DashboardView view, String tabName) {
@@ -165,13 +217,16 @@ public class DashboardController {
         content.remove(loading);
         content.revalidate();
     }
-    public void exitButton(){
+
+    public void exitButton() {
         JFrame frame = new JFrame("Exit");
-        if (JOptionPane.showConfirmDialog( frame,"Apakah Anda Mau Keluar ?","Cinemas",
-            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+        if (JOptionPane.showConfirmDialog(frame, "Apakah Anda Mau Keluar ?", "Cinemas",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
+        }
     }
-    public void minimizeButton(DashboardView view){
+
+    public void minimizeButton(DashboardView view) {
         view.setState(DashboardView.ICONIFIED);
     }
 

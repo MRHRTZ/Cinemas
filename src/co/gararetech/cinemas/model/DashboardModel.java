@@ -12,12 +12,16 @@ public class DashboardModel {
     private URL nowPlayingUrl;
     private URL upcomingUrl;
     private URL cinemaUrl;
+    private URL citiesUrl;
     private URL movieScheduleUrl;
     private URL tokenEndpoint;
+    
     private JSONArray playingList;
     private JSONArray upcomingList;
     private JSONArray cinemaList;
+    private JSONArray cityList;
     private JSONArray movieScheduleList;
+    
     private HttpURLConnection connection;
     private String token;
     private JSONObject userData;
@@ -29,6 +33,8 @@ public class DashboardModel {
             this.tokenEndpoint = new URL(baseUrl + "/v1/token");
             this.nowPlayingUrl = new URL(baseUrl + "/v1/movies/now_playing?tz=7");
             this.upcomingUrl = new URL(baseUrl + "/v1/movies/upcoming");
+            this.cinemaUrl = new URL(baseUrl + "/v1/theaters");
+            this.citiesUrl = new URL(baseUrl + "/v1/cities");
             this.movieScheduleUrl = new URL(baseUrl + "v3/schedule");
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,11 +53,20 @@ public class DashboardModel {
     public URL getCinemaUrl() {
         return cinemaUrl;
     }
+    public URL getCitiesUrl() {
+        return citiesUrl;
+    }
     public URL getMovieScheduleUrl() {
         return movieScheduleUrl;
     }
     public JSONArray getUpcomingList() {
         return upcomingList;
+    }
+    public JSONArray getCityList() {
+        return cityList;
+    }
+    public void setCityList(JSONArray cityList) {
+        this.cityList = cityList;
     }
     public void setUpcomingList(JSONArray upcomingList) {
         this.upcomingList = upcomingList;

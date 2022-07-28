@@ -62,7 +62,7 @@ public class LoginController {
             }
             reader.close();
         }
-
+        
         return new JSONArray(responseContent.toString());
     }
 
@@ -80,30 +80,7 @@ public class LoginController {
         }
         return null;
     }
-
-    public void testRequest() {
-        String uri = "https://postman-echo.com/get";
-        HttpRequest req = HttpRequest
-                .newBuilder()
-                .uri(URI.create(uri))
-                .GET()
-                .version(HttpClient.Version.HTTP_2)
-                .build();
-
-        HttpClient client = HttpClient.newBuilder()
-                .build();
-
-        try {
-            HttpResponse<String> resp = client.send(req, BodyHandlers.ofString());
-            System.out.println(resp.statusCode());
-            System.out.println(resp.body());
-        } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     public void submit(LoginView login, DashboardView dashboard) {
         String email = login.getTxtEmail().getText();
         String password = String.valueOf(login.getTxtPassword().getPassword());
@@ -124,16 +101,17 @@ public class LoginController {
                 JOptionPane.showMessageDialog(login, "Data email dan password tidak boleh kosong");
             } else if (userData == null) {
                 JOptionPane.showMessageDialog(login, "Email atau Password salah!");
+                System.out.println("Failed login invalid email " + email + ":" + password);
             } else {
                 String md5Password = MD5(password);
                 if (md5Password.equals(userData.getString("password"))) {
-                    model.setUserData(userData);
-//                    JOptionPane.showMessageDialog(login, "Login berhasil");
+                    dashboard.getModel().setUserData(userData);
                     System.out.println("Success login " + email + ":" + password);
                     login.dispose();
                     dashboard.setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(login, "Email atau Password salah");
+                    System.out.println("Failed login wrong password " + email + ":" + password);
+                    JOptionPane.showMessageDialog(login, "Email atau Password salah!");
                 }
             }
         } catch (IOException ex) {

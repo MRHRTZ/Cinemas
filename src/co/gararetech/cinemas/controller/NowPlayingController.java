@@ -26,6 +26,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import org.json.JSONArray;
@@ -72,13 +73,13 @@ public class NowPlayingController {
         }
 
         JSONObject response = new JSONObject(responseContent.toString());
-//        System.out.println("NowPlayingResp:" + response);
-        System.out.println("Get API Now Playing");
+        System.out.println("Get API Now Playing ..");
         model.setPlayingList(response.getJSONArray("results"));
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
-
+        System.out.println("Building now playing content ..");
+        
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
@@ -263,6 +264,7 @@ public class NowPlayingController {
         }
 
         view.getContent().add(gridPane);
+        System.out.println("Success load now playing");
 
     }
 

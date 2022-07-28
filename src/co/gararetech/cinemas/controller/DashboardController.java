@@ -279,7 +279,7 @@ public class DashboardController {
             profileView.getTxtNewPassword().setEnabled(false);
             profileView.getTxtOldPassword().setEnabled(false);
             
-            if (model.getUserData().getString("image") != null) {
+            if (!model.getUserData().isNull("image")) {
                 String base64 = model.getUserData().getString("image").replaceAll(" ", "+");
                 byte[] imageBuffer = Base64.getMimeDecoder().decode(base64);
 

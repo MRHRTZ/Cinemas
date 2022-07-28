@@ -125,6 +125,16 @@ public class DashboardView extends javax.swing.JFrame {
         return dashboardModel;
     }
 
+    public DashboardController getDashboardController() {
+        return dashboardController;
+    }
+
+    public DashboardModel getDashboardModel() {
+        return dashboardModel;
+    }
+    
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -397,7 +407,6 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        dashboardController.refreshUserData();
     }//GEN-LAST:event_formComponentShown
 
     /**

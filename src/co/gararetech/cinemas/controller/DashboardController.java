@@ -58,7 +58,7 @@ public class DashboardController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public JSONArray getUserList() throws MalformedURLException, IOException {
         URL usersUrl = model.getUsersEndpoint();
 
@@ -85,7 +85,7 @@ public class DashboardController {
             }
             reader.close();
         }
-        
+
         return new JSONArray(responseContent.toString());
     }
 
@@ -123,7 +123,7 @@ public class DashboardController {
         System.out.println("Init API Token ..");
         model.setToken(token);
     }
-    
+
     public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         if (model.getUserData() == null) {
             JOptionPane.showMessageDialog(view, model.getInvalidMessage());
@@ -261,7 +261,7 @@ public class DashboardController {
     public void minimizeButton(DashboardView view) {
         view.setState(DashboardView.ICONIFIED);
     }
-    
+
     public void viewProfile(DashboardView dashboardView, ProfileView profileView) {
         if (model.getCityList() == null) {
             JOptionPane.showMessageDialog(dashboardView, "Masih proses loading, tunggu sebentar ...");
@@ -278,52 +278,61 @@ public class DashboardController {
             profileView.getTxtEmail().setText(email);
             profileView.getTxtNewPassword().setEnabled(false);
             profileView.getTxtOldPassword().setEnabled(false);
-            
-            if (!model.getUserData().isNull("image")) {
-                String base64 = model.getUserData().getString("image").replaceAll(" ", "+");
-                byte[] imageBuffer = Base64.getMimeDecoder().decode(base64);
 
-                ImageIcon image = new ImageIcon(imageBuffer);
-                Image img;
-                if (image.getIconWidth() > image.getIconHeight()) {
-                    img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);
+            if (!model.getUserData().isNull("image")) {
+                if (model.getUserData().getString("image").equals("")) {
+                    ImageIcon defaultIcon = new ImageIcon(getClass().getResource("../view/images/profile.png"));
+                    profileView.getProfilePicture().setIcon(defaultIcon);
                 } else {
-                    img = image.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
+                    String base64 = model.getUserData().getString("image").replaceAll(" ", "+");
+                    byte[] imageBuffer = Base64.getMimeDecoder().decode(base64);
+
+                    ImageIcon image = new ImageIcon(imageBuffer);
+                    Image img;
+                    if (image.getIconWidth() > image.getIconHeight()) {
+                        img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);
+                    } else {
+                        img = image.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
+                    }
+                    profileView.getProfilePicture().setIcon(new ImageIcon(img));
                 }
-                profileView.getProfilePicture().setIcon(new ImageIcon(img));
+            } else {
+                ImageIcon defaultIcon = new ImageIcon(getClass().getResource("../view/images/profile.png"));
+                profileView.getProfilePicture().setIcon(defaultIcon);
             }
-                
+
             profileView.setDashboardView(dashboardView);
 
             profileView.getProfileModel().setUserData(model.getUserData());
-            
+
             profileView.setVisible(true);
-            
+
         }
     }
-    
+
     public void refreshUserData() {
         System.out.println("Refreshing userData");
         new Thread() {
-                public void run() {
-                    try {
-                        String user_id = model.getUserData().getString("user_id");
-                        JSONArray newUserDataList = getUserList();
-                        for (int i = 0; i < newUserDataList.length(); i++) {
-                            JSONObject rowData = newUserDataList.getJSONObject(i);
-                            if (rowData.getString("user_id").equals(user_id)) {
-                                model.setUserData(rowData);
-                                model.setPlayingList(null);
-                                model.setUpcomingList(null);
-                                System.out.println("Refresh success for id " + rowData.getString("user_id"));
-                            }
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                    String user_id = model.getUserData().getString("user_id");
+                    JSONArray newUserDataList = getUserList();
+                    for (int i = 0; i < newUserDataList.length(); i++) {
+                        JSONObject rowData = newUserDataList.getJSONObject(i);
+                        if (rowData.getString("user_id").equals(user_id)) {
+                            model.setUserData(rowData);
+                            model.setPlayingList(null);
+                            model.setUpcomingList(null);
+                            System.out.println("Refresh success for id " + rowData.getString("user_id"));
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }.start();
+
+            }
+        }.start();
     }
 
 }

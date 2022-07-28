@@ -56,6 +56,8 @@ public class ProfileController {
     public void back(ProfileView profileView, DashboardView dashboardView) {
         profileView.setVisible(false);
         dashboardView.setVisible(true);
+        dashboardView.getDashboardController().refreshUserData();
+
     }
 
     public void selectedChangePassword(ProfileView view, ChangeEvent evt) {
@@ -75,9 +77,20 @@ public class ProfileController {
         String city_id = userData.getString("city_id");
         String email = userData.getString("email");
         String password = userData.getString("password");
-        String image = userData.getString("image");
-
-        String urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password + "&image=" + image;
+        
+        String urlParameters;
+        
+        if (!userData.isNull("image")) {
+            String image = userData.getString("image");
+            if (image.equals("")) {
+                urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password;
+            } else {
+                urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password + "&image=" + image;
+            }
+            
+        } else {
+            urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password;
+        }
 
         System.out.println("Update user parameter " + urlParameters);
 

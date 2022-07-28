@@ -384,7 +384,7 @@ txtPassword2.addActionListener(new java.awt.event.ActionListener() {
 
     private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
         // TODO add your handling code here:
-        registerController.exitButton();
+        registerController.exitButton(this);
     }//GEN-LAST:event_exitMouseClicked
 
     /**

@@ -1,9 +1,9 @@
 CREATE TABLE cinemas_users(
     user_id int PRIMARY KEY AUTO_INCREMENT,
-    city_id int,
+    city_id varchar(50) NOT NULL DEFAULT 'JAKARTA';,
     email varchar(30),
     password varchar(225),
-    image text
+    image longtext
 );
 
 CREATE TABLE cinemas_studio(

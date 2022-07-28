@@ -8,6 +8,7 @@ import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.LoginView;
+import co.gararetech.cinemas.view.ProfileView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -18,6 +19,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -54,6 +57,36 @@ public class DashboardController {
 
     public void setModel(DashboardModel model) {
         this.model = model;
+    }
+    
+    public JSONArray getUserList() throws MalformedURLException, IOException {
+        URL usersUrl = model.getUsersEndpoint();
+
+        model.setConnection((HttpURLConnection) usersUrl.openConnection());
+        model.getConnection().setRequestMethod("GET");
+        model.getConnection().setConnectTimeout(5000);
+        model.getConnection().setReadTimeout(5000);
+
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
+        int status = model.getConnection().getResponseCode();
+
+        if (status > 299) {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        } else {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        }
+        
+        return new JSONArray(responseContent.toString());
     }
 
     public void initToken() throws MalformedURLException, IOException {
@@ -93,7 +126,7 @@ public class DashboardController {
     
     public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         if (model.getUserData() == null) {
-            JOptionPane.showMessageDialog(view, "Kredensial tidak valid!");
+            JOptionPane.showMessageDialog(view, model.getInvalidMessage());
             LoginView loginView = new LoginView();
             loginView.setVisible(true);
             view.dispose();
@@ -218,9 +251,8 @@ public class DashboardController {
         content.revalidate();
     }
 
-    public void exitButton() {
-        JFrame frame = new JFrame("Exit");
-        if (JOptionPane.showConfirmDialog(frame, "Apakah Anda Mau Keluar ?", "Cinemas",
+    public void exitButton(DashboardView view) {
+        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -228,6 +260,70 @@ public class DashboardController {
 
     public void minimizeButton(DashboardView view) {
         view.setState(DashboardView.ICONIFIED);
+    }
+    
+    public void viewProfile(DashboardView dashboardView, ProfileView profileView) {
+        if (model.getCityList() == null) {
+            JOptionPane.showMessageDialog(dashboardView, "Masih proses loading, tunggu sebentar ...");
+            viewProfile(dashboardView, profileView);
+        } else {
+            dashboardView.setVisible(false);
+            profileView.getjCity().removeAllItems();
+            JSONArray cities = model.getCityList();
+            for (int i = 0; i < cities.length(); i++) {
+                profileView.getjCity().addItem(cities.getJSONObject(i).getString("name"));
+            }
+            profileView.getjCity().setSelectedItem(model.getUserData().getString("city_id"));
+            String email = model.getUserData().getString("email");
+            profileView.getTxtEmail().setText(email);
+            profileView.getTxtNewPassword().setEnabled(false);
+            profileView.getTxtOldPassword().setEnabled(false);
+            
+            if (model.getUserData().getString("image") != null) {
+                String base64 = model.getUserData().getString("image").replaceAll(" ", "+");
+                byte[] imageBuffer = Base64.getMimeDecoder().decode(base64);
+
+                ImageIcon image = new ImageIcon(imageBuffer);
+                Image img;
+                if (image.getIconWidth() > image.getIconHeight()) {
+                    img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);
+                } else {
+                    img = image.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
+                }
+                profileView.getProfilePicture().setIcon(new ImageIcon(img));
+            }
+                
+            profileView.setDashboardView(dashboardView);
+
+            profileView.getProfileModel().setUserData(model.getUserData());
+            
+            profileView.setVisible(true);
+            
+        }
+    }
+    
+    public void refreshUserData() {
+        System.out.println("Refreshing userData");
+        new Thread() {
+                public void run() {
+                    try {
+                        String user_id = model.getUserData().getString("user_id");
+                        JSONArray newUserDataList = getUserList();
+                        for (int i = 0; i < newUserDataList.length(); i++) {
+                            JSONObject rowData = newUserDataList.getJSONObject(i);
+                            if (rowData.getString("user_id").equals(user_id)) {
+                                model.setUserData(rowData);
+                                model.setPlayingList(null);
+                                model.setUpcomingList(null);
+                                System.out.println("Refresh success for id " + rowData.getString("user_id"));
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }.start();
     }
 
 }

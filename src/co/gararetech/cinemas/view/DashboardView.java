@@ -55,13 +55,14 @@ public class DashboardView extends javax.swing.JFrame {
 
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
+
         dashboardController.setActiveButton(this, "nowplaying");
         this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                     dashboardController.initPage(DashboardView.this);
                     dashboardController.getCities();
                     nowPlayingController.setNewGrid(DashboardView.this);
@@ -153,6 +154,11 @@ public class DashboardView extends javax.swing.JFrame {
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1212, 640));
         setResizable(false);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));
@@ -222,6 +228,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnCinema1.setBackground(Color.decode("#D9D9D9"));
         btnCinema1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
+        btnCinema1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCinema1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -341,7 +352,7 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
         // TODO add your handling code here:
-        dashboardController.exitButton();
+        dashboardController.exitButton(this);
     }//GEN-LAST:event_exitMouseClicked
 
     private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
@@ -368,6 +379,26 @@ public class DashboardView extends javax.swing.JFrame {
             }
         }.execute();
     }//GEN-LAST:event_btnCinemaActionPerformed
+
+    private void btnCinema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinema1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            dashboardController.viewProfile(this, new ProfileView());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCinema1ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        dashboardController.refreshUserData();
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments

@@ -4,18 +4,30 @@
  */
 package co.gararetech.cinemas.view;
 
+import co.gararetech.cinemas.controller.ProfileController;
 import co.gararetech.cinemas.controller.RegisterController;
+import co.gararetech.cinemas.model.DashboardModel;
+import co.gararetech.cinemas.model.ProfileModel;
 import co.gararetech.cinemas.model.RegisterModel;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.view.elements.RoundJCity;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -28,8 +40,9 @@ public class ProfileView extends javax.swing.JFrame {
     /**
      * Creates new form ProfilView
      */
-    private RegisterController ProfileController;
-    private RegisterModel ProfileModel;
+    private ProfileController profileController;
+    private ProfileModel profileModel;
+    private DashboardView dashboardView;
     private ImageIcon appIcon;
     private int mouseX;
     private int mouseY;
@@ -41,12 +54,29 @@ public class ProfileView extends javax.swing.JFrame {
         p.put("windowDecoration", "off");
         AluminiumLookAndFeel.setCurrentTheme(p);
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
-//        ProfileController = new ProfileController();
-//        ProfileModel = new ProfileModel();
+        profileController = new ProfileController();
+        profileModel = new ProfileModel();
         initComponents();
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
-//        registerController.setModel(registerModel);
+        profileController.setModel(profileModel);
+    }
+
+
+    public void setDashboardView(DashboardView dashboardView) {
+        this.dashboardView = dashboardView;
+    }
+
+    public DashboardView getDashboardView() {
+        return dashboardView;
+    }
+    
+    public ProfileController getProfileController() {
+        return profileController;
+    }
+
+    public ProfileModel getProfileModel() {
+        return profileModel;
     }
 
     public int getMouseX() {
@@ -64,6 +94,36 @@ public class ProfileView extends javax.swing.JFrame {
     public void setMouseY(int mouseY) {
         this.mouseY = mouseY;
     }
+
+    public JCheckBox getIsChangePassword() {
+        return isChangePassword;
+    }
+
+    public JComboBox getjCity() {
+        return jCity;
+    }
+
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    public JPasswordField getTxtNewPassword() {
+        return txtNewPassword;
+    }
+
+    public JPasswordField getTxtOldPassword() {
+        return txtOldPassword;
+    }
+
+    public JLabel getProfilePicture() {
+        return profilePicture;
+    }
+
+    public JButton getBtnProfileSave() {
+        return btnProfileSave;
+    }
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,11 +143,14 @@ public class ProfileView extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         btnProfileSave = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        profilePicture = new javax.swing.JLabel();
         txtOldPassword = new RoundJPasswordField(50);
         txtNewPassword = new RoundJPasswordField(50);
         jLabel6 = new javax.swing.JLabel();
         jCity = new RoundJCity();
+        isChangePassword = new javax.swing.JCheckBox();
+        minimize = new javax.swing.JLabel();
+        exit = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -160,10 +223,15 @@ public class ProfileView extends javax.swing.JFrame {
     jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel4.setText("NEW PASSWORD");
 
-    jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-    jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"))); // NOI18N
+    profilePicture.setBackground(new java.awt.Color(255, 255, 255));
+    profilePicture.setForeground(new java.awt.Color(255, 255, 255));
+    profilePicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"))); // NOI18N
+    profilePicture.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            profilePictureMouseClicked(evt);
+        }
+    });
 
     txtOldPassword.setBackground(Color.decode("#E3DDDD"));
     txtOldPassword.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
@@ -196,6 +264,41 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     jCity.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     jCity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bandung", "Jakarta" }));
 
+    isChangePassword.setBackground(Color.decode("#222222"));
+    isChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+    isChangePassword.setForeground(new java.awt.Color(255, 255, 255));
+    isChangePassword.setText("Change Password");
+    isChangePassword.addChangeListener(new javax.swing.event.ChangeListener() {
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            isChangePasswordStateChanged(evt);
+        }
+    });
+    isChangePassword.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            isChangePasswordActionPerformed(evt);
+        }
+    });
+
+    minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
+    minimize.setToolTipText("MINIMIZE");
+    minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    minimize.setIconTextGap(0);
+    minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            minimizeMouseClicked(evt);
+        }
+    });
+
+    exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
+    exit.setToolTipText("EXIT");
+    exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    exit.setIconTextGap(0);
+    exit.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            exitMouseClicked(evt);
+        }
+    });
+
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
@@ -203,37 +306,51 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
         .addGroup(jPanel2Layout.createSequentialGroup()
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(207, 207, 207)
-                            .addComponent(btnProfileSave, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(274, 274, 274)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(profilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(107, 107, 107)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtNewPassword)
-                                .addComponent(txtOldPassword)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel6)
-                                .addComponent(jCity, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(isChangePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(100, 100, 100)
+                                        .addComponent(btnProfileSave, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jCity, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtNewPassword, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtOldPassword)))))
                     .addGap(0, 111, Short.MAX_VALUE))
-                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minimize)
+                    .addGap(18, 18, 18)
+                    .addComponent(exit)))
             .addContainerGap())
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel2Layout.createSequentialGroup()
-            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(minimize)
+                        .addComponent(exit))))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jLabel5)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(profilePicture)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
             .addComponent(jLabel6)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jCity, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,14 +359,16 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
+            .addComponent(isChangePassword)
+            .addGap(7, 7, 7)
             .addComponent(jLabel3)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGap(6, 6, 6)
             .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jLabel4)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(43, 43, 43)
+            .addGap(18, 18, 18)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btnProfileSave, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -282,11 +401,22 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        
+        profileController.back(this, this.getDashboardView());
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnProfileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileSaveActionPerformed
-        
+        profileController.loading(this.getBtnProfileSave(), true);
+        new Thread() {
+            public void run() {
+                try {
+                    profileController.updateUser(ProfileView.this);
+                    profileController.loading(ProfileView.this.getBtnProfileSave(), false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }//GEN-LAST:event_btnProfileSaveActionPerformed
 
     private void txtOldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOldPasswordActionPerformed
@@ -310,6 +440,33 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
         this.setMouseX(evt.getX());
         this.setMouseY(evt.getY());
     }//GEN-LAST:event_jPanel1MousePressed
+
+    private void isChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isChangePasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isChangePasswordActionPerformed
+
+    private void isChangePasswordStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_isChangePasswordStateChanged
+        // TODO add your handling code here:
+        profileController.selectedChangePassword(this, evt);
+    }//GEN-LAST:event_isChangePasswordStateChanged
+
+    private void profilePictureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePictureMouseClicked
+        try {
+            profileController.chooseImage(this);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_profilePictureMouseClicked
+
+    private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
+        // TODO add your handling code here:
+        profileController.exitButton(this);
+    }//GEN-LAST:event_exitMouseClicked
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        // TODO add your handling code here:
+        profileController.minimizeButton(this);
+    }//GEN-LAST:event_minimizeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -360,15 +517,18 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnProfileSave;
+    private javax.swing.JLabel exit;
+    private javax.swing.JCheckBox isChangePassword;
     private javax.swing.JComboBox jCity;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel minimize;
+    private javax.swing.JLabel profilePicture;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtNewPassword;
     private javax.swing.JPasswordField txtOldPassword;

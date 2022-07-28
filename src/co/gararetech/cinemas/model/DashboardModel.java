@@ -15,6 +15,7 @@ public class DashboardModel {
     private URL citiesUrl;
     private URL movieScheduleUrl;
     private URL tokenEndpoint;
+    private URL usersEndpoint;
     
     private JSONArray playingList;
     private JSONArray upcomingList;
@@ -26,6 +27,7 @@ public class DashboardModel {
     private String token;
     private JSONObject userData;
     private String activeTab;
+    private String invalidMessage;
     
     public DashboardModel() {
         try {
@@ -36,11 +38,24 @@ public class DashboardModel {
             this.cinemaUrl = new URL(baseUrl + "/v1/theaters");
             this.citiesUrl = new URL(baseUrl + "/v1/cities");
             this.movieScheduleUrl = new URL(baseUrl + "v3/schedule");
+            this.usersEndpoint = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
+            this.invalidMessage = "Data user tidak valid, dimohon untuk login kembali.";
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public URL getUsersEndpoint() {
+        return usersEndpoint;
+    }
+
+    
+    public String getInvalidMessage() {
+        return invalidMessage;
+    }
+    public void setInvalidMessage(String invalidMessage) {
+        this.invalidMessage = invalidMessage;
+    }
     public String getActiveTab() {
         return activeTab;
     }

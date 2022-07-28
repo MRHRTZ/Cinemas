@@ -16,11 +16,11 @@
 - [x] Login
 - [x] Register
 - [ ] Profile Page
-- [ ] Dashboard
-- [ ] Detail
+- [x] Dashboard
+- [ ] Film Detail
 - [ ] Checkout Ticket
 - [ ] Booking Ticket
-- [ ] Upcoming
+- [x] Upcoming
 - [ ] Order History
-- [ ] Cinema Site List
+- [x] Cinema Site List
 - [ ] Cinema Detail

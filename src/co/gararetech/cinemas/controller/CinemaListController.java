@@ -12,33 +12,45 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CinemaListController {
-        private DashboardModel model;
+
+    private DashboardModel model;
 
     public DashboardModel getModel() {
         return model;
@@ -47,16 +59,24 @@ public class CinemaListController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-
-    public void getCinemas(String cityId) throws ProtocolException, IOException {
-        URL url = null;
-        
-        if (cityId.equals("0")) {
-            url = model.getCinemaUrl();
-        } else {
-            url = new URL(model.getCinemaUrl().toString() + "?city_id=" + cityId);
+    
+    public String getCityId(String cityName) {
+        String cityId = "";
+        JSONArray cities = model.getCityList();
+        for (int i = 0; i < cities.length(); i++) {
+            if (cities.getJSONObject(i).getString("name").equals(cityName)) {
+                cityId = cities.getJSONObject(i).getString("id");
+            }
         }
         
+        return cityId;
+    }
+
+    public void getCinemas(String cityName) throws ProtocolException, IOException {
+        System.out.println("Get API Cinemas ..");
+        String cityId = getCityId(cityName);
+        URL url = new URL(model.getCinemaUrl().toString() + "?city_id=" + cityId);
+
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");
         model.getConnection().setRequestProperty("Authorization", "Bearer " + model.getToken());
@@ -81,61 +101,43 @@ public class CinemaListController {
             }
             reader.close();
         }
-
         JSONObject response = new JSONObject(responseContent.toString());
-        System.out.println("Get API Cinemas ..");
-        model.setCinemaList(response.getJSONArray("results"));
-    }
-    
-    public void setGrid(DashboardView view) throws MalformedURLException, IOException {
-        System.out.println("Building cinemas content ..");
-        
-        // Cineamas Container
-        JPanel containerPane = new JPanel(new BorderLayout());
-        
-        // Cinemas Head (Select City)
-        JPanel selectCityPane = new JPanel(new BorderLayout());
-        selectCityPane.setBackground(Color.decode("#42382F"));
-        
-        // Select city Card
-        final JPanel cityCard = new JPanel();
-        cityCard.setLayout(new CardLayout(5, 10));
-        cityCard.setBackground(Color.decode("#42382F"));
-            
-            // Select City
-            RoundJCity cityCombobox = new RoundJCity();
-            JSONArray cities = model.getCityList();
-            for (int i = 0; i < cities.length(); i++) {
-                cityCombobox.addItem(cities.getJSONObject(i).getString("name"));
-            }
-            cityCombobox.setPreferredSize(new Dimension(50, 30));
-            selectCityPane.add(cityCombobox);
-            
-        cityCard.add(selectCityPane);
-        containerPane.add(cityCard, BorderLayout.PAGE_START);
-        
-        // Cinemas Content
-        JPanel gridPane = new JPanel(new GridLayout(0, 5));
-        gridPane.setBackground(Color.decode("#42382F"));
 
+        if (response.getBoolean("success")) {
+            System.out.println("success get API Cinemas");
+            model.setCinemaList(response.getJSONArray("results"));
+        } else {
+            System.out.println("failed get API Cinemas ");
+            model.setCinemaList(new JSONArray());
+        }
+    }
+
+    public void setGrid(DashboardView view) throws MalformedURLException, IOException {
+        System.out.println("Refreshing cinemas content ..");
+
+        // Now Playing Container
+        JPanel gridPane = new JPanel();
+        gridPane.setLayout(new BoxLayout(gridPane, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
+        gridPane.setBackground(Color.decode("#42382F"));
+        
         // List Data
         JSONArray listData = model.getCinemaList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
-
+            
             // Grid panel
             final JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new CardLayout(10, 5));
-            contentPanel.setPreferredSize(new Dimension(100, 50));
-            contentPanel.setBackground(Color.decode("#42382F"));
+            contentPanel.setLayout(new CardLayout(50, 10));
+            contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 90));
+            contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 90));
+            contentPanel.setBackground(Color.decode("#423828"));
 
             // Card Panel
             final JPanel cardPanel = new RoundedPanel();
             cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS));
-            cardPanel.setSize(100, 50);
+            cardPanel.setMaximumSize(new Dimension(150, 50));
             cardPanel.setBackground(Color.decode("#222222"));
-           
-            
+
             // Card cinemas content
             RoundJButton cardContent = new RoundJButton();
             cardContent.setLayout(new BorderLayout());
@@ -149,41 +151,67 @@ public class CinemaListController {
                     detailTheaterController.showDetail(view, rowData.getString("id"));
                 }
             });
-            
-                // Star icon like rating
-                JLabel starIcon = new JLabel();
-                URL starIconPath = getClass().getResource("../view/images/star-25.png");
-                ImageIcon starImage = new ImageIcon(starIconPath);
-                starIcon.setIcon(starImage);
-                starIcon.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-                starIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardContent.add(starIcon, BorderLayout.WEST);
-                
-                // Theater Name
-                JLabel theaterTitle = new JLabel();
-                theaterTitle.setText(" " + rowData.getString("name"));
-                theaterTitle.setFont(new Font("Serif", Font.BOLD, 12));
-                theaterTitle.setForeground(Color.WHITE);
-                cardContent.add(theaterTitle, BorderLayout.CENTER);
-                
 
+            // Star icon like rating
+            JLabel starIcon = new JLabel();
+            URL starIconPath = getClass().getResource("../view/images/star-25.png");
+            ImageIcon starImage = new ImageIcon(starIconPath);
+            starIcon.setIcon(starImage);
+            starIcon.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+            starIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardContent.add(starIcon, BorderLayout.WEST);
+
+            // Theater Name
+            JLabel theaterTitle = new JLabel();
+            theaterTitle.setText(" " + rowData.getString("name"));
+            theaterTitle.setFont(new Font("Serif", Font.BOLD, 12));
+            theaterTitle.setForeground(Color.WHITE);
+            cardContent.add(theaterTitle, BorderLayout.CENTER);
+            
+            // Icon >
+            JLabel btnIcon = new JLabel();
+            btnIcon.setText(">   ");
+            btnIcon.setFont(new Font("Serif", Font.BOLD, 18));
+            btnIcon.setForeground(Color.WHITE);
+            cardContent.add(btnIcon, BorderLayout.EAST);
+            
+            
             cardPanel.add(cardContent);
             contentPanel.add(cardPanel);
             gridPane.add(contentPanel);
-            
-            containerPane.add(gridPane, BorderLayout.CENTER);
-
         }
+        
+        gridPane.add(Box.createVerticalBox());        
+        view.getContent().add(gridPane);
 
-        view.getContent().add(containerPane);
-
-        System.out.println("Success load cinemas ..");
+        System.out.println("Success load cinemas");
     }
-    
+
     public void setNewGrid(DashboardView view) throws IOException {
         String cityId = model.getUserData().getString("city_id");
-        System.out.println("city id : " + cityId);
         this.getCinemas(cityId);
         this.setGrid(view);
+    }
+    
+    public void removeContent(DashboardView view) {
+        view.getContent().removeAll();
+        view.getContent().revalidate();
+
+    }
+
+    public JPanel addLoadingContent(JPanel content) {
+        JPanel loading = new JPanel(new CardLayout(0, 185));
+        loading.setName("loadingPanel");
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("../view/images/content-load.gif")));
+        loading.setBackground(Color.decode("#42382F"));
+        loading.add(loadingImage);
+        content.add(loading);
+        content.revalidate();
+        return loading;
+    }
+
+    public void removeLoadingContent(JPanel content, JPanel loading) {
+        content.remove(loading);
+        content.revalidate();
     }
 }

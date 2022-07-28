@@ -78,35 +78,46 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel2" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="207" max="-2" attributes="0"/>
-                                      <Component id="btnProfileSave" min="-2" pref="146" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="btnBack" min="-2" pref="146" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="274" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="jLabel2" min="-2" pref="180" max="-2" attributes="0"/>
+                                          <Component id="profilePicture" min="-2" pref="180" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtNewPassword" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="txtOldPassword" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel1" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
-                                          <Component id="txtEmail" alignment="0" pref="507" max="32767" attributes="0"/>
-                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCity" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="isChangePassword" min="-2" pref="132" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                                                  <Component id="btnProfileSave" min="-2" pref="146" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btnBack" min="-2" pref="146" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel1" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                                              <Component id="txtEmail" alignment="0" pref="507" max="32767" attributes="0"/>
+                                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jCity" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txtNewPassword" alignment="1" max="32767" attributes="0"/>
+                                              <Component id="txtOldPassword" alignment="0" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
                               <EmptySpace min="0" pref="111" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jLabel5" alignment="1" pref="725" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="minimize" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="exit" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -115,10 +126,19 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel2" min="-2" pref="65" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" pref="65" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="minimize" min="-2" max="-2" attributes="0"/>
+                                  <Component id="exit" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="profilePicture" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="9" max="32767" attributes="0"/>
                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jCity" min="-2" pref="38" max="-2" attributes="0"/>
@@ -127,14 +147,16 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtEmail" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="isChangePassword" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Component id="txtOldPassword" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtNewPassword" min="-2" pref="36" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnBack" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="btnProfileSave" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
@@ -246,7 +268,7 @@
                 <Property name="text" type="java.lang.String" value="NEW PASSWORD"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel5">
+            <Component class="javax.swing.JLabel" name="profilePicture">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -259,6 +281,9 @@
                   <Image iconType="3" name="/co/gararetech/cinemas/view/images/profile.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="profilePictureMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtOldPassword">
               <Properties>
@@ -329,6 +354,54 @@
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundJCity()"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="isChangePassword">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Color.decode(&quot;#222222&quot;)" type="code"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="12" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Change Password"/>
+              </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="isChangePasswordStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isChangePasswordActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="minimize">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/co/gararetech/cinemas/view/images/minimizeButton.png"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="MINIMIZE"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
+                <Property name="iconTextGap" type="int" value="0"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="minimizeMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="exit">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/co/gararetech/cinemas/view/images/exitButton.png"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="EXIT"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
+                <Property name="iconTextGap" type="int" value="0"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="exitMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

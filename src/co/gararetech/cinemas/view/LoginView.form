@@ -84,12 +84,10 @@
                       <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel2" pref="507" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtPassword" max="32767" attributes="0"/>
-                              <Component id="jLabel1" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
-                              <Component id="txtEmail" alignment="0" pref="507" max="32767" attributes="0"/>
-                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="txtPassword" max="32767" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                          <Component id="txtEmail" alignment="0" pref="507" max="32767" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="minimize" min="-2" max="-2" attributes="0"/>

@@ -157,9 +157,8 @@ public class RegisterController {
             button.setIcon(null);
         }
     }
-    public void exitButton(){
-        JFrame frame = new JFrame("Exit");
-        if (JOptionPane.showConfirmDialog( frame,"Apakah Anda Mau Keluar ?","Cinemas",
+    public void exitButton(RegisterView view){
+        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?","Cinemas",
             JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
             System.exit(0);
     }

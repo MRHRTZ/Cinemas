@@ -11,7 +11,6 @@ public class RoundJCity extends JComboBox {
     public RoundJCity() {
         setOpaque(false); // As suggested by @AVD in comment.
     }
-
     
     protected void paintComponent(Graphics g) {
          g.setColor(getBackground());

@@ -219,11 +219,10 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
             .addGap(107, 107, 107)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtPassword)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                    .addComponent(jLabel3)))
+                .addComponent(txtPassword)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addComponent(jLabel3))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(minimize)
             .addGap(18, 18, 18)
@@ -350,7 +349,7 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
 
     private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
         // TODO add your handling code here:
-        loginController.exitButton();
+        loginController.exitButton(this);
     }//GEN-LAST:event_exitMouseClicked
 
     private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked

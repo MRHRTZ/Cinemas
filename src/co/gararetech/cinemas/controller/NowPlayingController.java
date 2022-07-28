@@ -43,9 +43,23 @@ public class NowPlayingController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
+    
+    public String getCityId(String cityName) {
+        String cityId = "";
+        JSONArray cities = model.getCityList();
+        for (int i = 0; i < cities.length(); i++) {
+            if (cities.getJSONObject(i).getString("name").equals(cityName)) {
+                cityId = cities.getJSONObject(i).getString("id");
+            }
+        }
+        
+        return cityId;
+    }
 
     public void getNowPlaying() throws ProtocolException, IOException {
-        URL url = model.getNowPlayingUrl();
+        System.out.println("Get API Now Playing ..");
+        String cityId = getCityId(model.getUserData().getString("city_id"));
+        URL url = new URL(model.getNowPlayingUrl().toString() + "?city_id=" + cityId);
 
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");
@@ -73,8 +87,14 @@ public class NowPlayingController {
         }
 
         JSONObject response = new JSONObject(responseContent.toString());
-        System.out.println("Get API Now Playing ..");
-        model.setPlayingList(response.getJSONArray("results"));
+        
+        if (response.getBoolean("success")) {
+            System.out.println("success get API now playing");
+            model.setPlayingList(response.getJSONArray("results"));
+        } else {
+            System.out.println("failed get API now playing");
+            model.setPlayingList(new JSONArray());
+        }
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {

@@ -98,9 +98,9 @@ public class LoginController {
             }
             
             if (email.equals("") && password.equals("")) {
-                JOptionPane.showMessageDialog(login, "Data email dan password tidak boleh kosong");
+                dashboard.getModel().setInvalidMessage("Data email dan password tidak boleh kosong");
             } else if (userData == null) {
-                JOptionPane.showMessageDialog(login, "Email atau Password salah!");
+                dashboard.getModel().setInvalidMessage("Email atau Password salah!");
                 System.out.println("Failed login invalid email " + email + ":" + password);
             } else {
                 String md5Password = MD5(password);
@@ -111,7 +111,7 @@ public class LoginController {
                     dashboard.setVisible(true);
                 } else {
                     System.out.println("Failed login wrong password " + email + ":" + password);
-                    JOptionPane.showMessageDialog(login, "Email atau Password salah!");
+                    dashboard.getModel().setInvalidMessage("Email atau Password salah!");
                 }
             }
         } catch (IOException ex) {
@@ -130,9 +130,9 @@ public class LoginController {
             button.setIcon(null);
         }
     }
-    public void exitButton(){
-        JFrame frame = new JFrame("Exit");
-        if (JOptionPane.showConfirmDialog( frame,"Apakah Anda Mau Keluar ?","Cinemas",
+    
+    public void exitButton(LoginView view){
+        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?","Cinemas",
             JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
             System.exit(0);
     }

@@ -3,29 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/model/DashboardModel.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/backup/data.sql</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/LoginView.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/LoginController.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/README.md</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/NowPlayingController.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/UpcomingController.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/model/ProfileModel.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/CinemaListController.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/RegisterView.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/utils/FileChooser.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/ProfileController.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/DetailTheaterController.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/elements/RoundedPanel.java</file>
             <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/DetailFilmController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/elements/RoundJLabel.java</file>
             <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/elements/RoundJCity.java</file>
             <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/DashboardController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/NowPlayingController.java</file>
             <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/elements/RoundJButton.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/backup/schema.sql</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/DashboardView.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/UpcomingController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/utils/ScaleImage.java</file>
             <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/view/ProfileView.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/model/LoginModel.java</file>
-            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/RegisterController.java</file>
+            <file>file:/E:/Data/UNIKOM/SEMESTER%202/Pemrograman%20Beroreintasi%20Objek/Tugas%20Besar%20PraUAS/Cinemas/src/co/gararetech/cinemas/controller/ProfileController.java</file>
         </group>
     </open-files>
 </project-private>

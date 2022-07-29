@@ -62,7 +62,7 @@ public class LoginController {
             }
             reader.close();
         }
-        
+
         return new JSONArray(responseContent.toString());
     }
 
@@ -80,7 +80,7 @@ public class LoginController {
         }
         return null;
     }
-    
+
     public void submit(LoginView login, DashboardView dashboard) {
         String email = login.getTxtEmail().getText();
         String password = String.valueOf(login.getTxtPassword().getPassword());
@@ -91,16 +91,18 @@ public class LoginController {
             JSONArray userList = getUserList();
             for (int i = 0; i < userList.length(); i++) {
                 JSONObject row = userList.getJSONObject(i);
-                
+
                 if (row.getString("email").equals(email)) {
                     userData = row;
                 }
             }
-            
+
             if (email.equals("") && password.equals("")) {
                 dashboard.getModel().setInvalidMessage("Data email dan password tidak boleh kosong");
+                login.dispose();
             } else if (userData == null) {
                 dashboard.getModel().setInvalidMessage("Email atau Password salah!");
+                login.dispose();
                 System.out.println("Failed login invalid email " + email + ":" + password);
             } else {
                 String md5Password = MD5(password);
@@ -112,17 +114,19 @@ public class LoginController {
                 } else {
                     System.out.println("Failed login wrong password " + email + ":" + password);
                     dashboard.getModel().setInvalidMessage("Email atau Password salah!");
+                    login.dispose();
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-}
+    }
+
     public void viewRegister(LoginView login, RegisterView register) {
         login.dispose();
         register.setVisible(true);
     }
-    
+
     public void loading(JButton button, Boolean status) {
         if (status) {
             button.setIcon(new ImageIcon(getClass().getResource("../view/images/loading-25.gif")));
@@ -130,13 +134,15 @@ public class LoginController {
             button.setIcon(null);
         }
     }
-    
-    public void exitButton(LoginView view){
-        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?","Cinemas",
-            JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+
+    public void exitButton(LoginView view) {
+        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
+        }
     }
-    public void minimizeButton(LoginView view){
+
+    public void minimizeButton(LoginView view) {
         view.setState(LoginView.ICONIFIED);
     }
 }

@@ -20,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -43,7 +45,7 @@ public class NowPlayingController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public String getCityId(String cityName) {
         String cityId = "";
         JSONArray cities = model.getCityList();
@@ -52,7 +54,7 @@ public class NowPlayingController {
                 cityId = cities.getJSONObject(i).getString("id");
             }
         }
-        
+
         return cityId;
     }
 
@@ -87,7 +89,7 @@ public class NowPlayingController {
         }
 
         JSONObject response = new JSONObject(responseContent.toString());
-        
+
         if (response.getBoolean("success")) {
             System.out.println("success get API now playing");
             model.setPlayingList(response.getJSONArray("results"));
@@ -99,7 +101,7 @@ public class NowPlayingController {
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
         System.out.println("Building now playing content ..");
-        
+
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
@@ -157,52 +159,52 @@ public class NowPlayingController {
             ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.X_AXIS));
             ratingPanel.setBackground(Color.decode("#222222"));
 
-                // Top Rating Space
-                JLabel topRatingSpace = new JLabel();
-                topRatingSpace.setText("---------");
-                topRatingSpace.setForeground(Color.decode("#222222"));
-                topRatingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topRatingSpace);
+            // Top Rating Space
+            JLabel topRatingSpace = new JLabel();
+            topRatingSpace.setText("---------");
+            topRatingSpace.setForeground(Color.decode("#222222"));
+            topRatingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+            cardPanel.add(topRatingSpace);
 
-                // Rating Icon
-                JLabel starIcon = new JLabel();
-                URL starIconPath = getClass().getResource("../view/images/star-25.png");
-                ImageIcon starImage = new ImageIcon(starIconPath);
-                starIcon.setIcon(starImage);
-                starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
-                ratingPanel.add(starIcon);
+            // Rating Icon
+            JLabel starIcon = new JLabel();
+            URL starIconPath = getClass().getResource("../view/images/star-25.png");
+            ImageIcon starImage = new ImageIcon(starIconPath);
+            starIcon.setIcon(starImage);
+            starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
+            ratingPanel.add(starIcon);
 
-                // Rating Score
-                JLabel ratingScore = new JLabel();
-                ratingScore.setForeground(Color.WHITE);
-                ratingScore.setText(" " + String.valueOf(rowData.getFloat("rating_score")));
-                ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
-                ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
-                ratingPanel.add(ratingScore);
-                
-                // Rating Age
-                JLabel ageScore = new JLabel();
-                String ageCategory = rowData.getString("age_category");
-                if (ageCategory.equals("R")) {
-                    ageScore.setForeground(Color.GREEN);
-                    ageCategory = "R 13+";
-                } else if (ageCategory.equals("D")) {
-                    ageScore.setForeground(Color.RED);
-                    ageCategory = "D 17+";
-                } else {
-                    ageScore.setForeground(Color.WHITE);
-                }
-                ageScore.setText("                      " + ageCategory);
-                ageScore.setFont(new Font("Serif", Font.PLAIN, 18));
-                ageScore.setAlignmentX(Component.RIGHT_ALIGNMENT);
-                ratingPanel.add(ageScore);
+            // Rating Score
+            JLabel ratingScore = new JLabel();
+            ratingScore.setForeground(Color.WHITE);
+            ratingScore.setText(" " + String.valueOf(rowData.getFloat("rating_score")));
+            ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
+            ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
+            ratingPanel.add(ratingScore);
 
-                // Rating Space
-                JLabel ratingSpace = new JLabel();
-                ratingSpace.setText("-----");
-                ratingSpace.setForeground(Color.decode("#222222"));
-                ratingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                ratingPanel.add(ratingSpace);
+            // Rating Age
+            JLabel ageScore = new JLabel();
+            String ageCategory = rowData.getString("age_category");
+            if (ageCategory.equals("R")) {
+                ageScore.setForeground(Color.GREEN);
+                ageCategory = "R 13+";
+            } else if (ageCategory.equals("D")) {
+                ageScore.setForeground(Color.RED);
+                ageCategory = "D 17+";
+            } else {
+                ageScore.setForeground(Color.WHITE);
+            }
+            ageScore.setText("                      " + ageCategory);
+            ageScore.setFont(new Font("Serif", Font.PLAIN, 18));
+            ageScore.setAlignmentX(Component.RIGHT_ALIGNMENT);
+            ratingPanel.add(ageScore);
+
+            // Rating Space
+            JLabel ratingSpace = new JLabel();
+            ratingSpace.setText("-----");
+            ratingSpace.setForeground(Color.decode("#222222"));
+            ratingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
+            ratingPanel.add(ratingSpace);
 
             cardPanel.add(ratingPanel);
 
@@ -239,9 +241,7 @@ public class NowPlayingController {
             detailButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DetailFilmController detailFilmController = new DetailFilmController();
-                    detailFilmController.setModel(model);
-                    detailFilmController.showDetail(view, rowData.getString("id"));
+                    detailFilmView(view, rowData);
                 }
             });
             detailButton.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -280,7 +280,7 @@ public class NowPlayingController {
                 contentPanel.add(cardPanel);
                 gridPane.add(contentPanel);
             }
-            
+
         }
 
         view.getContent().add(gridPane);
@@ -288,10 +288,32 @@ public class NowPlayingController {
 
     }
 
+    public void detailFilmView(DashboardView view, JSONObject rowData) {
+        DetailFilmController detailFilmController = new DetailFilmController();
+        new Thread() {
+            public void run() {
+                try {
+                    detailFilmController.showDetail(view, rowData);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+    }
+
     public void setNewGrid(DashboardView view) throws IOException {
         if (model.getPlayingList() == null) {
             this.getNowPlaying();
         }
         this.setGrid(view);
+    }
+
+    public void loading(JButton button, Boolean status) {
+        if (status) {
+            button.setIcon(new ImageIcon(getClass().getResource("../view/images/loading-25.gif")));
+        } else {
+            button.setIcon(null);
+        }
     }
 }

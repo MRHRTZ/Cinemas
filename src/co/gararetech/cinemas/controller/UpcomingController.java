@@ -20,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -240,8 +242,11 @@ public class UpcomingController {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     DetailFilmController detailFilmController = new DetailFilmController();
-                    detailFilmController.setModel(model);
-                    detailFilmController.showDetail(view, rowData.getString("id"));
+                    try {
+                        detailFilmController.showDetail(view, rowData);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UpcomingController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
             detailButton.setFont(new Font("Serif", Font.PLAIN, 18));

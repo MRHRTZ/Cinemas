@@ -238,7 +238,7 @@ public class DashboardController {
     public JPanel addLoadingContent(JPanel content) {
         JPanel loading = new JPanel(new CardLayout(0, 185));
         loading.setName("loadingPanel");
-        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("../view/images/content-load.gif")));
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
         loading.setBackground(Color.decode("#42382F"));
         loading.add(loadingImage);
         content.add(loading);
@@ -281,7 +281,7 @@ public class DashboardController {
 
             if (!model.getUserData().isNull("image")) {
                 if (model.getUserData().getString("image").equals("")) {
-                    ImageIcon defaultIcon = new ImageIcon(getClass().getResource("../view/images/profile.png"));
+                    ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
                     profileView.getProfilePicture().setIcon(defaultIcon);
                 } else {
                     String base64 = model.getUserData().getString("image").replaceAll(" ", "+");
@@ -297,7 +297,7 @@ public class DashboardController {
                     profileView.getProfilePicture().setIcon(new ImageIcon(img));
                 }
             } else {
-                ImageIcon defaultIcon = new ImageIcon(getClass().getResource("../view/images/profile.png"));
+                ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
                 profileView.getProfilePicture().setIcon(defaultIcon);
             }
 

@@ -129,7 +129,7 @@ public class LoginController {
 
     public void loading(JButton button, Boolean status) {
         if (status) {
-            button.setIcon(new ImageIcon(getClass().getResource("../view/images/loading-25.gif")));
+            button.setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif")));
         } else {
             button.setIcon(null);
         }

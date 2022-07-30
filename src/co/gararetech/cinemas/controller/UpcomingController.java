@@ -157,7 +157,7 @@ public class UpcomingController {
 
             // Rating Icon
             JLabel starIcon = new JLabel();
-            URL starIconPath = getClass().getResource("../view/images/star-25.png");
+            URL starIconPath = getClass().getResource("/co/gararetech/cinemas/view/images/star-25.png");
             ImageIcon starImage = new ImageIcon(starIconPath);
             starIcon.setIcon(starImage);
             starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);

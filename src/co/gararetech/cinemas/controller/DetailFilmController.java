@@ -5,33 +5,52 @@ import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundJLabel;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import java.awt.Adjustable;
 import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JViewport;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -72,11 +91,24 @@ public class DetailFilmController {
         return croppedImage;
     }
 
+    private static void openURL(URI uri, JDialog detailDialog) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(detailDialog, "Maaf system kamu tidak support untuk membuka link ini.");
+        }
+    }
+
     public void showDetail(DashboardView view, JSONObject movieObject) throws MalformedURLException, IOException {
-        System.out.println("Building Detail Film : " + movieObject.getString("title") + " ..");
+        System.out.println("Opening Modal Detail Film : " + movieObject.getString("title"));
 
         // JDialog untuk modal screen
         JDialog frame = new JDialog(view, movieObject.getString("title"), true);
+        frame.setUndecorated(true);
 
         // MainPanel dengan card margin 50x50
         JPanel mainPanel = new JPanel(new CardLayout(50, 50));
@@ -90,12 +122,12 @@ public class DetailFilmController {
         // Gambar thumb video
         JPanel videoThumbPanel = new RoundedPanel();
         videoThumbPanel.setLayout(null);
-        videoThumbPanel.setBounds(0, 0, 580, 150);
+        videoThumbPanel.setBounds(0, 0, 595, 150);
         videoThumbPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Play icon video redirect
         JLabel playIconLabel = new JLabel();
-        ImageIcon playImage = new ImageIcon(getClass().getResource("../view/images/play-52.png"));
+        ImageIcon playImage = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
         playIconLabel.setIcon(playImage);
         playIconLabel.setBounds(0, 0, videoThumbPanel.getWidth(), videoThumbPanel.getHeight());
         playIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -108,14 +140,42 @@ public class DetailFilmController {
         // Crop pada tengah2image 
         BufferedImage imageCrop = cropImage(rawImg, 0, rawImg.getHeight() / 2, rawImg.getWidth(), 80); //0, 0, 453, 150
         // Buat image menjadi rounded
-        BufferedImage roundedImage = makeRoundedCorner(imageCrop, 20);
+        BufferedImage roundedImage = makeRoundedCorner(imageCrop, 30);
         // Perbesar skala mencapai max panel thumb
-        Image scaledThumb = roundedImage.getScaledInstance(videoThumbPanel.getWidth(), videoThumbPanel.getHeight(), Image.SCALE_SMOOTH);
+        Image scaledThumb = roundedImage.getScaledInstance(videoThumbPanel.getWidth() + 20, videoThumbPanel.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon imageVidThumb = new ImageIcon(scaledThumb);
         videoThumb.setIcon(imageVidThumb);
         videoThumb.setHorizontalAlignment(JLabel.CENTER);
         videoThumb.setBounds(0, 0, videoThumbPanel.getWidth(), videoThumbPanel.getHeight());
+        videoThumb.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    String trailerPath = movieObject.getString("trailer_path");
+                    System.out.println("Redirect Trailer : " + trailerPath);
+                    URI uri = new URI(trailerPath);
+                    openURL(uri, frame);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(DetailFilmController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         videoThumbPanel.add(playIconLabel);
         videoThumbPanel.add(videoThumb);
 
@@ -203,14 +263,54 @@ public class DetailFilmController {
         contentPanel.add(directorValue);
 
         JLabel ageRatingValue = new JLabel();
-        ageRatingValue.setText(movieObject.getString("age_category"));
+        String ageCategory = movieObject.getString("age_category");
+        if (ageCategory.equals("R")) {
+            ageCategory = "R 13+";
+        } else if (ageCategory.equals("D")) {
+            ageCategory = "D 17+";
+        } else if (ageCategory.equals("P")) {
+            ageCategory = "-";
+        }
+        ageRatingValue.setText(ageCategory);
         ageRatingValue.setForeground(Color.WHITE);
         ageRatingValue.setFont(new Font("Serif", Font.PLAIN, 16));
         ageRatingValue.setBounds(labelX + labelValueX, videoThumbPanel.getHeight() + (heightSpace) * 5, videoThumbPanel.getWidth() - labelX - labelValueX, 20);
         contentPanel.add(ageRatingValue);
 
-        contentPanel.add(videoThumbPanel);
+        // Synopsis textarea
+        JTextArea synopsisText = new JTextArea(movieObject.getString("synopsis"));
+        synopsisText.setFont(new Font("Serif", Font.PLAIN, 16));
+        synopsisText.setBackground(Color.decode("#222222"));
+        synopsisText.setForeground(Color.WHITE);
+        synopsisText.setWrapStyleWord(true);
+        synopsisText.setLineWrap(true);
+        synopsisText.setEditable(true);
 
+        JScrollPane synopsisTextScroll = new JScrollPane();
+        synopsisTextScroll.setViewportView(synopsisText);
+        synopsisTextScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+        synopsisTextScroll.setBackground(Color.decode("#222222"));
+        synopsisTextScroll.setBorder(null);
+        synopsisTextScroll.setBounds(20, videoThumbPanel.getHeight() + (heightSpace) * 5 + heightSpace + 10, videoThumbPanel.getWidth() - 30, 130);
+        contentPanel.add(synopsisTextScroll);
+
+        // Back button
+        JButton backButton = new JButton();
+        backButton.setForeground(Color.WHITE);
+        backButton.setBackground(Color.decode("#A27B5C"));
+        backButton.setText("Tutup");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.setVisible(true);
+                frame.dispose();
+            }
+        });
+        backButton.setFont(new Font("Serif", Font.PLAIN, 18));
+        backButton.setBounds(videoThumbPanel.getWidth() - 165, videoThumbPanel.getHeight() + (heightSpace) * 5 + heightSpace + 10 + synopsisTextScroll.getHeight() + 10, 150, 30);
+        contentPanel.add(backButton);
+
+        contentPanel.add(videoThumbPanel);
         mainPanel.add(contentPanel);
         frame.getContentPane().add(mainPanel);
 
@@ -219,7 +319,7 @@ public class DetailFilmController {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        
-        System.out.println("Success load film detail");
+
+        System.out.println("Success close film detail modal");
     }
 }

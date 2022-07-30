@@ -154,7 +154,7 @@ public class CinemaListController {
 
             // Star icon like rating
             JLabel starIcon = new JLabel();
-            URL starIconPath = getClass().getResource("../view/images/star-25.png");
+            URL starIconPath = getClass().getResource("/co/gararetech/cinemas/view/images/star-25.png");
             ImageIcon starImage = new ImageIcon(starIconPath);
             starIcon.setIcon(starImage);
             starIcon.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -202,7 +202,7 @@ public class CinemaListController {
     public JPanel addLoadingContent(JPanel content) {
         JPanel loading = new JPanel(new CardLayout(0, 185));
         loading.setName("loadingPanel");
-        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("../view/images/content-load.gif")));
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
         loading.setBackground(Color.decode("#42382F"));
         loading.add(loadingImage);
         content.add(loading);

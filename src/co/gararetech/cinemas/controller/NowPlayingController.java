@@ -168,7 +168,7 @@ public class NowPlayingController {
 
             // Rating Icon
             JLabel starIcon = new JLabel();
-            URL starIconPath = getClass().getResource("../view/images/star-25.png");
+            URL starIconPath = getClass().getResource("/co/gararetech/cinemas/view/images/star-25.png");
             ImageIcon starImage = new ImageIcon(starIconPath);
             starIcon.setIcon(starImage);
             starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -311,7 +311,7 @@ public class NowPlayingController {
 
     public void loading(JButton button, Boolean status) {
         if (status) {
-            button.setIcon(new ImageIcon(getClass().getResource("../view/images/loading-25.gif")));
+            button.setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif")));
         } else {
             button.setIcon(null);
         }

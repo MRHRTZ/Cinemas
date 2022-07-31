@@ -102,13 +102,14 @@ public class DetailFilmController {
             JOptionPane.showMessageDialog(detailDialog, "Maaf system kamu tidak support untuk membuka link ini.");
         }
     }
+    
 
     public void showDetail(DashboardView view, JSONObject movieObject) throws MalformedURLException, IOException {
         System.out.println("Opening Modal Detail Film : " + movieObject.getString("title"));
 
         // JDialog untuk modal screen
         JDialog frame = new JDialog(view, movieObject.getString("title"), true);
-        frame.setUndecorated(true);
+        frame.setUndecorated(false);
 
         // MainPanel dengan card margin 50x50
         JPanel mainPanel = new JPanel(new CardLayout(50, 50));
@@ -122,7 +123,7 @@ public class DetailFilmController {
         // Gambar thumb video
         JPanel videoThumbPanel = new RoundedPanel();
         videoThumbPanel.setLayout(null);
-        videoThumbPanel.setBounds(0, 0, 595, 150);
+        videoThumbPanel.setBounds(0, 0, 585, 150);
         videoThumbPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Play icon video redirect
@@ -291,7 +292,7 @@ public class DetailFilmController {
         synopsisTextScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         synopsisTextScroll.setBackground(Color.decode("#222222"));
         synopsisTextScroll.setBorder(null);
-        synopsisTextScroll.setBounds(20, videoThumbPanel.getHeight() + (heightSpace) * 5 + heightSpace + 10, videoThumbPanel.getWidth() - 30, 130);
+        synopsisTextScroll.setBounds(20, videoThumbPanel.getHeight() + (heightSpace) * 5 + heightSpace + 10, videoThumbPanel.getWidth() - 30, 100);
         contentPanel.add(synopsisTextScroll);
 
         // Back button

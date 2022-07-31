@@ -59,7 +59,7 @@ public class CinemaListController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public String getCityId(String cityName) {
         String cityId = "";
         JSONArray cities = model.getCityList();
@@ -68,7 +68,7 @@ public class CinemaListController {
                 cityId = cities.getJSONObject(i).getString("id");
             }
         }
-        
+
         return cityId;
     }
 
@@ -119,12 +119,12 @@ public class CinemaListController {
         JPanel gridPane = new JPanel();
         gridPane.setLayout(new BoxLayout(gridPane, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
         gridPane.setBackground(Color.decode("#42382F"));
-        
+
         // List Data
         JSONArray listData = model.getCinemaList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
-            
+
             // Grid panel
             final JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new CardLayout(50, 10));
@@ -146,9 +146,7 @@ public class CinemaListController {
             cardContent.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DetailTheaterController detailTheaterController = new DetailTheaterController();
-                    detailTheaterController.setModel(model);
-                    detailTheaterController.showDetail(view, rowData.getString("id"));
+                    viewTheaterDetail(view, rowData);
                 }
             });
 
@@ -164,27 +162,41 @@ public class CinemaListController {
             // Theater Name
             JLabel theaterTitle = new JLabel();
             theaterTitle.setText(" " + rowData.getString("name"));
-            theaterTitle.setFont(new Font("Serif", Font.BOLD, 12));
+            theaterTitle.setFont(new Font("Serif", Font.BOLD, 18));
             theaterTitle.setForeground(Color.WHITE);
             cardContent.add(theaterTitle, BorderLayout.CENTER);
-            
+
             // Icon >
             JLabel btnIcon = new JLabel();
             btnIcon.setText(">   ");
             btnIcon.setFont(new Font("Serif", Font.BOLD, 18));
             btnIcon.setForeground(Color.WHITE);
             cardContent.add(btnIcon, BorderLayout.EAST);
-            
-            
+
             cardPanel.add(cardContent);
             contentPanel.add(cardPanel);
             gridPane.add(contentPanel);
         }
-        
-        gridPane.add(Box.createVerticalBox());        
+
+        gridPane.add(Box.createVerticalBox());
         view.getContent().add(gridPane);
 
         System.out.println("Success load cinemas");
+    }
+
+    public void viewTheaterDetail(DashboardView view, JSONObject rowData) {
+        new Thread() {
+            public void run() {
+                try {
+                    DetailTheaterController detailTheaterController = new DetailTheaterController();
+                    detailTheaterController.setModel(model);
+                    detailTheaterController.showDetail(view, rowData);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 
     public void setNewGrid(DashboardView view) throws IOException {
@@ -192,7 +204,7 @@ public class CinemaListController {
         this.getCinemas(cityId);
         this.setGrid(view);
     }
-    
+
     public void removeContent(DashboardView view) {
         view.getContent().removeAll();
         view.getContent().revalidate();

@@ -105,6 +105,7 @@ public class RegisterView extends javax.swing.JFrame {
         minimize = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cinemas Booking App");
         setUndecorated(true);
 
         jPanel1.setBackground(Color.decode("#1D1C1C"));

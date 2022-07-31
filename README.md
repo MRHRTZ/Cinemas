@@ -15,12 +15,12 @@
 - [x] Splash Screen
 - [x] Login
 - [x] Register
-- [ ] Profile Page
+- [x] Profile Page
 - [x] Dashboard
-- [ ] Film Detail
+- [x] Film Detail
 - [ ] Checkout Ticket
 - [ ] Booking Ticket
 - [x] Upcoming
 - [ ] Order History
 - [x] Cinema Site List
-- [ ] Cinema Detail
+- [x] Cinema Detail

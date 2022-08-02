@@ -103,12 +103,12 @@ public class UpcomingController {
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
-
+        
         // List Data
         JSONArray listData = model.getUpcomingList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
-
+            
             // Grid panel
             final JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new CardLayout(25, 25));
@@ -135,7 +135,12 @@ public class UpcomingController {
             JLabel poster = new JLabel();
             poster.setPreferredSize(new Dimension(230, 287));
             Image icon = ImageIO.read(posterUrl);
-            ImageIcon posterIcon = new ImageIcon(icon);
+            ImageIcon posterIcon;
+            if (icon == null) {
+                posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+            } else {
+                posterIcon = new ImageIcon(icon);
+            }
             ScaleImage scaleImg = new ScaleImage(posterIcon, 230, 287);
             ImageIcon resizePoster = scaleImg.scaleImage();
             poster.setIcon(resizePoster);

@@ -308,6 +308,7 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
         // TODO add your handling code here:
+
         int kordinatX = evt.getXOnScreen();
         int kordinatY = evt.getYOnScreen();
 

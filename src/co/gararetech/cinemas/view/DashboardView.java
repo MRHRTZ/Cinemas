@@ -7,7 +7,9 @@ import co.gararetech.cinemas.controller.OrderHistoryContoller;
 import co.gararetech.cinemas.controller.UpcomingController;
 import co.gararetech.cinemas.model.DashboardModel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -24,7 +26,7 @@ public class DashboardView extends javax.swing.JFrame {
 
     private NowPlayingController nowPlayingController;
     private UpcomingController upcomingController;
-    private OrderHistoryContoller orderHistoryContoller;
+    private OrderHistoryContoller orderHistoryController;
     private CinemaListController cinemaListController;
     private DashboardController dashboardController;
     private DashboardModel dashboardModel;
@@ -47,6 +49,7 @@ public class DashboardView extends javax.swing.JFrame {
         nowPlayingController = new NowPlayingController();
         upcomingController = new UpcomingController();
         cinemaListController = new CinemaListController();
+        orderHistoryController = new OrderHistoryContoller();
 
         initComponents();
 
@@ -54,6 +57,7 @@ public class DashboardView extends javax.swing.JFrame {
         nowPlayingController.setModel(dashboardModel);
         upcomingController.setModel(dashboardModel);
         cinemaListController.setModel(dashboardModel);
+        orderHistoryController.setModel(dashboardModel);
 
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
@@ -449,6 +453,23 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void btnOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderHistoryActionPerformed
         // TODO add your handling code here:
+        dashboardController.setActiveButton(this, "orderhistory");
+        dashboardController.removeContent(this);
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    orderHistoryController.setgrid(DashboardView.this);
+                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
+                    DashboardView.this.revalidate();
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+                   
     }//GEN-LAST:event_btnOrderHistoryActionPerformed
 
     /**

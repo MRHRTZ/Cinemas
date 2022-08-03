@@ -132,7 +132,7 @@ public class CinemaListController {
             contentPanel.setLayout(new CardLayout(50, 10));
             contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 90));
             contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 90));
-            contentPanel.setBackground(Color.decode("#423828"));
+            contentPanel.setBackground(Color.decode("#42382F"));
 
             // Card Panel
             final JPanel cardPanel = new RoundedPanel();

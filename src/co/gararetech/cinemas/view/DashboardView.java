@@ -460,7 +460,7 @@ public class DashboardView extends javax.swing.JFrame {
             @Override
             public Void doInBackground() {
                 try {
-                    orderHistoryController.setgrid(DashboardView.this);
+                    orderHistoryController.setGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (IOException ex) {

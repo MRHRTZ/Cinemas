@@ -215,6 +215,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
         btnOrderHistory.setText("Riwayat Pesanan");
+        btnOrderHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderHistoryActionPerformed(evt);
+            }
+        });
 
         minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
         minimize.setToolTipText("MINIMIZE");
@@ -408,6 +413,10 @@ public class DashboardView extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
     }//GEN-LAST:event_formComponentShown
+
+    private void btnOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderHistoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOrderHistoryActionPerformed
 
     /**
      * @param args the command line arguments

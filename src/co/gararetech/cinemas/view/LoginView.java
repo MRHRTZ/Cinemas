@@ -295,12 +295,11 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
 
     private void btnLoginSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginSaveActionPerformed
         // TODO add your handling code here:
-        loginController.loading(this.getBtnLoginSave(), true);
+        this.getBtnLoginSave().setEnabled(false);
         new Thread() {
             public void run() {
                 try {
                     loginController.submit(LoginView.this, new DashboardView());
-                    loginController.loading(LoginView.this.getBtnLoginSave(), false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

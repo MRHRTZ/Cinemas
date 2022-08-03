@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
@@ -31,6 +32,7 @@ public class DashboardView extends javax.swing.JFrame {
     private DashboardModel dashboardModel;
     private ImageIcon appIcon;
     private JPanel loadingPanel;
+    private JDialog loadingUser;
     private int mousepX;
     private int mousepY;
 
@@ -61,7 +63,7 @@ public class DashboardView extends javax.swing.JFrame {
         this.setIconImage(appIcon.getImage());
 
         dashboardController.setActiveButton(this, "nowplaying");
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
@@ -87,6 +89,14 @@ public class DashboardView extends javax.swing.JFrame {
                 return null;
             }
         }.execute();
+    }
+
+    public JPanel getLoadingPanel() {
+        return loadingPanel;
+    }
+
+    public void setLoadingPanel(JPanel loadingPanel) {
+        this.loadingPanel = loadingPanel;
     }
 
     public JButton getBtnCinema() {
@@ -136,6 +146,15 @@ public class DashboardView extends javax.swing.JFrame {
     public DashboardModel getDashboardModel() {
         return dashboardModel;
     }
+
+    public JDialog getLoadingUser() {
+        return loadingUser;
+    }
+
+    public void setLoadingUser(JDialog loadingUser) {
+        this.loadingUser = loadingUser;
+    }
+    
     
     
 
@@ -306,6 +325,7 @@ public class DashboardView extends javax.swing.JFrame {
         contentPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         contentPane.setPreferredSize(new java.awt.Dimension(1050, 600));
 
+        content.setBackground(Color.decode("#42382F"));
         content.setLayout(new java.awt.GridLayout(1, 0));
         contentPane.setViewportView(content);
 
@@ -334,7 +354,7 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardController.setActiveButton(this, "upcoming");
         dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
@@ -354,7 +374,7 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardController.setActiveButton(this, "nowplaying");
         dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
@@ -384,7 +404,7 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardController.setActiveButton(this, "cinemas");
         dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
@@ -423,7 +443,7 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardController.setActiveButton(this, "orderhistory");
         dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent());
+        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
@@ -471,7 +491,7 @@ public class DashboardView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new DashboardView().setVisible(true);
+                    new DashboardView().setVisible(false);
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InstantiationException ex) {

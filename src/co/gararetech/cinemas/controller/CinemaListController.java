@@ -124,6 +124,8 @@ public class CinemaListController {
         JSONArray listData = model.getCinemaList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
+            removeLoadingContent(view.getContent(), view.getLoadingPanel());
+            view.setLoadingPanel(addLoadingContent(view.getContent(), "GET THEATER : " + rowData.getString("name")));
 
             // Grid panel
             final JPanel contentPanel = new JPanel();
@@ -211,12 +213,27 @@ public class CinemaListController {
 
     }
 
-    public JPanel addLoadingContent(JPanel content) {
-        JPanel loading = new JPanel(new CardLayout(0, 185));
-        loading.setName("loadingPanel");
-        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
+    public JPanel addLoadingContent(JPanel content, String message) {
+        JPanel loading = new JPanel(new CardLayout(0, 200));
         loading.setBackground(Color.decode("#42382F"));
-        loading.add(loadingImage);
+        loading.setName("loadingPanel");
+
+        JPanel contentLoadingPanel = new JPanel();
+        contentLoadingPanel.setLayout(new BoxLayout(contentLoadingPanel, BoxLayout.Y_AXIS));
+        contentLoadingPanel.setBackground(Color.decode("#42382F"));
+
+        JLabel infoLoading = new JLabel(message);
+        infoLoading.setName("infoLoading");
+        infoLoading.setForeground(Color.WHITE);
+        infoLoading.setFont(new Font("Serif", Font.BOLD, 18));
+        infoLoading.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(infoLoading);
+
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
+        loadingImage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(loadingImage);
+
+        loading.add(contentLoadingPanel);
         content.add(loading);
         content.revalidate();
         return loading;

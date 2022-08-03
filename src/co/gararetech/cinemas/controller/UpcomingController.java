@@ -103,11 +103,13 @@ public class UpcomingController {
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
         gridPane.setBackground(Color.decode("#42382F"));
-        
+
         // List Data
         JSONArray listData = model.getUpcomingList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
+            removeLoadingContent(view.getContent(), view.getLoadingPanel());
+            view.setLoadingPanel(addLoadingContent(view.getContent(), "GET RESOURCES : " + rowData.getString("title")));
             
             // Grid panel
             final JPanel contentPanel = new JPanel();
@@ -274,5 +276,36 @@ public class UpcomingController {
             this.getUpcoming();
         }
         this.setGrid(view);
+    }
+
+    public JPanel addLoadingContent(JPanel content, String message) {
+        JPanel loading = new JPanel(new CardLayout(0, 200));
+        loading.setBackground(Color.decode("#42382F"));
+        loading.setName("loadingPanel");
+
+        JPanel contentLoadingPanel = new JPanel();
+        contentLoadingPanel.setLayout(new BoxLayout(contentLoadingPanel, BoxLayout.Y_AXIS));
+        contentLoadingPanel.setBackground(Color.decode("#42382F"));
+
+        JLabel infoLoading = new JLabel(message);
+        infoLoading.setName("infoLoading");
+        infoLoading.setForeground(Color.WHITE);
+        infoLoading.setFont(new Font("Serif", Font.BOLD, 18));
+        infoLoading.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(infoLoading);
+
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
+        loadingImage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(loadingImage);
+
+        loading.add(contentLoadingPanel);
+        content.add(loading);
+        content.revalidate();
+        return loading;
+    }
+
+    public void removeLoadingContent(JPanel content, JPanel loading) {
+        content.remove(loading);
+        content.revalidate();
     }
 }

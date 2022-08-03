@@ -5,21 +5,15 @@
 package co.gararetech.cinemas.controller;
 
 import co.gararetech.cinemas.model.DashboardModel;
-import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.LoginView;
 import co.gararetech.cinemas.view.ProfileView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,17 +22,15 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Base64;
-import javax.imageio.ImageIO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -126,11 +118,13 @@ public class DashboardController {
 
     public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         if (model.getUserData() == null) {
+            view.getLoadingUser().dispose();
             JOptionPane.showMessageDialog(view, model.getInvalidMessage());
             LoginView loginView = new LoginView();
             loginView.setVisible(true);
             view.dispose();
         } else {
+            view.getLoadingUser().dispose();
             JSONObject userData = model.getUserData();
             System.out.println("---[ Get User Data ]---");
             System.out.println("User ID  : " + userData.getString("user_id"));
@@ -138,10 +132,13 @@ public class DashboardController {
             System.out.println("City ID  : " + userData.getString("city_id"));
             System.out.println("-----------------------");
             this.initToken();
+            view.setVisible(true);
         }
     }
 
     public void getCities() throws ProtocolException, IOException {
+        System.out.println("Get API Cities");
+
         URL url = model.getCitiesUrl();
 
         model.setConnection((HttpURLConnection) url.openConnection());
@@ -170,8 +167,51 @@ public class DashboardController {
         }
 
         JSONObject response = new JSONObject(responseContent.toString());
-        System.out.println("Get API Cities ..");
+        System.out.println("Load api cities success");
         model.setCityList(response.getJSONArray("results"));
+    }
+
+    public JSONObject getMovieDetail(String movieId) throws ProtocolException, IOException {
+        System.out.println("Get Movie Detail : " + movieId);
+
+        URL url = new URL(model.getMovieDetailUrl().toString() + movieId);
+
+        model.setConnection((HttpURLConnection) url.openConnection());
+        model.getConnection().setRequestMethod("GET");
+        model.getConnection().setRequestProperty("Authorization", "Bearer " + model.getToken());
+        model.getConnection().setConnectTimeout(5000);
+        model.getConnection().setReadTimeout(5000);
+
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
+        int status = model.getConnection().getResponseCode();
+
+        if (status > 299) {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        } else {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        }
+
+        JSONObject response = new JSONObject(responseContent.toString());
+        JSONObject result = null;
+
+        if (response.getBoolean("success")) {
+            System.out.println("Success get movie");
+            result = response.getJSONObject("results");
+        } else {
+            System.out.println("Failed get movie : " + response.toString());
+        }
+
+        return result;
     }
 
     public void setActiveButton(DashboardView view, String tabName) {
@@ -225,6 +265,18 @@ public class DashboardController {
 
             view.getBtnCinema().setBackground(Color.decode("#3D3C3A"));
             view.getBtnCinema().setForeground(Color.WHITE);
+        } else if (model.getActiveTab().equals("profile")) {
+            view.getBtnNowPlaying().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnNowPlaying().setForeground(Color.BLACK);
+
+            view.getBtnUpcoming().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnUpcoming().setForeground(Color.BLACK);
+
+            view.getBtnOrderHistory().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnOrderHistory().setForeground(Color.BLACK);
+
+            view.getBtnCinema().setBackground(Color.decode("#D9D9D9"));
+            view.getBtnCinema().setForeground(Color.BLACK);
         }
 
     }
@@ -235,12 +287,27 @@ public class DashboardController {
 
     }
 
-    public JPanel addLoadingContent(JPanel content) {
-        JPanel loading = new JPanel(new CardLayout(0, 185));
-        loading.setName("loadingPanel");
-        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
+    public JPanel addLoadingContent(JPanel content, String message) {
+        JPanel loading = new JPanel(new CardLayout(0, 200));
         loading.setBackground(Color.decode("#42382F"));
-        loading.add(loadingImage);
+        loading.setName("loadingPanel");
+
+        JPanel contentLoadingPanel = new JPanel();
+        contentLoadingPanel.setLayout(new BoxLayout(contentLoadingPanel, BoxLayout.Y_AXIS));
+        contentLoadingPanel.setBackground(Color.decode("#42382F"));
+
+        JLabel infoLoading = new JLabel(message);
+        infoLoading.setName("infoLoading");
+        infoLoading.setForeground(Color.WHITE);
+        infoLoading.setFont(new Font("Serif", Font.BOLD, 18));
+        infoLoading.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(infoLoading);
+
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
+        loadingImage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(loadingImage);
+
+        loading.add(contentLoadingPanel);
         content.add(loading);
         content.revalidate();
         return loading;
@@ -310,29 +377,60 @@ public class DashboardController {
         }
     }
 
-    public void refreshUserData() {
-        System.out.println("Refreshing userData");
-        new Thread() {
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                    String user_id = model.getUserData().getString("user_id");
-                    JSONArray newUserDataList = getUserList();
-                    for (int i = 0; i < newUserDataList.length(); i++) {
-                        JSONObject rowData = newUserDataList.getJSONObject(i);
-                        if (rowData.getString("user_id").equals(user_id)) {
-                            model.setUserData(rowData);
-                            model.setPlayingList(null);
-                            model.setUpcomingList(null);
-                            System.out.println("Refresh success for id " + rowData.getString("user_id"));
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+    public JDialog addDialogLoading(DashboardView view, String message) {
+        JDialog frame = new JDialog(view);
 
+        JPanel framePanel = new RoundedPanel();
+        framePanel.setBackground(Color.decode("#42382F"));
+        JPanel refreshPanel = new JPanel(new CardLayout(5, 5));
+        refreshPanel.setBackground(new Color(0, 0, 0, 0));
+        JPanel contentRefreshPane = new JPanel();
+        contentRefreshPane.setBackground(Color.decode("#42382F"));
+        refreshPanel.add(contentRefreshPane);
+
+        JLabel refreshContent = new JLabel();
+        ImageIcon loadIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif"));
+        refreshContent.setIcon(loadIcon);
+        refreshContent.setText(message);
+        refreshContent.setFont(new Font("Serial", Font.BOLD, 15));
+        refreshContent.setForeground(Color.WHITE);
+        contentRefreshPane.add(refreshContent);
+
+        refreshPanel.setPreferredSize(new Dimension(400, 50));
+        framePanel.add(refreshPanel);
+        frame.getContentPane().add(framePanel);
+
+        frame.setUndecorated(true);
+        frame.setBackground(new Color(0, 0, 0, 0));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    public void removeDialogLoading(DashboardView view) {
+        view.getLoadingUser().dispose();
+    }
+
+    public void refreshUserData(DashboardView view) throws InterruptedException, IOException {
+        if (model.getNeedRefresh()) {
+            System.out.println("Refreshing userData");
+            Thread.sleep(3000);
+            String user_id = model.getUserData().getString("user_id");
+            JSONArray newUserDataList = getUserList();
+            for (int i = 0; i < newUserDataList.length(); i++) {
+                JSONObject rowData = newUserDataList.getJSONObject(i);
+                if (rowData.getString("user_id").equals(user_id)) {
+                    model.setUserData(rowData);
+                    model.setPlayingList(null);
+                    model.setUpcomingList(null);
+                    System.out.println("Refresh success for id " + rowData.getString("user_id"));
+                    removeDialogLoading(view);
+                }
             }
-        }.start();
+        } else {
+            System.out.println("Opening dashboard, no need to refresh");
+        }
     }
 
 }

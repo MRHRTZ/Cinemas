@@ -65,7 +65,6 @@ public class LoginView extends javax.swing.JFrame {
     public void setMouseY(int mouseY) {
         this.mouseY = mouseY;
     }
-    
 
     public JButton getBtnLoginSave() {
         return btnLoginSave;
@@ -321,8 +320,8 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
-        this.setLocation(x-this.getMouseX(), y-this.getMouseY());
+
+        this.setLocation(x - this.getMouseX(), y - this.getMouseY());
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
@@ -333,12 +332,11 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:
-        loginController.loading(this.getBtnLoginSave(), true);
+        this.getBtnLoginSave().setEnabled(false);
         new Thread() {
             public void run() {
                 try {
                     loginController.submit(LoginView.this, new DashboardView());
-                    loginController.loading(LoginView.this.getBtnLoginSave(), false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

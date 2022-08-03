@@ -17,6 +17,7 @@ public class DashboardModel {
     private URL movieDetailUrl;
     private URL tokenEndpoint;
     private URL usersEndpoint;
+    private URL orderHistoryUrl;
     
     private JSONArray playingList;
     private JSONArray upcomingList;
@@ -42,12 +43,16 @@ public class DashboardModel {
             this.movieScheduleUrl = new URL(baseUrl + "v3/schedule");
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
             this.usersEndpoint = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
+            this.orderHistoryUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_order.php");
             this.invalidMessage = "Data user tidak valid, dimohon untuk login kembali.";
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public URL getOrderHistoryUrl() {
+        return orderHistoryUrl;
+    }
     public Boolean getNeedRefresh() {
         return needRefresh;
     }

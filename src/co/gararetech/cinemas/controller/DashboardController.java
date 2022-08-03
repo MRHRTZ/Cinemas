@@ -171,49 +171,6 @@ public class DashboardController {
         model.setCityList(response.getJSONArray("results"));
     }
 
-    public JSONObject getMovieDetail(String movieId) throws ProtocolException, IOException {
-        System.out.println("Get Movie Detail : " + movieId);
-
-        URL url = new URL(model.getMovieDetailUrl().toString() + movieId);
-
-        model.setConnection((HttpURLConnection) url.openConnection());
-        model.getConnection().setRequestMethod("GET");
-        model.getConnection().setRequestProperty("Authorization", "Bearer " + model.getToken());
-        model.getConnection().setConnectTimeout(5000);
-        model.getConnection().setReadTimeout(5000);
-
-        BufferedReader reader;
-        String line;
-        StringBuffer responseContent = new StringBuffer();
-        int status = model.getConnection().getResponseCode();
-
-        if (status > 299) {
-            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
-            while ((line = reader.readLine()) != null) {
-                responseContent.append(line);
-            }
-            reader.close();
-        } else {
-            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
-            while ((line = reader.readLine()) != null) {
-                responseContent.append(line);
-            }
-            reader.close();
-        }
-
-        JSONObject response = new JSONObject(responseContent.toString());
-        JSONObject result = null;
-
-        if (response.getBoolean("success")) {
-            System.out.println("Success get movie");
-            result = response.getJSONObject("results");
-        } else {
-            System.out.println("Failed get movie : " + response.toString());
-        }
-
-        return result;
-    }
-
     public void setActiveButton(DashboardView view, String tabName) {
         model.setActiveTab(tabName);
 

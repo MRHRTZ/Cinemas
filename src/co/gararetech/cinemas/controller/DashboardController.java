@@ -8,6 +8,7 @@ import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.LoginView;
 import co.gararetech.cinemas.view.ProfileView;
+import co.gararetech.cinemas.view.elements.RoundedPanel;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -331,8 +332,13 @@ public class DashboardController {
 
     public JDialog addDialogLoading(DashboardView view, String message) {
         JDialog frame = new JDialog(view);
+        
+        JPanel framePanel = new RoundedPanel();
+        framePanel.setBackground(Color.decode("#42382F"));
         JPanel refreshPanel = new JPanel(new CardLayout(5, 5));
+        refreshPanel.setBackground(new Color(0, 0, 0, 0));
         JPanel contentRefreshPane = new JPanel();
+        contentRefreshPane.setBackground(Color.decode("#42382F"));
         refreshPanel.add(contentRefreshPane);
 
         JLabel refreshContent = new JLabel();
@@ -340,13 +346,15 @@ public class DashboardController {
         refreshContent.setIcon(loadIcon);
         refreshContent.setText(message);
         refreshContent.setFont(new Font("Serial", Font.BOLD, 15));
-
+        refreshContent.setForeground(Color.WHITE);
         contentRefreshPane.add(refreshContent);
 
         refreshPanel.setPreferredSize(new Dimension(400, 50));
-        frame.getContentPane().add(refreshPanel);
+        framePanel.add(refreshPanel);
+        frame.getContentPane().add(framePanel);
 
         frame.setUndecorated(true);
+        frame.setBackground(new Color(0, 0, 0, 0));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

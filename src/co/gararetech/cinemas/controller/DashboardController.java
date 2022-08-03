@@ -22,6 +22,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -135,6 +137,8 @@ public class DashboardController {
     }
 
     public void getCities() throws ProtocolException, IOException {
+        System.out.println("Get API Cities");
+
         URL url = model.getCitiesUrl();
 
         model.setConnection((HttpURLConnection) url.openConnection());
@@ -163,8 +167,51 @@ public class DashboardController {
         }
 
         JSONObject response = new JSONObject(responseContent.toString());
-        System.out.println("Get API Cities ..");
+        System.out.println("Load api cities success");
         model.setCityList(response.getJSONArray("results"));
+    }
+
+    public JSONObject getMovieDetail(String movieId) throws ProtocolException, IOException {
+        System.out.println("Get Movie Detail : " + movieId);
+
+        URL url = new URL(model.getMovieDetailUrl().toString() + movieId);
+
+        model.setConnection((HttpURLConnection) url.openConnection());
+        model.getConnection().setRequestMethod("GET");
+        model.getConnection().setRequestProperty("Authorization", "Bearer " + model.getToken());
+        model.getConnection().setConnectTimeout(5000);
+        model.getConnection().setReadTimeout(5000);
+
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
+        int status = model.getConnection().getResponseCode();
+
+        if (status > 299) {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        } else {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        }
+
+        JSONObject response = new JSONObject(responseContent.toString());
+        JSONObject result = null;
+
+        if (response.getBoolean("success")) {
+            System.out.println("Success get movie");
+            result = response.getJSONObject("results");
+        } else {
+            System.out.println("Failed get movie : " + response.toString());
+        }
+
+        return result;
     }
 
     public void setActiveButton(DashboardView view, String tabName) {
@@ -244,22 +291,22 @@ public class DashboardController {
         JPanel loading = new JPanel(new CardLayout(0, 200));
         loading.setBackground(Color.decode("#42382F"));
         loading.setName("loadingPanel");
-        
+
         JPanel contentLoadingPanel = new JPanel();
         contentLoadingPanel.setLayout(new BoxLayout(contentLoadingPanel, BoxLayout.Y_AXIS));
         contentLoadingPanel.setBackground(Color.decode("#42382F"));
-        
-        JLabel infoLoading = new JLabel(message);   
+
+        JLabel infoLoading = new JLabel(message);
         infoLoading.setName("infoLoading");
         infoLoading.setForeground(Color.WHITE);
         infoLoading.setFont(new Font("Serif", Font.BOLD, 18));
         infoLoading.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         contentLoadingPanel.add(infoLoading);
-        
+
         JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
         loadingImage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         contentLoadingPanel.add(loadingImage);
-        
+
         loading.add(contentLoadingPanel);
         content.add(loading);
         content.revalidate();
@@ -332,7 +379,7 @@ public class DashboardController {
 
     public JDialog addDialogLoading(DashboardView view, String message) {
         JDialog frame = new JDialog(view);
-        
+
         JPanel framePanel = new RoundedPanel();
         framePanel.setBackground(Color.decode("#42382F"));
         JPanel refreshPanel = new JPanel(new CardLayout(5, 5));

@@ -84,42 +84,45 @@ public class LoginController {
     public void submit(LoginView login, DashboardView dashboard) {
         String email = login.getTxtEmail().getText();
         String password = String.valueOf(login.getTxtPassword().getPassword());
+        dashboard.setLoadingUser(dashboard.getDashboardController().addDialogLoading(dashboard, "Proses validasi, tunggu sebentar .."));
+        new Thread() {
+            public void run() {
+                try {
 
-        JSONObject userData = null;
+                    JSONArray userList = getUserList();
+                    for (int i = 0; i < userList.length(); i++) {
+                        JSONObject row = userList.getJSONObject(i);
 
-        try {
-            JSONArray userList = getUserList();
-            for (int i = 0; i < userList.length(); i++) {
-                JSONObject row = userList.getJSONObject(i);
-
-                if (row.getString("email").equals(email)) {
-                    userData = row;
+                        if (row.getString("email").equals(email)) {
+                            model.setUserData(row);
+                        }
+                    }
+                    
+                    JSONObject userData = model.getUserData();
+                    if (email.equals("") && password.equals("")) {
+                        dashboard.getModel().setInvalidMessage("Data email dan password tidak boleh kosong");
+                        login.dispose();
+                    } else if (userData == null) {
+                        dashboard.getModel().setInvalidMessage("Email atau Password salah!");
+                        login.dispose();
+                        System.out.println("Failed login invalid email " + email + ":" + password);
+                    } else {
+                        String md5Password = MD5(password);
+                        if (md5Password.equals(userData.getString("password"))) {
+                            dashboard.getModel().setUserData(userData);
+                            System.out.println("Success login " + email + ":" + password);
+                            login.dispose();
+                        } else {
+                            System.out.println("Failed login wrong password " + email + ":" + password);
+                            dashboard.getModel().setInvalidMessage("Email atau Password salah!");
+                            login.dispose();
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
-            if (email.equals("") && password.equals("")) {
-                dashboard.getModel().setInvalidMessage("Data email dan password tidak boleh kosong");
-                login.dispose();
-            } else if (userData == null) {
-                dashboard.getModel().setInvalidMessage("Email atau Password salah!");
-                login.dispose();
-                System.out.println("Failed login invalid email " + email + ":" + password);
-            } else {
-                String md5Password = MD5(password);
-                if (md5Password.equals(userData.getString("password"))) {
-                    dashboard.getModel().setUserData(userData);
-                    System.out.println("Success login " + email + ":" + password);
-                    login.dispose();
-                    dashboard.setVisible(true);
-                } else {
-                    System.out.println("Failed login wrong password " + email + ":" + password);
-                    dashboard.getModel().setInvalidMessage("Email atau Password salah!");
-                    login.dispose();
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }.start();
     }
 
     public void viewRegister(LoginView login, RegisterView register) {

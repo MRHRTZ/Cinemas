@@ -55,9 +55,20 @@ public class ProfileController {
 
     public void back(ProfileView profileView, DashboardView dashboardView) {
         profileView.setVisible(false);
-        dashboardView.setVisible(true);
-        dashboardView.getDashboardController().refreshUserData();
+        DashboardController dashboardController = dashboardView.getDashboardController();
+        dashboardController.getModel().setNeedRefresh(true);
+        dashboardView.setLoadingUser(dashboardController.addDialogLoading(dashboardView, " Sedang memperbarui data pengguna .."));
+        new Thread() {
+            public void run() {
+                try {
+                    dashboardView.getDashboardController().refreshUserData(dashboardView);
+                    dashboardView.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
+            }
+        }.start();
     }
 
     public void selectedChangePassword(ProfileView view, ChangeEvent evt) {
@@ -77,9 +88,9 @@ public class ProfileController {
         String city_id = userData.getString("city_id");
         String email = userData.getString("email");
         String password = userData.getString("password");
-        
+
         String urlParameters;
-        
+
         if (!userData.isNull("image")) {
             String image = userData.getString("image");
             if (image.equals("")) {
@@ -87,7 +98,7 @@ public class ProfileController {
             } else {
                 urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password + "&image=" + image;
             }
-            
+
         } else {
             urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password;
         }

@@ -28,6 +28,7 @@ public class DashboardModel {
     private JSONObject userData;
     private String activeTab;
     private String invalidMessage;
+    private Boolean needRefresh;
     
     public DashboardModel() {
         try {
@@ -45,11 +46,15 @@ public class DashboardModel {
         }
     }
 
+    public Boolean getNeedRefresh() {
+        return needRefresh;
+    }
+    public void setNeedRefresh(Boolean needRefresh) {
+        this.needRefresh = needRefresh;
+    }
     public URL getUsersEndpoint() {
         return usersEndpoint;
     }
-
-    
     public String getInvalidMessage() {
         return invalidMessage;
     }

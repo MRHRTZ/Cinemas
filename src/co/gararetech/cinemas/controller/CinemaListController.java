@@ -127,7 +127,7 @@ public class CinemaListController {
         if(listData.isEmpty()){
             JLabel posterImage = new JLabel();
             BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/gadabioskop.png"));
-            Image scaledPoster = rawPosterImg.getScaledInstance(450, 290, Image.SCALE_SMOOTH);
+            Image scaledPoster = rawPosterImg.getScaledInstance(550, 290, Image.SCALE_SMOOTH);
             ImageIcon iconPoster = new ImageIcon(scaledPoster);
             posterImage.setHorizontalAlignment(SwingConstants.CENTER);
             posterImage.setIcon(iconPoster);

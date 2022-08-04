@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -282,12 +283,11 @@ public class DashboardController {
         view.setState(DashboardView.ICONIFIED);
     }
 
-    public void viewProfile(DashboardView dashboardView, ProfileView profileView) {
+    public void viewProfile(DashboardView dashboardView, ProfileView profileView) throws MalformedURLException, IOException {
         if (model.getCityList() == null) {
             JOptionPane.showMessageDialog(dashboardView, "Masih proses loading, tunggu sebentar ...");
             viewProfile(dashboardView, profileView);
         } else {
-            dashboardView.setVisible(false);
             profileView.getjCity().removeAllItems();
             JSONArray cities = model.getCityList();
             for (int i = 0; i < cities.length(); i++) {
@@ -304,10 +304,11 @@ public class DashboardController {
                     ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
                     profileView.getProfilePicture().setIcon(defaultIcon);
                 } else {
-                    String base64 = model.getUserData().getString("image").replaceAll(" ", "+");
-                    byte[] imageBuffer = Base64.getMimeDecoder().decode(base64);
+                    System.out.println("Img url : " + model.getUserData().getString("image"));
+                    URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
+                    Image iconURL = ImageIO.read(dataImageUrl);
 
-                    ImageIcon image = new ImageIcon(imageBuffer);
+                    ImageIcon image = new ImageIcon(iconURL);
                     Image img;
                     if (image.getIconWidth() > image.getIconHeight()) {
                         img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);
@@ -322,11 +323,9 @@ public class DashboardController {
             }
 
             profileView.setDashboardView(dashboardView);
-
             profileView.getProfileModel().setUserData(model.getUserData());
-
             profileView.setVisible(true);
-
+            dashboardView.setVisible(false);
         }
     }
 
@@ -381,6 +380,7 @@ public class DashboardController {
                     removeDialogLoading(view);
                 }
             }
+            removeContent(view);
         } else {
             System.out.println("Opening dashboard, no need to refresh");
         }

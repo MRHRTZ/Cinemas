@@ -9,12 +9,14 @@ import co.gararetech.cinemas.controller.RegisterController;
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.model.ProfileModel;
 import co.gararetech.cinemas.model.RegisterModel;
+import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.view.elements.RoundJCity;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,28 +42,33 @@ public class ProfileView extends javax.swing.JFrame {
     /**
      * Creates new form ProfilView
      */
+    private GoogleCloudStorage googleCloudStorage;
     private ProfileController profileController;
     private ProfileModel profileModel;
     private DashboardView dashboardView;
     private ImageIcon appIcon;
     private int mouseX;
     private int mouseY;
-    
-    public ProfileView() throws ClassNotFoundException, IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException{
+
+    public ProfileView() throws ClassNotFoundException, IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, URISyntaxException, IOException {
         Properties p = new Properties();
         p.put("windowTitleFont", "Ebrima PLAIN 15");
         p.put("logoString", "");
         p.put("windowDecoration", "off");
         AluminiumLookAndFeel.setCurrentTheme(p);
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+
         profileController = new ProfileController();
         profileModel = new ProfileModel();
+        googleCloudStorage = new GoogleCloudStorage();
+
         initComponents();
+
+        profileController.setModel(profileModel);
+
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
-        profileController.setModel(profileModel);
     }
-
 
     public void setDashboardView(DashboardView dashboardView) {
         this.dashboardView = dashboardView;
@@ -70,7 +77,7 @@ public class ProfileView extends javax.swing.JFrame {
     public DashboardView getDashboardView() {
         return dashboardView;
     }
-    
+
     public ProfileController getProfileController() {
         return profileController;
     }
@@ -122,9 +129,12 @@ public class ProfileView extends javax.swing.JFrame {
     public JButton getBtnProfileSave() {
         return btnProfileSave;
     }
+
+    public GoogleCloudStorage getGoogleCloudStorage() {
+        return googleCloudStorage;
+    }
     
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -397,7 +407,7 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
 
-        this.setLocation(x-this.getMouseX(), y-this.getMouseY());
+        this.setLocation(x - this.getMouseX(), y - this.getMouseY());
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
@@ -417,7 +427,7 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
 
     private void profilePictureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePictureMouseClicked
         try {
-            profileController.chooseImage(this);
+            profileController.chooseImage(this, this.getGoogleCloudStorage());
         } catch (IOException ex) {
             Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -463,6 +473,10 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
                 } catch (UnsupportedLookAndFeelException ex) {
                     Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InstantiationException ex) {
+                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

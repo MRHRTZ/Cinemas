@@ -6,12 +6,14 @@ import co.gararetech.cinemas.controller.NowPlayingController;
 import co.gararetech.cinemas.controller.OrderHistoryContoller;
 import co.gararetech.cinemas.controller.UpcomingController;
 import co.gararetech.cinemas.model.DashboardModel;
+import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ public class DashboardView extends javax.swing.JFrame {
     private OrderHistoryContoller orderHistoryController;
     private CinemaListController cinemaListController;
     private DashboardController dashboardController;
+    private GoogleCloudStorage googleCloudStorage;
     private DashboardModel dashboardModel;
     private ImageIcon appIcon;
     private JPanel loadingPanel;
@@ -38,7 +41,7 @@ public class DashboardView extends javax.swing.JFrame {
     private int mousepX;
     private int mousepY;
 
-    public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException {
+    public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException, URISyntaxException, IOException {
         Properties p = new Properties();
         p.put("windowTitleFont", "Ebrima PLAIN 15");
         p.put("logoString", "");
@@ -52,6 +55,7 @@ public class DashboardView extends javax.swing.JFrame {
         upcomingController = new UpcomingController();
         cinemaListController = new CinemaListController();
         orderHistoryController = new OrderHistoryContoller();
+        googleCloudStorage = new GoogleCloudStorage();
 
         initComponents();
 
@@ -484,31 +488,49 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void editProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileActionPerformed
         // TODO add your handling code here:
-        try {
-            dashboardController.viewProfile(this, new ProfileView());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    dashboardController.viewProfile(DashboardView.this, new ProfileView());
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
     }//GEN-LAST:event_editProfileActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         try {
             // TODO add your handling code here:
             dashboardController.logout(this, new LoginView());
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DashboardView.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DashboardView.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DashboardView.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DashboardView.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_LogoutActionPerformed
 
@@ -526,16 +548,24 @@ public class DashboardView extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardView.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -544,14 +574,30 @@ public class DashboardView extends javax.swing.JFrame {
             public void run() {
                 try {
                     new DashboardView().setVisible(false);
+
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DashboardView.class
+                            .getName()).log(Level.SEVERE, null, ex);
+
                 } catch (InstantiationException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DashboardView.class
+                            .getName()).log(Level.SEVERE, null, ex);
+
                 } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DashboardView.class
+                            .getName()).log(Level.SEVERE, null, ex);
+
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DashboardView.class
+                            .getName()).log(Level.SEVERE, null, ex);
+
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(DashboardView.class
+                            .getName()).log(Level.SEVERE, null, ex);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

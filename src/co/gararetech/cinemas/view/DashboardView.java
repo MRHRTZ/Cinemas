@@ -165,10 +165,10 @@ public class DashboardView extends javax.swing.JFrame {
 
         popupProfile = new javax.swing.JPopupMenu();
         editProfile = new javax.swing.JMenuItem();
-        Logout = new javax.swing.JMenuItem();
         bugReport = new javax.swing.JMenuItem();
-        line = new javax.swing.JPopupMenu.Separator();
         aboutUs = new javax.swing.JMenuItem();
+        line = new javax.swing.JPopupMenu.Separator();
+        Logout = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnNowPlaying = new javax.swing.JButton();
@@ -191,6 +191,15 @@ public class DashboardView extends javax.swing.JFrame {
         });
         popupProfile.add(editProfile);
 
+        bugReport.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        bugReport.setText("Bug Report");
+        popupProfile.add(bugReport);
+
+        aboutUs.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        aboutUs.setText("About Us");
+        popupProfile.add(aboutUs);
+        popupProfile.add(line);
+
         Logout.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
@@ -199,15 +208,6 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         popupProfile.add(Logout);
-
-        bugReport.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        bugReport.setText("Bug Report");
-        popupProfile.add(bugReport);
-        popupProfile.add(line);
-
-        aboutUs.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        aboutUs.setText("About Us");
-        popupProfile.add(aboutUs);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");

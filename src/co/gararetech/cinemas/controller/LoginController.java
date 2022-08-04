@@ -120,6 +120,8 @@ public class LoginController {
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(login, "Error ketika mengakses : " + ex.getMessage());
+                    System.exit(0);
                 }
             }
         }.start();
@@ -139,8 +141,7 @@ public class LoginController {
     }
 
     public void exitButton(LoginView view) {
-        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas",
-                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }

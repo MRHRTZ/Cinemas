@@ -117,23 +117,19 @@ public class DashboardController {
     }
 
     public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
-        if (model.getUserData() == null) {
-            view.getLoadingUser().dispose();
-            JOptionPane.showMessageDialog(view, model.getInvalidMessage());
-            LoginView loginView = new LoginView();
-            loginView.setVisible(true);
-            view.dispose();
-        } else {
-            view.getLoadingUser().dispose();
-            JSONObject userData = model.getUserData();
-            System.out.println("---[ Get User Data ]---");
-            System.out.println("User ID  : " + userData.getString("user_id"));
-            System.out.println("Email    : " + userData.getString("email"));
-            System.out.println("City ID  : " + userData.getString("city_id"));
-            System.out.println("-----------------------");
-            this.initToken();
-            view.setVisible(true);
+        while (model.getUserData() == null) {
+            // While user data model empty, do nothing.
         }
+        view.getLoadingUser().dispose();
+        JSONObject userData = model.getUserData();
+        System.out.println("---[ Get User Data ]---");
+        System.out.println("User ID  : " + userData.getString("user_id"));
+        System.out.println("Email    : " + userData.getString("email"));
+        System.out.println("City ID  : " + userData.getString("city_id"));
+        System.out.println("-----------------------");
+        this.initToken();
+        view.setVisible(true);
+
     }
 
     public void getCities() throws ProtocolException, IOException {
@@ -387,6 +383,13 @@ public class DashboardController {
             }
         } else {
             System.out.println("Opening dashboard, no need to refresh");
+        }
+    }
+    
+    public void logout(DashboardView dashboardView, LoginView loginView) {
+        if (JOptionPane.showConfirmDialog(dashboardView, "Apakah anda mau mengakhiri hidup anda ?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            dashboardView.dispose();
+            loginView.setVisible(true);
         }
     }
 

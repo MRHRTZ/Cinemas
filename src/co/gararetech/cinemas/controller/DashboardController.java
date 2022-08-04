@@ -380,7 +380,6 @@ public class DashboardController {
                     removeDialogLoading(view);
                 }
             }
-            removeContent(view);
         } else {
             System.out.println("Opening dashboard, no need to refresh");
         }

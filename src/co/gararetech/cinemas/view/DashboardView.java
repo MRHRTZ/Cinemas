@@ -165,8 +165,10 @@ public class DashboardView extends javax.swing.JFrame {
 
         popupProfile = new javax.swing.JPopupMenu();
         editProfile = new javax.swing.JMenuItem();
-        line = new javax.swing.JPopupMenu.Separator();
         Logout = new javax.swing.JMenuItem();
+        bugReport = new javax.swing.JMenuItem();
+        line = new javax.swing.JPopupMenu.Separator();
+        aboutUs = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnNowPlaying = new javax.swing.JButton();
@@ -180,6 +182,7 @@ public class DashboardView extends javax.swing.JFrame {
         contentPane.getVerticalScrollBar().setUnitIncrement(25);
         content = new javax.swing.JPanel();
 
+        editProfile.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         editProfile.setText("Edit Profile");
         editProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,7 +190,6 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         popupProfile.add(editProfile);
-        popupProfile.add(line);
 
         Logout.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         Logout.setText("Logout");
@@ -197,6 +199,15 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         popupProfile.add(Logout);
+
+        bugReport.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        bugReport.setText("Bug Report");
+        popupProfile.add(bugReport);
+        popupProfile.add(line);
+
+        aboutUs.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        aboutUs.setText("About Us");
+        popupProfile.add(aboutUs);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
@@ -548,11 +559,13 @@ public class DashboardView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Logout;
+    private javax.swing.JMenuItem aboutUs;
     private javax.swing.JButton btnCinema;
     private javax.swing.JButton btnCinema1;
     private javax.swing.JButton btnNowPlaying;
     private javax.swing.JButton btnOrderHistory;
     private javax.swing.JButton btnUpcoming;
+    private javax.swing.JMenuItem bugReport;
     private javax.swing.JPanel content;
     private javax.swing.JScrollPane contentPane;
     private javax.swing.JMenuItem editProfile;

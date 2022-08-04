@@ -46,16 +46,17 @@ import org.json.JSONObject;
  * @author user
  */
 public class OrderHistoryContoller {
+
     private DashboardModel model;
 
     public DashboardModel getModel() {
         return model;
     }
-    
+
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public JSONObject getMovieDetail(String movieId) throws ProtocolException, IOException {
         System.out.println("Get Movie Detail : " + movieId);
 
@@ -98,7 +99,7 @@ public class OrderHistoryContoller {
 
         return result;
     }
-    
+
     public JSONArray getOrderHistory() throws MalformedURLException, IOException {
         System.out.println("Get Order History");
         URL url = new URL(model.getOrderHistoryUrl().toString() + "?uid=" + model.getUserData().getString("user_id"));
@@ -129,16 +130,15 @@ public class OrderHistoryContoller {
 
         return new JSONArray(responseContent.toString());
     }
-    
-    public void setGrid(DashboardView view)throws IOException{
-        
+
+    public void setGrid(DashboardView view) throws IOException {
+        System.out.println("Building Order History Content");
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
         gridPanel.setBackground(Color.decode("#42382F"));
-        System.out.println("Masuk set Grid");
-        
+
         JSONArray orderList = getOrderHistory();
-        if(orderList.isEmpty()){
+        if (orderList.isEmpty()) {
             System.out.println("Uji");
             JLabel posterImage = new JLabel();
             BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/history kosong.png"));
@@ -146,18 +146,14 @@ public class OrderHistoryContoller {
             ImageIcon iconPoster = new ImageIcon(scaledPoster);
             posterImage.setHorizontalAlignment(SwingConstants.CENTER);
             posterImage.setIcon(iconPoster);
-            
+
             view.getContent().add(posterImage);
-        }else{
-            
+        } else {
             for (int i = 0; i < orderList.length(); i++) {
                 JSONObject rowData = orderList.getJSONObject(i);
                 JSONObject movieDetail = getMovieDetail(rowData.getString("movie_id"));
-
-                String sutradara = movieDetail.getString("director");
-                System.out.println("sutradara : " + sutradara);
-
-
+                removeLoadingContent(view.getContent(), view.getLoadingPanel());
+                view.setLoadingPanel(addLoadingContent(view.getContent(), "GET Order ID " + rowData.getString("order_id")));
                 // Grid panel
                 final JPanel contentPanel = new JPanel();
                 contentPanel.setLayout(new CardLayout(20, 10));
@@ -171,103 +167,133 @@ public class OrderHistoryContoller {
                 cardPanel.setMaximumSize(new Dimension(50, 50));
                 cardPanel.setBackground(Color.decode("#222222"));
 
-
-    //         // Poster
+                // Poster
                 JLabel posterImage = new JLabel();
                 BufferedImage rawPosterImg = ImageIO.read(new URL(movieDetail.getString("poster")));
                 Image scaledPoster = rawPosterImg.getScaledInstance(155, 250, Image.SCALE_SMOOTH);
                 ImageIcon iconPoster = new ImageIcon(scaledPoster);
-                posterImage.setBounds(40,35, iconPoster.getIconWidth(), iconPoster.getIconHeight());
+                posterImage.setBounds(40, 35, iconPoster.getIconWidth(), iconPoster.getIconHeight());
                 posterImage.setIcon(iconPoster);
                 cardPanel.add(posterImage);
-                
+
                 int heightSpace = 38;
                 int labelX = 40 + 135 + 40;
                 int labelXStudio = 208 + 450 + 208;
-                
+
                 JLabel idTiket = new JLabel();
-                idTiket.setText("#"+rowData.getString("order_id"));
+                idTiket.setText("#" + rowData.getString("order_id"));
                 idTiket.setForeground(Color.WHITE);
                 idTiket.setFont(new Font("Serif", Font.PLAIN, 35));
                 idTiket.setBounds(labelX, heightSpace, 500, 50);
                 cardPanel.add(idTiket);
-                
+
                 JLabel judulFilm = new JLabel();
                 judulFilm.setText(movieDetail.getString("name"));
                 judulFilm.setForeground(Color.WHITE);
                 judulFilm.setFont(new Font("Serif", Font.PLAIN, 25));
-                judulFilm.setBounds(labelX, heightSpace*2, 580, 70);
+                judulFilm.setBounds(labelX, heightSpace * 2, 580, 70);
                 cardPanel.add(judulFilm);
-                
+
                 JLabel lokasi = new JLabel();
                 BufferedImage rawPoster2 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imgLks = rawPoster2.getScaledInstance(20,30, Image.SCALE_SMOOTH);
+                Image imgLks = rawPoster2.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconLks = new ImageIcon(imgLks);
                 lokasi.setIcon(iconLks);
-                lokasi.setText("  "+rowData.getString("theater_name"));
+                lokasi.setText("  " + rowData.getString("theater_name"));
                 lokasi.setForeground(Color.WHITE);
                 lokasi.setFont(new Font("Serif", Font.PLAIN, 15));
-                lokasi.setBounds(labelX, heightSpace*3, 500, 70);
+                lokasi.setBounds(labelX, heightSpace * 3, 500, 70);
                 cardPanel.add(lokasi);
-                
+
                 JLabel kursi = new JLabel();
                 BufferedImage rawPoster3 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imgKrs = rawPoster3.getScaledInstance(20,30, Image.SCALE_SMOOTH);
+                Image imgKrs = rawPoster3.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconKrs = new ImageIcon(imgKrs);
                 kursi.setIcon(iconKrs);
-                kursi.setText("  "+rowData.getString("chair"));
+                kursi.setText("  " + rowData.getString("chair"));
                 kursi.setForeground(Color.WHITE);
                 kursi.setFont(new Font("Serif", Font.PLAIN, 15));
-                kursi.setBounds(labelX, heightSpace*4, 500, 70);
+                kursi.setBounds(labelX, heightSpace * 4, 500, 70);
                 cardPanel.add(kursi);
-                
+
                 JLabel tanggal = new JLabel();
                 BufferedImage rawPoster4 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imgtgl = rawPoster4.getScaledInstance(20,30, Image.SCALE_SMOOTH);
+                Image imgtgl = rawPoster4.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconImg = new ImageIcon(imgtgl);
                 tanggal.setIcon(iconImg);
-                tanggal.setText("  "+rowData.getString("updated_at"));
+                tanggal.setText("  " + rowData.getString("updated_at"));
                 tanggal.setForeground(Color.WHITE);
                 tanggal.setFont(new Font("Serif", Font.PLAIN, 15));
-                tanggal.setBounds(labelX, heightSpace*5, 500, 70);
+                tanggal.setBounds(labelX, heightSpace * 5, 500, 70);
                 cardPanel.add(tanggal);
-                
+
                 JLabel harga = new JLabel();
                 BufferedImage rawPoster5 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imghrg = rawPoster5.getScaledInstance(20,30, Image.SCALE_SMOOTH);
+                Image imghrg = rawPoster5.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconHrg = new ImageIcon(imghrg);
                 harga.setIcon(iconHrg);
-                harga.setText("  Rp."+rowData.getString("total"));
+                harga.setText("  Rp." + rowData.getString("total"));
                 harga.setForeground(Color.WHITE);
                 harga.setFont(new Font("Serif", Font.PLAIN, 15));
-                harga.setBounds(labelX, heightSpace*6, 500, 70);
+                harga.setBounds(labelX, heightSpace * 6, 500, 70);
                 cardPanel.add(harga);
-                
-                if(rowData.getString("movie_status").equals("active")){
+
+                if (rowData.getString("movie_status").equals("active")) {
                     JLabel sudahTayang = new JLabel();
                     BufferedImage sudahTayangImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/Sudah Tayang.png"));
-                    Image imgSdhTyg = sudahTayangImg.getScaledInstance(220,200, Image.SCALE_SMOOTH);
-                    ImageIcon iconTyg= new ImageIcon(imgSdhTyg);
+                    Image imgSdhTyg = sudahTayangImg.getScaledInstance(275, 200, Image.SCALE_SMOOTH);
+                    ImageIcon iconTyg = new ImageIcon(imgSdhTyg);
                     sudahTayang.setIcon(iconTyg);
-                    sudahTayang.setBounds(labelXStudio, heightSpace, 500, 250);
+                    sudahTayang.setBounds(labelXStudio - 28, heightSpace, 500, 250);
                     cardPanel.add(sudahTayang);
                 }
-                
-                JLabel studio= new JLabel();
-                studio.setText("AULA "+rowData.getString("studio_hall"));
+
+                JLabel studio = new JLabel();
+                studio.setText("AULA " + rowData.getString("studio_hall"));
                 studio.setForeground(Color.WHITE);
                 studio.setFont(new Font("Serif", Font.PLAIN, 50));
-                studio.setBounds(labelXStudio, (heightSpace*4)-24, 580, 70);
+                studio.setBounds(labelXStudio, (heightSpace * 4) - 24, 580, 70);
                 cardPanel.add(studio);
-                
+
                 contentPanel.add(cardPanel);
                 gridPanel.add(contentPanel);
 
                 gridPanel.add(Box.createVerticalBox());
                 view.getContent().add(gridPanel);
 
-            System.out.println("Success Load Grid");
-        } 
+            }
+            System.out.println("Success Load Order History");
         }
+    }
+    
+    public JPanel addLoadingContent(JPanel content, String message) {
+        JPanel loading = new JPanel(new CardLayout(0, 200));
+        loading.setBackground(Color.decode("#42382F"));
+        loading.setName("loadingPanel");
+
+        JPanel contentLoadingPanel = new JPanel();
+        contentLoadingPanel.setLayout(new BoxLayout(contentLoadingPanel, BoxLayout.Y_AXIS));
+        contentLoadingPanel.setBackground(Color.decode("#42382F"));
+
+        JLabel infoLoading = new JLabel(message);
+        infoLoading.setName("infoLoading");
+        infoLoading.setForeground(Color.WHITE);
+        infoLoading.setFont(new Font("Serif", Font.BOLD, 18));
+        infoLoading.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(infoLoading);
+
+        JLabel loadingImage = new JLabel(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/content-load.gif")));
+        loadingImage.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        contentLoadingPanel.add(loadingImage);
+
+        loading.add(contentLoadingPanel);
+        content.add(loading);
+        content.revalidate();
+        return loading;
+    }
+    
+    public void removeLoadingContent(JPanel content, JPanel loading) {
+        content.remove(loading);
+        content.revalidate();
     }
 }

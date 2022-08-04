@@ -141,7 +141,7 @@ public class OrderHistoryContoller {
         if(orderList.isEmpty()){
             System.out.println("Uji");
             JLabel posterImage = new JLabel();
-            BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/historyEmpty.png"));
+            BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/history kosong.png"));
             Image scaledPoster = rawPosterImg.getScaledInstance(400, 250, Image.SCALE_SMOOTH);
             ImageIcon iconPoster = new ImageIcon(scaledPoster);
             posterImage.setHorizontalAlignment(SwingConstants.CENTER);

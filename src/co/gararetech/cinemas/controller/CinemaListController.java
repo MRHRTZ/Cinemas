@@ -21,6 +21,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -119,71 +120,83 @@ public class CinemaListController {
         JPanel gridPane = new JPanel();
         gridPane.setLayout(new BoxLayout(gridPane, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
         gridPane.setBackground(Color.decode("#42382F"));
-
+        
+        
         // List Data
         JSONArray listData = model.getCinemaList();
-        for (int i = 0; i < listData.length(); i++) {
-            JSONObject rowData = listData.getJSONObject(i);
-            removeLoadingContent(view.getContent(), view.getLoadingPanel());
-            view.setLoadingPanel(addLoadingContent(view.getContent(), "GET THEATER : " + rowData.getString("name")));
+        if(listData.isEmpty()){
+            JLabel posterImage = new JLabel();
+            BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/gadabioskop.png"));
+            Image scaledPoster = rawPosterImg.getScaledInstance(450, 290, Image.SCALE_SMOOTH);
+            ImageIcon iconPoster = new ImageIcon(scaledPoster);
+            posterImage.setHorizontalAlignment(SwingConstants.CENTER);
+            posterImage.setIcon(iconPoster);
+            
+            view.getContent().add(posterImage);
+        }else{
+            for (int i = 0; i < listData.length(); i++) {
+                JSONObject rowData = listData.getJSONObject(i);
+                removeLoadingContent(view.getContent(), view.getLoadingPanel());
+                view.setLoadingPanel(addLoadingContent(view.getContent(), "GET THEATER : " + rowData.getString("name")));
 
-            // Grid panel
-            final JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new CardLayout(50, 10));
-            contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 90));
-            contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 90));
-            contentPanel.setBackground(Color.decode("#42382F"));
+                // Grid panel
+                final JPanel contentPanel = new JPanel();
+                contentPanel.setLayout(new CardLayout(50, 10));
+                contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 90));
+                contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 90));
+                contentPanel.setBackground(Color.decode("#42382F"));
 
-            // Card Panel
-            final JPanel cardPanel = new RoundedPanel();
-            cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS));
-            cardPanel.setMaximumSize(new Dimension(150, 50));
-            cardPanel.setBackground(Color.decode("#222222"));
+                // Card Panel
+                final JPanel cardPanel = new RoundedPanel();
+                cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS));
+                cardPanel.setMaximumSize(new Dimension(150, 50));
+                cardPanel.setBackground(Color.decode("#222222"));
 
-            // Card cinemas content
-            RoundJButton cardContent = new RoundJButton();
-            cardContent.setLayout(new BorderLayout());
-            cardContent.setBackground(Color.decode("#222222"));
-            cardContent.setForeground(Color.decode("#222222"));
-            cardContent.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    viewTheaterDetail(view, rowData);
-                }
-            });
+                // Card cinemas content
+                RoundJButton cardContent = new RoundJButton();
+                cardContent.setLayout(new BorderLayout());
+                cardContent.setBackground(Color.decode("#222222"));
+                cardContent.setForeground(Color.decode("#222222"));
+                cardContent.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        viewTheaterDetail(view, rowData);
+                    }
+                });
 
-            // Star icon like rating
-            JLabel starIcon = new JLabel();
-            URL starIconPath = getClass().getResource("/co/gararetech/cinemas/view/images/star-25.png");
-            ImageIcon starImage = new ImageIcon(starIconPath);
-            starIcon.setIcon(starImage);
-            starIcon.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-            starIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-            cardContent.add(starIcon, BorderLayout.WEST);
+                // Star icon like rating
+                JLabel starIcon = new JLabel();
+                URL starIconPath = getClass().getResource("/co/gararetech/cinemas/view/images/star-25.png");
+                ImageIcon starImage = new ImageIcon(starIconPath);
+                starIcon.setIcon(starImage);
+                starIcon.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+                starIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+                cardContent.add(starIcon, BorderLayout.WEST);
 
-            // Theater Name
-            JLabel theaterTitle = new JLabel();
-            theaterTitle.setText(" " + rowData.getString("name"));
-            theaterTitle.setFont(new Font("Serif", Font.BOLD, 18));
-            theaterTitle.setForeground(Color.WHITE);
-            cardContent.add(theaterTitle, BorderLayout.CENTER);
+                // Theater Name
+                JLabel theaterTitle = new JLabel();
+                theaterTitle.setText(" " + rowData.getString("name"));
+                theaterTitle.setFont(new Font("Serif", Font.BOLD, 18));
+                theaterTitle.setForeground(Color.WHITE);
+                cardContent.add(theaterTitle, BorderLayout.CENTER);
 
-            // Icon >
-            JLabel btnIcon = new JLabel();
-            btnIcon.setText(">   ");
-            btnIcon.setFont(new Font("Serif", Font.BOLD, 18));
-            btnIcon.setForeground(Color.WHITE);
-            cardContent.add(btnIcon, BorderLayout.EAST);
+                // Icon >
+                JLabel btnIcon = new JLabel();
+                btnIcon.setText(">   ");
+                btnIcon.setFont(new Font("Serif", Font.BOLD, 18));
+                btnIcon.setForeground(Color.WHITE);
+                cardContent.add(btnIcon, BorderLayout.EAST);
 
-            cardPanel.add(cardContent);
-            contentPanel.add(cardPanel);
-            gridPane.add(contentPanel);
-        }
+                cardPanel.add(cardContent);
+                contentPanel.add(cardPanel);
+                gridPane.add(contentPanel);
+            }
 
         gridPane.add(Box.createVerticalBox());
         view.getContent().add(gridPane);
 
         System.out.println("Success load cinemas");
+        }
     }
 
     public void viewTheaterDetail(DashboardView view, JSONObject rowData) {

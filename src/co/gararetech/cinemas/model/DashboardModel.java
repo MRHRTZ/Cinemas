@@ -24,10 +24,13 @@ public class DashboardModel {
     private JSONArray cinemaList;
     private JSONArray cityList;
     private JSONArray movieScheduleList;
+    private JSONArray orderHistoryList;
     
     private HttpURLConnection connection;
     private String token;
     private JSONObject userData;
+    private JSONObject orderHistoryDelete;
+    private JSONObject orderHistoryUpdate;
     private String activeTab;
     private String invalidMessage;
     private Boolean needRefresh;
@@ -43,13 +46,29 @@ public class DashboardModel {
             this.movieScheduleUrl = new URL(baseUrl + "v3/schedule");
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
             this.usersEndpoint = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
-            this.orderHistoryUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_order.php");
+            this.orderHistoryUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/");
+            
             this.invalidMessage = "Data user tidak valid, dimohon untuk login kembali.";
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public JSONObject getOrderHistoryUpdate() {
+        return orderHistoryUpdate;
+    }
+
+    public void setOrderHistoryList(JSONArray orderHistoryList) {
+        this.orderHistoryList = orderHistoryList;
+    }
+
+    public JSONArray getOrderHistoryList() {
+        return orderHistoryList;
+    }
+
+    public void setOrderHistoryUpdate(JSONObject orderHistoryUpdate) {
+        this.orderHistoryUpdate = orderHistoryUpdate;
+    }
     public URL getOrderHistoryUrl() {
         return orderHistoryUrl;
     }
@@ -146,4 +165,13 @@ public class DashboardModel {
     public void setUserData(JSONObject userData) {
         this.userData = userData;
     }   
+
+    public JSONObject getOrderHistoryDelete() {
+        return orderHistoryDelete;
+    }
+
+    public void setOrderHistoryDelete(JSONObject orderHistoryDelete) {
+        this.orderHistoryDelete = orderHistoryDelete;
+    }
+    
 }

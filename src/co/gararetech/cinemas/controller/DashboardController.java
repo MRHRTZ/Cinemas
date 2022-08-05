@@ -50,7 +50,7 @@ public class DashboardController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-
+    
     public JSONArray getUserList() throws MalformedURLException, IOException {
         URL usersUrl = model.getUsersEndpoint();
 
@@ -364,7 +364,7 @@ public class DashboardController {
     public void removeDialogLoading(DashboardView view) {
         view.getLoadingUser().dispose();
     }
-
+        
     public void refreshUserData(DashboardView view) throws InterruptedException, IOException {
         if (model.getNeedRefresh()) {
             System.out.println("Refreshing userData");
@@ -377,6 +377,7 @@ public class DashboardController {
                     model.setUserData(rowData);
                     model.setPlayingList(null);
                     model.setUpcomingList(null);
+                    model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
                     removeDialogLoading(view);
                 }

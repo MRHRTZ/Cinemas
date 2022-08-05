@@ -4,7 +4,7 @@ import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundJButton;
-import co.gararetech.cinemas.view.elements.RoundJCity;
+import co.gararetech.cinemas.view.elements.RoundJCBox;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

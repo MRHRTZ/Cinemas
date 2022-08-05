@@ -119,18 +119,29 @@ public class DashboardController {
 
     public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         while (model.getUserData() == null) {
-            // While user data model empty, do nothing.
+            // Unlimited Check
+            System.out.println("User Data : " + String.valueOf(model.getUserData() != null));
+            System.out.println("Invalid Message : " + String.valueOf(model.getInvalidMessage() != null));
+            if (model.getUserData() != null) {
+                view.getLoadingUser().dispose();
+                JSONObject userData = model.getUserData();
+                System.out.println("---[ Get User Data ]---");
+                System.out.println("User ID  : " + userData.getString("user_id"));
+                System.out.println("Email    : " + userData.getString("email"));
+                System.out.println("City ID  : " + userData.getString("city_id"));
+                System.out.println("-----------------------");
+                this.initToken();
+                view.setVisible(true);
+                break;
+            } else if (model.getInvalidMessage() != null) {
+                view.getLoadingUser().dispose();
+                JOptionPane.showMessageDialog(view, model.getInvalidMessage());
+                model.setInvalidMessage(null);
+                new LoginView().setVisible(true);
+                view.dispose();
+                break;
+            }
         }
-        view.getLoadingUser().dispose();
-        JSONObject userData = model.getUserData();
-        System.out.println("---[ Get User Data ]---");
-        System.out.println("User ID  : " + userData.getString("user_id"));
-        System.out.println("Email    : " + userData.getString("email"));
-        System.out.println("City ID  : " + userData.getString("city_id"));
-        System.out.println("-----------------------");
-        this.initToken();
-        view.setVisible(true);
-
     }
 
     public void getCities() throws ProtocolException, IOException {
@@ -384,7 +395,7 @@ public class DashboardController {
             System.out.println("Opening dashboard, no need to refresh");
         }
     }
-    
+
     public void logout(DashboardView dashboardView, LoginView loginView) {
         if (JOptionPane.showConfirmDialog(dashboardView, "Apakah anda mau mengakhiri hidup anda ?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             dashboardView.dispose();

@@ -12,7 +12,7 @@ import co.gararetech.cinemas.model.RegisterModel;
 import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
-import co.gararetech.cinemas.view.elements.RoundJCity;
+import co.gararetech.cinemas.view.elements.RoundJCBox;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
 import java.io.IOException;
@@ -157,7 +157,7 @@ public class ProfileView extends javax.swing.JFrame {
         txtOldPassword = new RoundJPasswordField(50);
         txtNewPassword = new RoundJPasswordField(50);
         jLabel6 = new javax.swing.JLabel();
-        jCity = new RoundJCity();
+        jCity = new RoundJCBox();
         isChangePassword = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

@@ -5,10 +5,10 @@ import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComboBox;
 
-public class RoundJCity extends JComboBox {
+public class RoundJCBox extends JComboBox {
     private Shape shape;
     
-    public RoundJCity() {
+    public RoundJCBox() {
         setOpaque(false); // As suggested by @AVD in comment.
     }
     

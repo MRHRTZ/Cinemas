@@ -40,11 +40,11 @@ public class DashboardModel {
             this.upcomingUrl = new URL(baseUrl + "/v1/movies/upcoming");
             this.cinemaUrl = new URL(baseUrl + "/v1/theaters");
             this.citiesUrl = new URL(baseUrl + "/v1/cities");
-            this.movieScheduleUrl = new URL(baseUrl + "v3/schedule");
+            this.movieScheduleUrl = new URL(baseUrl + "/v3/schedule");
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
             this.usersEndpoint = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
             this.orderHistoryUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_order.php");
-            this.invalidMessage = "Data user tidak valid, dimohon untuk login kembali.";
+            this.invalidMessage = null; //"Data user tidak valid, dimohon untuk login kembali."
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
         }

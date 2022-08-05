@@ -27,10 +27,13 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -272,9 +275,7 @@ public class NowPlayingController {
             orderButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    OrderTicketController orderTicketController = new OrderTicketController();
-                    orderTicketController.setModel(model);
-                    orderTicketController.showDetail(rowData.getString("id"));
+                    checkoutTicketView(view, rowData);
                 }
             });
             orderButton.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -307,6 +308,26 @@ public class NowPlayingController {
 
             }
         }.start();
+    }
+
+    public void checkoutTicketView(DashboardView view, JSONObject rowData) {
+        view.setLoadingUser(addDialogLoading(view, "Menelusuri bioskop yang tersedia dikota anda ..."));
+        CheckoutTicketController checkoutTicketController = new CheckoutTicketController();
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    checkoutTicketController.setDashboardModel(model);
+                    checkoutTicketController.setDashboardView(view);
+                    checkoutTicketController.showFrame(rowData);
+                    removeDialogLoading(view);
+                    view.setVisible(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
     }
 
     public void setNewGrid(DashboardView view) throws IOException {
@@ -349,9 +370,44 @@ public class NowPlayingController {
         content.revalidate();
         return loading;
     }
-    
+
     public void removeLoadingContent(JPanel content, JPanel loading) {
         content.remove(loading);
         content.revalidate();
+    }
+
+    public JDialog addDialogLoading(DashboardView view, String message) {
+        JDialog frame = new JDialog(view);
+
+        JPanel framePanel = new RoundedPanel();
+        framePanel.setBackground(Color.decode("#42382F"));
+        JPanel refreshPanel = new JPanel(new CardLayout(5, 5));
+        refreshPanel.setBackground(new Color(0, 0, 0, 0));
+        JPanel contentRefreshPane = new JPanel();
+        contentRefreshPane.setBackground(Color.decode("#42382F"));
+        refreshPanel.add(contentRefreshPane);
+
+        JLabel refreshContent = new JLabel();
+        ImageIcon loadIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif"));
+        refreshContent.setIcon(loadIcon);
+        refreshContent.setText(message);
+        refreshContent.setFont(new Font("Serial", Font.BOLD, 15));
+        refreshContent.setForeground(Color.WHITE);
+        contentRefreshPane.add(refreshContent);
+
+        refreshPanel.setPreferredSize(new Dimension(400, 50));
+        framePanel.add(refreshPanel);
+        frame.getContentPane().add(framePanel);
+
+        frame.setUndecorated(true);
+        frame.setBackground(new Color(0, 0, 0, 0));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    public void removeDialogLoading(DashboardView view) {
+        view.getLoadingUser().dispose();
     }
 }

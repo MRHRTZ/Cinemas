@@ -352,17 +352,12 @@ public class OrderHistoryContoller {
                         public void actionPerformed(ActionEvent e) {
                             try {
                                 getOrderHistoryUpdate(rowData.getString("order_id"));
-                                view.setVisible(false);
-                                view.getModel().setNeedRefresh(true);
                                 JOptionPane.showMessageDialog(view, "Selamat Menonton !");
                                 
                             } catch (IOException ex) {
                                 Logger.getLogger(OrderHistoryContoller.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                            view.getContent().revalidate();
-                            view.getContent().repaint();
-                            view.getContent().add(gridPanel);
-                            view.setVisible(true);
+                            
                             
                         }
                     });

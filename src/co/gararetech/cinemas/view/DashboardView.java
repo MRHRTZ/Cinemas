@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -472,7 +473,7 @@ public class DashboardView extends javax.swing.JFrame {
         this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
-            public Void doInBackground() {
+            public Void doInBackground() throws ParseException {
                 try {
                     orderHistoryController.setGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
@@ -483,7 +484,6 @@ public class DashboardView extends javax.swing.JFrame {
                 return null;
             }
         }.execute();
-
     }//GEN-LAST:event_btnOrderHistoryActionPerformed
 
     private void editProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileActionPerformed

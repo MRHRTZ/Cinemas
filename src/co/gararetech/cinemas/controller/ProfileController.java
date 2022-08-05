@@ -3,6 +3,7 @@ package co.gararetech.cinemas.controller;
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.model.ProfileModel;
 import co.gararetech.cinemas.utils.FileChooser;
+import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.ProfileView;
 import java.awt.Image;
@@ -222,7 +223,7 @@ public class ProfileController {
         }
     }
 
-    public void chooseImage(ProfileView view) throws IOException {
+    public void chooseImage(ProfileView view, GoogleCloudStorage gcs) throws IOException {
         JFileChooser ch = new JFileChooser();
         FileChooser preview = new FileChooser();
         ch.setAccessory(preview);
@@ -243,12 +244,13 @@ public class ProfileController {
         if (opt == JFileChooser.APPROVE_OPTION) {
             String path = ch.getSelectedFile().getAbsolutePath();
             System.out.println("Set profile picture " + path);
+            
+            String imageUrl = gcs.uploadFile(path);
+            System.out.println("Uploaded URL : " + imageUrl);
 
-            Path fileBuffer = Paths.get(path);
-            String base64 = fileToBase64(fileBuffer);
-
-            model.getUserData().put("image", base64);
+            model.getUserData().put("image", imageUrl);
             ImageIcon image = new ImageIcon(path);
+            System.out.println("icon img : " + image);
             Image img;
             if (image.getIconWidth() > image.getIconHeight()) {
                 img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);

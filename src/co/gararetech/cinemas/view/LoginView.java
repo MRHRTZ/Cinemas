@@ -11,6 +11,8 @@ import co.gararetech.cinemas.model.LoginModel;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -337,8 +339,18 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void run() {
                 try {
                     loginController.submit(LoginView.this, new DashboardView());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }

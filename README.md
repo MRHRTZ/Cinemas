@@ -21,6 +21,6 @@
 - [ ] Checkout Ticket
 - [ ] Booking Ticket
 - [x] Upcoming
-- [ ] Order History
+- [x] Order History
 - [x] Cinema Site List
 - [x] Cinema Detail

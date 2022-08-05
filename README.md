@@ -18,9 +18,11 @@
 - [x] Profile Page
 - [x] Dashboard
 - [x] Film Detail
-- [ ] Checkout Ticket
+- [x] Checkout Ticket
 - [ ] Booking Ticket
 - [x] Upcoming
 - [x] Order History
 - [x] Cinema Site List
 - [x] Cinema Detail
+- [ ] Bug Report Form
+- [ ] About Page

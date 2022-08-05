@@ -5,7 +5,6 @@
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.LoginController;
-import co.gararetech.cinemas.model.LoginModel;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.model.LoginModel;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;

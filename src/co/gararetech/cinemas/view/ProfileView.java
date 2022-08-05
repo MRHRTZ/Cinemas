@@ -5,10 +5,7 @@
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.ProfileController;
-import co.gararetech.cinemas.controller.RegisterController;
-import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.model.ProfileModel;
-import co.gararetech.cinemas.model.RegisterModel;
 import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
@@ -20,9 +17,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

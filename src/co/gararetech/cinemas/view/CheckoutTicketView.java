@@ -5,10 +5,7 @@
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.CheckoutTicketController;
-import co.gararetech.cinemas.controller.ProfileController;
 import co.gararetech.cinemas.model.CheckoutTicketModel;
-import co.gararetech.cinemas.model.ProfileModel;
-import co.gararetech.cinemas.view.elements.PlaceholderTextField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
@@ -25,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;

@@ -301,6 +301,7 @@ public class CheckoutTicketController {
                     theaterAddress.setBackground(Color.decode("#42382F"));
                     theaterAddress.setWrapStyleWord(true);
                     theaterAddress.setLineWrap(true);
+                    theaterAddress.setEditable(false);
                     theaterAddress.setText(String.valueOf(rowData.getString("address").replace("\r\n", ", ")));
                     theaterAddress.setFont(new Font("Serif", Font.PLAIN, 14));
                     theaterAddress.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 30, 50));
@@ -452,6 +453,14 @@ public class CheckoutTicketController {
                     view.getContentPanelCheckout().revalidate();
                     view.getScrollContent().getVerticalScrollBar().setValue(0);
                 } catch (IOException ex) {
+                    System.out.println("Replace image on error.");
+                    JLabel iconNotFound = new JLabel();
+                    ImageIcon imageNF = new ScaleImage(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/gadabioskopCheckout.png")), 600, 500).scaleImage();
+                    iconNotFound.setIcon(imageNF);
+                    iconNotFound.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+                    iconNotFound.setPreferredSize(new Dimension(view.getScrollContent().getWidth(), 550));
+                    view.getContentPanelCheckout().add(iconNotFound);
+                    view.getScrollContent().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;

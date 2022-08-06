@@ -278,7 +278,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     filterTanggal.setEditable(false);
     filterTanggal.setBackground(Color.decode("#454444"));
     filterTanggal.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
-    filterTanggal.setForeground(new java.awt.Color(255, 255, 255));
+    filterTanggal.setForeground(new java.awt.Color(203, 203, 203));
     filterTanggal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     filterTanggal.setBorder(BorderFactory.createCompoundBorder(
         filterBioskop.getBorder(), 
@@ -291,6 +291,11 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
     public void focusLost(java.awt.event.FocusEvent evt) {
         filterTanggalFocusLost(evt);
     }
+    });
+    filterTanggal.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            filterTanggalMouseClicked(evt);
+        }
     });
     filterTanggal.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -611,6 +616,11 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
         // TODO add your handling code here:
         filterBioskop.requestFocus();
     }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void filterTanggalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterTanggalMouseClicked
+        // TODO add your handling code here:
+        showDate.openPopup();
+    }//GEN-LAST:event_filterTanggalMouseClicked
 
     /**
      * @param args the command line arguments

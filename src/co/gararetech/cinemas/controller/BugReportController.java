@@ -2,20 +2,17 @@ package co.gararetech.cinemas.controller;
 
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.view.BugReportView;
-import co.gararetech.cinemas.view.DashboardView;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.json.JSONObject;
 
 public class BugReportController {
 
@@ -31,6 +28,9 @@ public class BugReportController {
 
     public void setModel(DashboardModel model) {
         this.model = model;
+    }
+     public void minimizeButton(BugReportView view) {
+        view.setState(BugReportView.ICONIFIED);
     }
     
     public void postReport(String email, String description) throws ProtocolException, IOException {

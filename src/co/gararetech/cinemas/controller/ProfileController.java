@@ -276,10 +276,12 @@ public class ProfileController {
         }
     }
 
-    public void exitButton(ProfileView view) {
+    public void exitButton(ProfileView view, DashboardView dashboard) {
         if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
+            
+            
         }
     }
 

@@ -388,6 +388,7 @@ public class DashboardController {
                     model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
                     removeDialogLoading(view);
+                    
                 }
             }
         } else {
@@ -412,9 +413,20 @@ public class DashboardController {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+    public void hidePopupProfile(DashboardView view) {
+        view.getPopupProfile().setVisible(false);
+        
+    }
+    
+    public void showPopupProfile(DashboardView view) {
+        view.getPopupProfile().show(view, 965, 65);
+        view.getPopupProfile().setVisible(true);
+    }
 
     public void logout(DashboardView dashboardView, LoginView loginView) {
-        if (JOptionPane.showConfirmDialog(dashboardView, "Apakah anda mau mengakhiri hidup anda ?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(dashboardView, "Masih banyak film yang seru nih, apakah anda mau keluar?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             dashboardView.dispose();
             loginView.setVisible(true);
         }

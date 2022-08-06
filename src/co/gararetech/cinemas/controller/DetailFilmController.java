@@ -271,7 +271,7 @@ public class DetailFilmController {
         synopsisText.setForeground(Color.WHITE);
         synopsisText.setWrapStyleWord(true);
         synopsisText.setLineWrap(true);
-        synopsisText.setEditable(true);
+        synopsisText.setEditable(false);
 
         JScrollPane synopsisTextScroll = new JScrollPane();
         synopsisTextScroll.setViewportView(synopsisText);

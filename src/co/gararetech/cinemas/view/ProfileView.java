@@ -153,7 +153,7 @@ public class ProfileView extends javax.swing.JFrame {
         txtOldPassword = new RoundJPasswordField(50);
         txtNewPassword = new RoundJPasswordField(50);
         jLabel6 = new javax.swing.JLabel();
-        jCity = new RoundJCBox();
+        jCity = new co.gararetech.cinemas.view.elements.RoundJCBox();
         isChangePassword = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -184,6 +184,7 @@ public class ProfileView extends javax.swing.JFrame {
 
         txtEmail.setBackground(Color.decode("#E3DDDD"));
         txtEmail.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtEmail.setToolTipText("Email");
         txtEmail.setBorder(BorderFactory.createCompoundBorder(
             txtEmail.getBorder(), 
             BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -207,6 +208,7 @@ public class ProfileView extends javax.swing.JFrame {
     btnBack.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnBack.setForeground(new java.awt.Color(255, 255, 255));
     btnBack.setText("KEMBALI");
+    btnBack.setToolTipText("Kembali");
     btnBack.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             btnBackActionPerformed(evt);
@@ -217,6 +219,7 @@ public class ProfileView extends javax.swing.JFrame {
     btnProfileSave.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnProfileSave.setForeground(new java.awt.Color(255, 255, 255));
     btnProfileSave.setText("SIMPAN");
+    btnProfileSave.setToolTipText("Simpan");
     btnProfileSave.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             btnProfileSaveActionPerformed(evt);
@@ -240,6 +243,7 @@ public class ProfileView extends javax.swing.JFrame {
 
     txtOldPassword.setBackground(Color.decode("#E3DDDD"));
     txtOldPassword.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+    txtOldPassword.setToolTipText("Password Lama");
     txtOldPassword.setBorder(BorderFactory.createCompoundBorder(
         txtOldPassword.getBorder(), 
         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -251,6 +255,7 @@ txtOldPassword.addActionListener(new java.awt.event.ActionListener() {
 
     txtNewPassword.setBackground(Color.decode("#E3DDDD"));
     txtNewPassword.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+    txtNewPassword.setToolTipText("Password Baru");
     txtNewPassword.setBorder(BorderFactory.createCompoundBorder(
         txtNewPassword.getBorder(), 
         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -268,6 +273,7 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     jCity.setBackground(Color.decode("#E3DDDD"));
     jCity.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     jCity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bandung", "Jakarta" }));
+    jCity.setToolTipText("Kota");
 
     isChangePassword.setBackground(Color.decode("#222222"));
     isChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

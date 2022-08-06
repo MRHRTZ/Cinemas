@@ -133,6 +133,7 @@ public class RegisterView extends javax.swing.JFrame {
 
         txtEmail.setBackground(Color.decode("#E3DDDD"));
         txtEmail.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtEmail.setToolTipText("Email");
         txtEmail.setBorder(BorderFactory.createCompoundBorder(
             txtEmail.getBorder(), 
             BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -156,6 +157,7 @@ public class RegisterView extends javax.swing.JFrame {
     btnLogin.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnLogin.setForeground(new java.awt.Color(255, 255, 255));
     btnLogin.setText("KEMBALI");
+    btnLogin.setToolTipText("Kembali");
     btnLogin.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             btnLoginActionPerformed(evt);
@@ -166,6 +168,7 @@ public class RegisterView extends javax.swing.JFrame {
     btnRegisterSave.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnRegisterSave.setForeground(new java.awt.Color(255, 255, 255));
     btnRegisterSave.setText("REGISTER");
+    btnRegisterSave.setToolTipText("Register");
     btnRegisterSave.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             btnRegisterSaveActionPerformed(evt);
@@ -184,6 +187,7 @@ public class RegisterView extends javax.swing.JFrame {
 
     txtPassword1.setBackground(Color.decode("#E3DDDD"));
     txtPassword1.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+    txtPassword1.setToolTipText("Password");
     txtPassword1.setBorder(BorderFactory.createCompoundBorder(
         txtPassword1.getBorder(), 
         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -195,6 +199,7 @@ txtPassword1.addActionListener(new java.awt.event.ActionListener() {
 
     txtPassword2.setBackground(Color.decode("#E3DDDD"));
     txtPassword2.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
+    txtPassword2.setToolTipText("Password Ulang");
     txtPassword2.setBorder(BorderFactory.createCompoundBorder(
         txtPassword2.getBorder(), 
         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -205,7 +210,7 @@ txtPassword2.addActionListener(new java.awt.event.ActionListener() {
     });
 
     exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
-    exit.setToolTipText("EXIT");
+    exit.setToolTipText("Close");
     exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     exit.setIconTextGap(0);
     exit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -215,7 +220,7 @@ txtPassword2.addActionListener(new java.awt.event.ActionListener() {
     });
 
     minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
-    minimize.setToolTipText("MINIMIZE");
+    minimize.setToolTipText("Minimize");
     minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     minimize.setIconTextGap(0);
     minimize.addMouseListener(new java.awt.event.MouseAdapter() {

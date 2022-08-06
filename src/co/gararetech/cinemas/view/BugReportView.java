@@ -90,6 +90,7 @@ public class BugReportView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtBugDesc = new RoundJTextArea();
         exit = new javax.swing.JLabel();
+        minimize = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(744, 576));
@@ -130,6 +131,7 @@ public class BugReportView extends javax.swing.JFrame {
 
         sendBugReport.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         sendBugReport.setText("KIRIM");
+        sendBugReport.setToolTipText("Kirim");
         sendBugReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendBugReportActionPerformed(evt);
@@ -162,6 +164,17 @@ public class BugReportView extends javax.swing.JFrame {
         });
         outerPanel.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, -1, -1));
 
+        minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
+        minimize.setToolTipText("Minimize");
+        minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        minimize.setIconTextGap(0);
+        minimize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeMouseClicked(evt);
+            }
+        });
+        outerPanel.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, -1, -1));
+
         getContentPane().add(outerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, -1));
 
         pack();
@@ -191,6 +204,11 @@ public class BugReportView extends javax.swing.JFrame {
         this.setMouseX(evt.getX());
         this.setMouseY(evt.getY());
     }//GEN-LAST:event_outerPanelMousePressed
+
+    private void minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeMouseClicked
+        // TODO add your handling code here:
+        bugReportController.minimizeButton(this);
+    }//GEN-LAST:event_minimizeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -244,6 +262,7 @@ public class BugReportView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel minimize;
     private javax.swing.JPanel outerPanel;
     private javax.swing.JButton sendBugReport;
     private javax.swing.JTextArea txtBugDesc;

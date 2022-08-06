@@ -225,14 +225,14 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         Divider.setLayout(DividerLayout);
         DividerLayout.setHorizontalGroup(
             DividerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 970, Short.MAX_VALUE)
+            .addGap(0, 960, Short.MAX_VALUE)
         );
         DividerLayout.setVerticalGroup(
             DividerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Divider, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 970, 60));
+        getContentPane().add(Divider, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 960, 60));
 
         contentContainer.setBackground(Color.decode("#42382F"));
         contentContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

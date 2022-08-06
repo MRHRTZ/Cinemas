@@ -186,7 +186,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sedang Tayang"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="toolTipText" type="java.lang.String" value="Sedang Tayang"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNowPlayingActionPerformed"/>
@@ -200,7 +200,8 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Segera"/>
+            <Property name="text" type="java.lang.String" value="Segera Tayang"/>
+            <Property name="toolTipText" type="java.lang.String" value="Segera Tayang"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpcomingActionPerformed"/>
@@ -212,6 +213,7 @@
               <Connection code="Color.decode(&quot;#D9D9D9&quot;)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Bioskop"/>
+            <Property name="toolTipText" type="java.lang.String" value="Bioskop"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCinemaActionPerformed"/>
@@ -223,6 +225,7 @@
               <Connection code="Color.decode(&quot;#D9D9D9&quot;)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Riwayat Pesanan"/>
+            <Property name="toolTipText" type="java.lang.String" value="Riwayat Pesanan"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOrderHistoryActionPerformed"/>
@@ -233,7 +236,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/co/gararetech/cinemas/view/images/minimizeButton.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="MINIMIZE"/>
+            <Property name="toolTipText" type="java.lang.String" value="Minimize"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
@@ -248,7 +251,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/co/gararetech/cinemas/view/images/exitButton.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="EXIT"/>
+            <Property name="toolTipText" type="java.lang.String" value="Close"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>
@@ -266,6 +269,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/co/gararetech/cinemas/view/images/ProfileIconBlack.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Profile"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCinema1ActionPerformed"/>

@@ -168,6 +168,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Impact" size="18" style="0"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Email"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="BorderFactory.createCompoundBorder(&#xd;&#xa;        txtEmail.getBorder(), &#xd;&#xa;        BorderFactory.createEmptyBorder(5, 5, 5, 5))" type="code"/>
                 </Property>
@@ -215,6 +216,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="KEMBALI"/>
+                <Property name="toolTipText" type="java.lang.String" value="Kembali"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
@@ -232,6 +234,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="SIMPAN"/>
+                <Property name="toolTipText" type="java.lang.String" value="Simpan"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProfileSaveActionPerformed"/>
@@ -274,6 +277,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Impact" size="14" style="0"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Password Lama"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="BorderFactory.createCompoundBorder(&#xd;&#xa;        txtOldPassword.getBorder(), &#xd;&#xa;        BorderFactory.createEmptyBorder(5, 5, 5, 5))" type="code"/>
                 </Property>
@@ -293,6 +297,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Impact" size="14" style="0"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Password Baru"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="BorderFactory.createCompoundBorder(&#xd;&#xa;        txtNewPassword.getBorder(), &#xd;&#xa;        BorderFactory.createEmptyBorder(5, 5, 5, 5))" type="code"/>
                 </Property>
@@ -330,6 +335,7 @@
                     <StringItem index="1" value="Jakarta"/>
                   </StringArray>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Kota"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new co.gararetech.cinemas.view.elements.RoundJCBox()"/>

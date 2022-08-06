@@ -98,9 +98,11 @@ public class AboutUsView extends javax.swing.JFrame {
         getContentPane().add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1024, 90));
 
         panelDaftarAnggota.setBackground(Color.decode("#42382F"));
+        panelDaftarAnggota.setToolTipText("");
         panelDaftarAnggota.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelEdwin.setBackground(Color.decode("#1D1C1C"));
+        panelEdwin.setToolTipText("Edwin Liona Jaya");
         panelEdwin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devEdwin.png"))); // NOI18N
@@ -124,9 +126,11 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelEdwin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 410, 140));
 
         panelEri.setBackground(Color.decode("#1D1C1C"));
+        panelEri.setToolTipText("Eri Sukmawan");
         panelEri.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devEri.png"))); // NOI18N
+        jLabel3.setToolTipText("Eri Sukmawan");
         panelEri.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -147,6 +151,7 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelEri, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 410, 140));
 
         panelHanif.setBackground(Color.decode("#1D1C1C"));
+        panelHanif.setToolTipText("Hanif Ahmad Syauqi");
         panelHanif.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devHanif.png"))); // NOI18N
@@ -170,6 +175,7 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelHanif, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 410, 140));
 
         panelBadar.setBackground(Color.decode("#1D1C1C"));
+        panelBadar.setToolTipText("ALFATIHNAMAN B");
         panelBadar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devBadar.png"))); // NOI18N
@@ -193,6 +199,7 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelBadar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 200, 410, 140));
 
         panelIlmi.setBackground(Color.decode("#1D1C1C"));
+        panelIlmi.setToolTipText("ILMI FATHURAHMAN G.");
         panelIlmi.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devIlmi.png"))); // NOI18N

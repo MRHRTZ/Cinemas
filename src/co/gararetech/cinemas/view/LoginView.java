@@ -187,7 +187,7 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
     });
 
     minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
-    minimize.setToolTipText("MINIMIZE");
+    minimize.setToolTipText("Minimize");
     minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     minimize.setIconTextGap(0);
     minimize.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -197,7 +197,7 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
     });
 
     exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
-    exit.setToolTipText("EXIT");
+    exit.setToolTipText("Close");
     exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     exit.setIconTextGap(0);
     exit.addMouseListener(new java.awt.event.MouseAdapter() {

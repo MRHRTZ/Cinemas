@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -461,17 +462,8 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void run() {
                 try {
                     new ProfileView().setVisible(true);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

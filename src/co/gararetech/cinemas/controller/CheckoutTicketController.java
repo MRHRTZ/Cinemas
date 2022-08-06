@@ -6,6 +6,7 @@ import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.CheckoutTicketView;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -37,6 +40,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingWorker;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -75,7 +79,7 @@ public class CheckoutTicketController {
         this.model = model;
     }
 
-    public JSONObject getMovieSchedule(String movieId, String page, String query) throws MalformedURLException, IOException {
+    public JSONObject getMovieSchedule(String movieId, String page, String query, String date) throws MalformedURLException, IOException {
         System.out.println("Get API Movie Schedule page " + page + " ..");
         String cityId = "";
         String cityName = dashboardModel.getUserData().getString("city_id");
@@ -86,7 +90,7 @@ public class CheckoutTicketController {
                 cityId = rowData.getString("id");
             }
         }
-        URL url = new URL(dashboardModel.getMovieScheduleUrl().toString() + "?city=" + cityId + "&date=&lat=&lon=&merchant=&movie=" + movieId + "&page=" + page + "&q=" + query + "&sort=alfabetical&studio_type=");
+        URL url = new URL((dashboardModel.getMovieScheduleUrl().toString() + "?city=" + cityId + "&date=" + date + "&lat=&lon=&merchant=&movie=" + movieId + "&page=" + page + "&q=" + query + "&sort=alfabetical&studio_type=").replaceAll(" ", "%20"));
 
         dashboardModel.setConnection((HttpURLConnection) url.openConnection());
         dashboardModel.getConnection().setRequestMethod("GET");
@@ -196,15 +200,14 @@ public class CheckoutTicketController {
         }
         ageScore.setText(ageCategory);
         model.setMovieId(movieObj.getString("id"));
-        setListMovieSchedule(checkoutTicketView, "1", "");
+        setListMovieSchedule(checkoutTicketView, "1", "", "");
         checkoutTicketView.getContentPanelCheckout().revalidate();
         checkoutTicketView.setVisible(true);
-
     }
 
-    public void setListMovieSchedule(CheckoutTicketView checkoutTicketView, String page, String query) throws IOException {
+    public void setListMovieSchedule(CheckoutTicketView checkoutTicketView, String page, String query, String date) throws IOException {
         // Set List Movie Schedule
-        JSONObject scheduleMovie = getMovieSchedule(model.getMovieId(), page, query);
+        JSONObject scheduleMovie = getMovieSchedule(model.getMovieId(), page, query, date);
 
         if (!scheduleMovie.getBoolean("success")) {
             System.out.println("Bioskop tidak tersedia");
@@ -223,7 +226,7 @@ public class CheckoutTicketController {
             if (pageInt > 1) {
                 JSONArray oldList = dashboardModel.getMovieScheduleList();
                 JSONArray newList = scheduleListTemp;
-                
+
                 for (int i = 0; i < oldList.length(); i++) {
                     newList.put(oldList.getJSONObject(i));
                 }
@@ -235,7 +238,7 @@ public class CheckoutTicketController {
             }
             if (hasNext) {
                 System.out.println("Get next page " + nextPage);
-                setListMovieSchedule(checkoutTicketView, String.valueOf(pageInt + 1), query);
+                setListMovieSchedule(checkoutTicketView, String.valueOf(pageInt + 1), query, date);
             } else {
                 JSONArray scheduleList = dashboardModel.getMovieScheduleList();
                 System.out.println("Rendering " + scheduleList.length() + " Theater");
@@ -357,11 +360,16 @@ public class CheckoutTicketController {
                             // Toggle Button
                             JToggleButton timeButton = new JToggleButton();
                             int timestamp = showTimeObj.getInt("time");
-                            Date date = new Date(timestamp * 1000L);
+                            Date dateButton = new Date(timestamp * 1000L);
                             String pattern = "HH:mm";
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("273"));
-                            String time = simpleDateFormat.format(date);
+                            String time = simpleDateFormat.format(dateButton);
+                            int nowTimeStamp = (int) (new Date(System.currentTimeMillis()).getTime() / 1000);
+                            int expiredTimestamp = showTimeObj.getInt("expired");
+                            if (expiredTimestamp < nowTimeStamp) {
+                                timeButton.setEnabled(false);
+                            }
                             timeButton.setText(time);
                             timeButton.setName(rowData.getString("id") + "|" + stadiumObj.getString("category") + "|" + time);
                             timeButton.setFont(new Font("Serif", Font.PLAIN, 14));
@@ -414,16 +422,19 @@ public class CheckoutTicketController {
                     }
 
                     double contentHeight = 100 + theaterTitlePanel.getPreferredSize().getHeight() + theaterAddress.getPreferredSize().getHeight() + stadiumContentHeight;
-                    contentPanel.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth(), (int) contentHeight));
-
+//                    contentPanel.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth(), (int) contentHeight));
+                    contentPanel.setMaximumSize(new Dimension(checkoutTicketView.getScrollContent().getWidth(), (int) contentHeight));
+//                    if (scheduleList.length() == 1) {
+//                    }
                     cardPanel.add(theaterPanel);
                     contentPanel.add(cardPanel);
                     contentPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
                     checkoutTicketView.getContentPanelCheckout().add(contentPanel);
+                    checkoutTicketView.getScrollContent().setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
                 }
             }
-            
+
         }
     }
 
@@ -431,30 +442,47 @@ public class CheckoutTicketController {
         JTextField filter = (JTextField) e.getSource();
         String filterQuery = filter.getText();
         System.out.println("Filter bioskop : " + filterQuery);
-//        view.getScrollContent().getViewport().removeAll();
-//        view.getScrollContent().getViewport().repaint();
-//        view.getScrollContent().getViewport().revalidate();
-//
-//        
-//        view.getScrollContent().revalidate();
-//        view.getContentPanelCheckout().setBackground(Color.red);
-//        view.getScrollContent().getViewport().revalidate();
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    view.getContentPanelCheckout().removeAll();
+                    view.getContentPanelCheckout().repaint();
+                    setListMovieSchedule(view, "1", filterQuery, view.getFilterTanggal().getText());
+                    view.getContentPanelCheckout().revalidate();
+                    view.getScrollContent().getVerticalScrollBar().setValue(0);
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
 
-//        view.getContentPanelCheckout().removeAll();
-//        view.getContentPanelCheckout().repaint();
-//        view.getContentPanelCheckout().revalidate();
-//        new Thread() {
-//            public void run() {
-//                try {
-////                    view.getScrollContent().setViewportView(view.getContentPanelCheckout());
-//                    setListMovieSchedule(view, "1", "");
-//                    view.getContentPanelCheckout().revalidate();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(CheckoutTicketController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//
-//            }
-//        }.start();
+    }
+
+    public void onDateChange(CheckoutTicketView view, DateChangeEvent e) {
+        String tanggal = String.valueOf(e.getNewDate());
+        System.out.println("Filter tanggal : " + tanggal);
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    String q = "";
+                    if (!view.getFilterBioskop().getText().equals("Pilih bioskop kesayangan kamu ..")) {
+                        q = view.getFilterBioskop().getText();
+                    }
+                    view.getFilterTanggal().setText(tanggal);
+                    view.getContentPanelCheckout().removeAll();
+                    view.getContentPanelCheckout().repaint();
+                    setListMovieSchedule(view, "1", q, tanggal);
+                    view.getContentPanelCheckout().revalidate();
+                    view.getScrollContent().getVerticalScrollBar().setValue(0);
+                } catch (IOException ex) {
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
     }
 
     public void back(CheckoutTicketView checkoutTicketView) {

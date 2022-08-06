@@ -114,7 +114,7 @@ public class LoginController {
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(login, "Error ketika mengakses : " + ex.getMessage());
+                    JOptionPane.showMessageDialog(login, "Kesalahan sistem " + ex.getMessage());
                     System.exit(0);
                 }
             }

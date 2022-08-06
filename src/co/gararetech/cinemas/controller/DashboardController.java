@@ -398,6 +398,9 @@ public class DashboardController {
     public void viewBugReport(DashboardView view) {
         try {
             BugReportView bgView = new BugReportView();
+            bgView.getBugReportController().setModel(model);
+            String currentEmail = model.getUserData().getString("email");
+            bgView.getTxtEmail().setText(currentEmail);
             bgView.setVisible(true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);

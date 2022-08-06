@@ -14,6 +14,8 @@ import java.awt.Color;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -27,7 +29,9 @@ public class BugReportView extends javax.swing.JFrame {
      * Creates new form BugReportView
      */
     private BugReportController bugReportController;
-    
+    private int mouseX;
+    private int mouseY;
+
     public BugReportView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         Properties p = new Properties();
         p.put("windowTitleFont", "Ebrima PLAIN 15");
@@ -39,6 +43,34 @@ public class BugReportView extends javax.swing.JFrame {
         initComponents();
     }
 
+    public BugReportController getBugReportController() {
+        return bugReportController;
+    }
+
+    public JTextArea getTxtBugDesc() {
+        return txtBugDesc;
+    }
+
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public void setMouseX(int mouseX) {
+        this.mouseX = mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
+    }
+
+    public void setMouseY(int mouseY) {
+        this.mouseY = mouseY;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,58 +80,76 @@ public class BugReportView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        outerPanel = new javax.swing.JPanel();
         jPanel2 = new RoundedPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new RoundJTextField(25);
-        jButton1 = new javax.swing.JButton();
+        txtEmail = new RoundJTextField(25);
+        sendBugReport = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new RoundJTextArea();
+        txtBugDesc = new RoundJTextArea();
         exit = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1024, 670));
-        setMinimumSize(new java.awt.Dimension(1020, 670));
+        setMaximumSize(new java.awt.Dimension(744, 576));
+        setMinimumSize(new java.awt.Dimension(744, 576));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1000, 660));
+        setPreferredSize(new java.awt.Dimension(744, 576));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(Color.decode("#19181C"));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        outerPanel.setBackground(Color.decode("#1D1C1C"));
+        outerPanel.setPreferredSize(new java.awt.Dimension(849, 584));
+        outerPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                outerPanelMouseDragged(evt);
+            }
+        });
+        outerPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                outerPanelMousePressed(evt);
+            }
+        });
+        outerPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(Color.decode("#222222"));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 30)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("EMAIL :");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Impact", 0, 30)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("BUG REPORT :");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 376, 40));
+        jLabel2.setText("BUG DESCRIPTION :");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        jButton1.setText("KIRIM");
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 490, 220, 34));
+        txtEmail.setEditable(false);
+        jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 300, 40));
+
+        sendBugReport.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        sendBugReport.setText("KIRIM");
+        sendBugReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendBugReportActionPerformed(evt);
+            }
+        });
+        jPanel2.add(sendBugReport, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 410, 220, 40));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 40, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, -1));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtBugDesc.setColumns(20);
+        txtBugDesc.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        txtBugDesc.setLineWrap(true);
+        txtBugDesc.setRows(5);
+        txtBugDesc.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(txtBugDesc);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 810, 240));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 540, 150));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 900, 560));
+        outerPanel.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 620, 480));
 
         exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
         exit.setToolTipText("EXIT");
@@ -110,9 +160,9 @@ public class BugReportView extends javax.swing.JFrame {
                 exitMouseClicked(evt);
             }
         });
-        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 20, -1, -1));
+        outerPanel.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 700));
+        getContentPane().add(outerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -122,6 +172,25 @@ public class BugReportView extends javax.swing.JFrame {
         // TODO add your handling code here:
         bugReportController.exitButton(this);
     }//GEN-LAST:event_exitMouseClicked
+
+    private void sendBugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBugReportActionPerformed
+        // TODO add your handling code here:
+        bugReportController.sendReport(this);
+    }//GEN-LAST:event_sendBugReportActionPerformed
+
+    private void outerPanelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_outerPanelMouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+
+        this.setLocation(x - this.getMouseX(), y - this.getMouseY());
+    }//GEN-LAST:event_outerPanelMouseDragged
+
+    private void outerPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_outerPanelMousePressed
+        // TODO add your handling code here:
+        this.setMouseX(evt.getX());
+        this.setMouseY(evt.getY());
+    }//GEN-LAST:event_outerPanelMousePressed
 
     /**
      * @param args the command line arguments
@@ -170,14 +239,14 @@ public class BugReportView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel exit;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel outerPanel;
+    private javax.swing.JButton sendBugReport;
+    private javax.swing.JTextArea txtBugDesc;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 }

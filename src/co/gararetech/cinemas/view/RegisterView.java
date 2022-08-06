@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -321,6 +322,7 @@ txtPassword2.addActionListener(new java.awt.event.ActionListener() {
                     registerController.submit(RegisterView.this, new LoginView());
                     registerController.loading(RegisterView.this.btnRegisterSave, false);
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(RegisterView.this, "Kesalahan system " + e.getMessage());
                     e.printStackTrace();
                 }
 
@@ -332,13 +334,8 @@ txtPassword2.addActionListener(new java.awt.event.ActionListener() {
         try {
             // TODO add your handling code here:
             registerController.viewLogin(this, new LoginView());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Kesalahan system " + ex.getMessage());
             Logger.getLogger(RegisterView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -371,6 +368,7 @@ txtPassword2.addActionListener(new java.awt.event.ActionListener() {
                     registerController.submit(RegisterView.this, new LoginView());
                     registerController.loading(RegisterView.this.btnRegisterSave, false);
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(RegisterView.this, "Kesalahan system " + e.getMessage());
                     e.printStackTrace();
                 }
 

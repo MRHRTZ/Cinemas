@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -282,13 +283,8 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
         try {
             // TODO add your handling code here:
             loginController.viewRegister(this, new RegisterView());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Kesalahan system " + ex.getMessage());
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegisterActionPerformed

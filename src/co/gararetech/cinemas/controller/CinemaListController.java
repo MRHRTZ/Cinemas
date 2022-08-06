@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +46,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -59,7 +61,7 @@ import org.json.JSONObject;
 public class CinemaListController {
 
     private DashboardModel model;
-    
+
     public DashboardModel getModel() {
         return model;
     }
@@ -119,82 +121,130 @@ public class CinemaListController {
             model.setCinemaList(new JSONArray());
         }
     }
-    
+
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
         System.out.println("Refreshing cinemas content ..");
-        
+
         // Now Playing Container
         JPanel gridPane = new JPanel();
         gridPane.setLayout(new BoxLayout(gridPane, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
         gridPane.setBackground(Color.decode("#42382F"));
-        
-        
-        // Search Bar ContentPanel
+
+//         Search Bar ContentPanel
         final JPanel searchBarContentPanel = new JPanel();
         searchBarContentPanel.setLayout(new CardLayout(50, 10));
-        searchBarContentPanel.setPreferredSize(new Dimension(350, 30));
-        searchBarContentPanel.setMaximumSize(new Dimension(350, 30));
+        searchBarContentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 90));
+        searchBarContentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 90));
         searchBarContentPanel.setBackground(Color.decode("#42382F"));
-        searchBarContentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        // Search Bar Panel
+        gridPane.add(searchBarContentPanel);
+        
+        // Search Panel
         final JPanel searchPanel = new JPanel();
-        searchPanel.setLayout(new BoxLayout(searchPanel,BoxLayout.Y_AXIS));
+        searchPanel.setLayout(new GridLayout());
         searchPanel.setMaximumSize(new Dimension(150, 50));
         searchPanel.setBackground(Color.decode("#42382F"));
-        //Search Bar Button
-        JButton searchContent = new JButton();
-        searchContent.setLayout(new BorderLayout());
-        searchContent.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        searchContent.setBackground(Color.decode("#42382F"));
-        //Search Bar Label
+//        searchPanel.setMaximumSize(new Dimension(150, 50));
+        searchBarContentPanel.add(searchPanel);
+
+        //panel left
+        final JPanel kiriPanel = new RoundedPanel();
+        kiriPanel.setLayout(null);
+        kiriPanel.setMaximumSize(new Dimension(5, 60));
+        kiriPanel.setBackground(Color.decode("#222222"));
+        searchPanel.add(kiriPanel);
+
+//        Label Domisisli
+        JLabel labelDomisili = new JLabel();
+        labelDomisili.setText("KOTA ANDA :");
+        labelDomisili.setHorizontalAlignment(SwingConstants.CENTER);
+        labelDomisili.setBounds(15, 5, 520, 20);
+        labelDomisili.setFont(new Font("Serif UI", Font.BOLD, 15));
+        labelDomisili.setForeground(Color.white);
+        labelDomisili.setBackground(Color.decode("#222222"));
+        kiriPanel.add(labelDomisili);
+
+//       Label Kota
+        JLabel labelkota = new JLabel();
+        JSONObject userData = model.getUserData();
+        String city = userData.getString("city_id");
+        labelkota.setText(city);
+        labelkota.setHorizontalAlignment(SwingConstants.CENTER);
+        labelkota.setBounds(15, 30, 520, 20);
+        labelkota.setFont(new Font("Serif UI", Font.BOLD, 18));
+        labelkota.setForeground(Color.white);
+        labelkota.setBackground(Color.decode("#222222"));
+        kiriPanel.add(labelkota);
+
+//        panel right
+        final JPanel kananPanel = new RoundedPanel();
+        kananPanel.setLayout(null);
+        kananPanel.setMaximumSize(new Dimension(5, 60));
+        kananPanel.setBackground(Color.decode("#2222222"));
+//        searchPanel.setMaximumSize(new Dimension(150, 50));
+        searchPanel.add(kananPanel);
+
+//        label search
         JLabel labelSearchBar = new JLabel();
-        labelSearchBar.setText("                     PENCARIAN");
-        labelSearchBar.setFont(new Font("Serif UI", Font.BOLD, 18));
+        labelSearchBar.setText("PENCARIAN :");
+        labelSearchBar.setHorizontalAlignment(SwingConstants.CENTER);
+        labelSearchBar.setBounds(15, 5, 430, 20);
+        labelSearchBar.setFont(new Font("Serif UI", Font.BOLD, 15));
         labelSearchBar.setForeground(Color.white);
-        //Search Bar Label Panel
-        final JPanel searchLabelPanel = new JPanel();
-        searchBarContentPanel.setLayout(new CardLayout(0, 0));
-        searchLabelPanel.setMaximumSize(new Dimension(300,37));
-        searchLabelPanel.setBackground(Color.decode("#42382F"));
-        searchLabelPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //Search Bar Text Field
+        labelSearchBar.setBackground(Color.decode("#222222"));
+        kananPanel.add(labelSearchBar);
+
+//        label textfield search
         DocumentFilter filter = new UppercaseDocumentFilter();
         JTextField searchBar = new JTextField();
-        searchBar.setBackground(Color.decode("#42382F"));
+        searchBar.setBackground(Color.decode("#222222"));
+        searchBar.setBounds(15, 30, 430, 20);
         searchBar.setFont(new Font("Serif UI", Font.BOLD, 16));
         searchBar.setForeground(Color.white);
         searchBar.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
         ((AbstractDocument) searchBar.getDocument()).setDocumentFilter(filter);
         searchBar.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-                if(! searchBar.equals("")){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!searchBar.equals("")) {
                     String search = searchBar.getText();
                     model.setSearchBar(search);
-                    searchingTheater(model.getSearchBar(),view);
+                    searchingTheater(model.getSearchBar(), view);
                 }
-        }
-        });       
-        searchContent.add(searchBar);
-        searchLabelPanel.add(labelSearchBar);
-        searchPanel.add(searchContent);
-        searchBarContentPanel.add(searchPanel);
-        gridPane.add(searchLabelPanel);
-        gridPane.add(searchBarContentPanel);
-        
-        
+            }
+        });
+        kananPanel.add(searchBar);
+
+//        label button search
+        JButton searchButton = new JButton();
+        searchButton.setForeground(Color.WHITE);
+        searchButton.setBackground(Color.decode("#86290B"));
+        searchButton.setText("CARI");
+        searchButton.setBounds(450, 10, 90, 40);
+        ((AbstractDocument) searchBar.getDocument()).setDocumentFilter(filter);
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!searchBar.equals("")) {
+                    String search = searchBar.getText();
+                    model.setSearchBar(search);
+                    searchingTheater(model.getSearchBar(), view);
+                }
+            }
+        });
+        kananPanel.add(searchButton);
+
         // List Data
         JSONArray listData = model.getCinemaList();
-        if(listData.isEmpty()){
+        if (listData.isEmpty()) {
             JLabel posterImage = new JLabel();
             BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/gadabioskop.png"));
             Image scaledPoster = rawPosterImg.getScaledInstance(550, 290, Image.SCALE_SMOOTH);
             ImageIcon iconPoster = new ImageIcon(scaledPoster);
             posterImage.setHorizontalAlignment(SwingConstants.CENTER);
             posterImage.setIcon(iconPoster);
-            
+
             view.getContent().add(posterImage);
-        }else{
+        } else {
             for (int i = 0; i < listData.length(); i++) {
                 JSONObject rowData = listData.getJSONObject(i);
                 removeLoadingContent(view.getContent(), view.getLoadingPanel());
@@ -252,26 +302,27 @@ public class CinemaListController {
                 contentPanel.add(cardPanel);
                 gridPane.add(contentPanel);
             }
-            
-        gridPane.add(Box.createVerticalBox());
-        view.getContent().add(gridPane);
 
-        System.out.println("Success load cinemas");
+            gridPane.add(Box.createVerticalBox());
+            view.getContent().add(gridPane);
+
+            System.out.println("Success load cinemas");
         }
     }
+
     //Buat searching theater
-    public void searchingTheater(String Theater, DashboardView view){
+    public void searchingTheater(String Theater, DashboardView view) {
         // search bar
         JSONArray listData = model.getCinemaList();
         for (int i = 0; i < listData.length(); i++) {
             JSONObject rowData = listData.getJSONObject(i);
-            if(Theater.equals(rowData.getString("name"))){
+            if (Theater.equals(rowData.getString("name"))) {
                 System.out.println("Ada : " + rowData.getString("name"));
                 viewTheaterDetail(view, rowData);
             }
         }
     }
-    
+
     public void viewTheaterDetail(DashboardView view, JSONObject rowData) {
         new Thread() {
             public void run() {

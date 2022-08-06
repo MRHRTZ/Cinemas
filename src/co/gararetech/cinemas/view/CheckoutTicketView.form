@@ -102,7 +102,7 @@
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanel();"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="filterPanel.setVisible(false);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="filterPanel.setVisible(true);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

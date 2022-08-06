@@ -91,6 +91,7 @@ public class DashboardView extends javax.swing.JFrame {
         }.execute();
     }
 
+    
     public JPanel getLoadingPanel() {
         return loadingPanel;
     }

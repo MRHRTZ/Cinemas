@@ -21,6 +21,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -385,6 +388,7 @@ public class DashboardController {
                     model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
                     removeDialogLoading(view);
+                    
                 }
             }
         } else {

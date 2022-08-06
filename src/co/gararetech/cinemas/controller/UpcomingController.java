@@ -23,6 +23,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -148,12 +149,16 @@ public class UpcomingController {
                 URL posterUrl = new URL(rowData.getString("poster_path"));
                 JLabel poster = new JLabel();
                 poster.setPreferredSize(new Dimension(230, 287));
-                Image icon = ImageIO.read(posterUrl);
-                ImageIcon posterIcon;
-                if (icon == null) {
+                ImageIcon posterIcon = null;
+                try {
+                    Image icon = ImageIO.read(posterUrl);
+                    if (icon == null) {
+                        posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+                    } else {
+                        posterIcon = new ImageIcon(icon);
+                    }
+                } catch (IIOException e) {
                     posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
-                } else {
-                    posterIcon = new ImageIcon(icon);
                 }
                 ScaleImage scaleImg = new ScaleImage(posterIcon, 230, 287);
                 ImageIcon resizePoster = scaleImg.scaleImage();

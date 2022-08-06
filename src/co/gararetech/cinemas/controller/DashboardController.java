@@ -21,11 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -51,7 +47,7 @@ public class DashboardController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-
+    
     public JSONArray getUserList() throws MalformedURLException, IOException {
         URL usersUrl = model.getUsersEndpoint();
 
@@ -119,18 +115,29 @@ public class DashboardController {
 
     public void initPage(DashboardView view) throws IOException, UnsupportedLookAndFeelException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         while (model.getUserData() == null) {
-            // While user data model empty, do nothing.
+            // Unlimited Check
+            System.out.println("User Data : " + String.valueOf(model.getUserData() != null));
+            System.out.println("Invalid Message : " + String.valueOf(model.getInvalidMessage() != null));
+            if (model.getUserData() != null) {
+                view.getLoadingUser().dispose();
+                JSONObject userData = model.getUserData();
+                System.out.println("---[ Get User Data ]---");
+                System.out.println("User ID  : " + userData.getString("user_id"));
+                System.out.println("Email    : " + userData.getString("email"));
+                System.out.println("City ID  : " + userData.getString("city_id"));
+                System.out.println("-----------------------");
+                this.initToken();
+                view.setVisible(true);
+                break;
+            } else if (model.getInvalidMessage() != null) {
+                view.getLoadingUser().dispose();
+                JOptionPane.showMessageDialog(view, model.getInvalidMessage());
+                model.setInvalidMessage(null);
+                new LoginView().setVisible(true);
+                view.dispose();
+                break;
+            }
         }
-        view.getLoadingUser().dispose();
-        JSONObject userData = model.getUserData();
-        System.out.println("---[ Get User Data ]---");
-        System.out.println("User ID  : " + userData.getString("user_id"));
-        System.out.println("Email    : " + userData.getString("email"));
-        System.out.println("City ID  : " + userData.getString("city_id"));
-        System.out.println("-----------------------");
-        this.initToken();
-        view.setVisible(true);
-
     }
 
     public void getCities() throws ProtocolException, IOException {
@@ -238,7 +245,6 @@ public class DashboardController {
     public void removeContent(DashboardView view) {
         view.getContent().removeAll();
         view.getContent().revalidate();
-
     }
 
     public JPanel addLoadingContent(JPanel content, String message) {
@@ -363,7 +369,7 @@ public class DashboardController {
     public void removeDialogLoading(DashboardView view) {
         view.getLoadingUser().dispose();
     }
-
+        
     public void refreshUserData(DashboardView view) throws InterruptedException, IOException {
         if (model.getNeedRefresh()) {
             System.out.println("Refreshing userData");
@@ -376,6 +382,7 @@ public class DashboardController {
                     model.setUserData(rowData);
                     model.setPlayingList(null);
                     model.setUpcomingList(null);
+                    model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
                     removeDialogLoading(view);
                 }
@@ -384,7 +391,7 @@ public class DashboardController {
             System.out.println("Opening dashboard, no need to refresh");
         }
     }
-    
+
     public void logout(DashboardView dashboardView, LoginView loginView) {
         if (JOptionPane.showConfirmDialog(dashboardView, "Apakah anda mau mengakhiri hidup anda ?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             dashboardView.dispose();

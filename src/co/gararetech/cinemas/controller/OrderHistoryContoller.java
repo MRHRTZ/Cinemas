@@ -6,38 +6,35 @@ package co.gararetech.cinemas.controller;
 
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.view.DashboardView;
-import co.gararetech.cinemas.view.elements.RoundJButton;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -100,9 +97,71 @@ public class OrderHistoryContoller {
         return result;
     }
 
+    public void deleteOrderHistory(String orderId) throws MalformedURLException, IOException {
+        System.out.println("Get Order History");
+        URL url = new URL(model.getOrderHistoryUrl().toString() + "delete_order.php?order_id=" + orderId);
+
+        model.setConnection((HttpURLConnection) url.openConnection());
+        model.getConnection().setRequestMethod("GET");
+        model.getConnection().setConnectTimeout(5000);
+        model.getConnection().setReadTimeout(5000);
+
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
+        int status = model.getConnection().getResponseCode();
+
+        if (status > 299) {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        } else {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        }
+
+        JSONObject response = new JSONObject(responseContent.toString());
+    }
+
+    public void updateOrderHistory(String orderId) throws MalformedURLException, IOException {
+        System.out.println("Get Order History");
+        URL url = new URL(model.getOrderHistoryUrl().toString() + "update_order.php?status=expired&order_id=" + orderId);
+
+        model.setConnection((HttpURLConnection) url.openConnection());
+        model.getConnection().setRequestMethod("GET");
+        model.getConnection().setConnectTimeout(5000);
+        model.getConnection().setReadTimeout(5000);
+
+        BufferedReader reader;
+        String line;
+        StringBuffer responseContent = new StringBuffer();
+        int status = model.getConnection().getResponseCode();
+
+        if (status > 299) {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getErrorStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        } else {
+            reader = new BufferedReader(new InputStreamReader(model.getConnection().getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+            reader.close();
+        }
+
+        JSONObject response = new JSONObject(responseContent.toString());
+    }
+
     public JSONArray getOrderHistory() throws MalformedURLException, IOException {
         System.out.println("Get Order History");
-        URL url = new URL(model.getOrderHistoryUrl().toString() + "?uid=" + model.getUserData().getString("user_id"));
+        URL url = new URL(model.getOrderHistoryUrl().toString() + "show_order.php?uid=" + model.getUserData().getString("user_id"));
 
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");
@@ -131,7 +190,7 @@ public class OrderHistoryContoller {
         return new JSONArray(responseContent.toString());
     }
 
-    public void setGrid(DashboardView view) throws IOException {
+    public void setGrid(DashboardView view) throws IOException, ParseException {
         System.out.println("Building Order History Content");
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
@@ -152,12 +211,12 @@ public class OrderHistoryContoller {
             for (int i = 0; i < orderList.length(); i++) {
                 JSONObject rowData = orderList.getJSONObject(i);
                 JSONObject movieDetail = getMovieDetail(rowData.getString("movie_id"));
-                
+
                 // Grid panel
                 final JPanel contentPanel = new JPanel();
                 contentPanel.setLayout(new CardLayout(20, 10));
-                contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 350));
-                contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 350));
+                contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 380));
+                contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 380));
                 contentPanel.setBackground(Color.decode("#42382F"));
 
                 // Card Panel
@@ -194,8 +253,8 @@ public class OrderHistoryContoller {
                 cardPanel.add(judulFilm);
 
                 JLabel lokasi = new JLabel();
-                BufferedImage rawPoster2 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imgLks = rawPoster2.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
+                BufferedImage rawPoster2 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/mall.png"));
+                Image imgLks = rawPoster2.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconLks = new ImageIcon(imgLks);
                 lokasi.setIcon(iconLks);
                 lokasi.setText("  " + rowData.getString("theater_name"));
@@ -205,8 +264,8 @@ public class OrderHistoryContoller {
                 cardPanel.add(lokasi);
 
                 JLabel kursi = new JLabel();
-                BufferedImage rawPoster3 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imgKrs = rawPoster3.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
+                BufferedImage rawPoster3 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/chairIcon.png"));
+                Image imgKrs = rawPoster3.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconKrs = new ImageIcon(imgKrs);
                 kursi.setIcon(iconKrs);
                 kursi.setText("  " + rowData.getString("chair"));
@@ -216,8 +275,8 @@ public class OrderHistoryContoller {
                 cardPanel.add(kursi);
 
                 JLabel tanggal = new JLabel();
-                BufferedImage rawPoster4 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imgtgl = rawPoster4.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
+                BufferedImage rawPoster4 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/date.png"));
+                Image imgtgl = rawPoster4.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconImg = new ImageIcon(imgtgl);
                 tanggal.setIcon(iconImg);
                 tanggal.setText("  " + rowData.getString("updated_at"));
@@ -227,8 +286,8 @@ public class OrderHistoryContoller {
                 cardPanel.add(tanggal);
 
                 JLabel harga = new JLabel();
-                BufferedImage rawPoster5 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/play-52.png"));
-                Image imghrg = rawPoster5.getScaledInstance(20, 30, Image.SCALE_SMOOTH);
+                BufferedImage rawPoster5 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/dolar.png"));
+                Image imghrg = rawPoster5.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconHrg = new ImageIcon(imghrg);
                 harga.setIcon(iconHrg);
                 harga.setText("  Rp." + rowData.getString("total"));
@@ -237,7 +296,7 @@ public class OrderHistoryContoller {
                 harga.setBounds(labelX, heightSpace * 6, 500, 70);
                 cardPanel.add(harga);
 
-                if (rowData.getString("movie_status").equals("active")) {
+                if (rowData.getString("movie_status").equals("expired")) {
                     JLabel sudahTayang = new JLabel();
                     BufferedImage sudahTayangImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/Sudah Tayang.png"));
                     Image imgSdhTyg = sudahTayangImg.getScaledInstance(275, 200, Image.SCALE_SMOOTH);
@@ -245,6 +304,66 @@ public class OrderHistoryContoller {
                     sudahTayang.setIcon(iconTyg);
                     sudahTayang.setBounds(labelXStudio - 28, heightSpace, 500, 250);
                     cardPanel.add(sudahTayang);
+
+                    // delete button
+                    JButton deleteButton = new JButton();
+                    deleteButton.setForeground(Color.WHITE);
+                    deleteButton.setBackground(Color.decode("#86290B"));
+                    deleteButton.setText("Hapus");
+                    deleteButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (JOptionPane.showConfirmDialog(view, "Yakin hapus data history pembayaran ini ?", "Cinemas",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                new SwingWorker<Void, Void>() {
+                                    @Override
+                                    public Void doInBackground() throws ParseException {
+                                        try {
+                                            deleteOrderHistory(rowData.getString("order_id"));
+                                            removeContent(view);
+                                            setGrid(view);
+                                            view.revalidate();
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        return null;
+                                    }
+                                }.execute();
+                            }
+                        }
+                    });
+                    deleteButton.setFont(new Font("Serif", Font.PLAIN, 18));
+                    deleteButton.setBounds(19, (heightSpace * 8), 1110, 30);
+                    cardPanel.add(deleteButton);
+                } else {
+                    //update button
+                    JButton updateButton = new JButton();
+                    updateButton.setForeground(Color.WHITE);
+                    updateButton.setBackground(Color.decode("#83860B"));
+                    updateButton.setText("Tonton Sekarang");
+                    updateButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            new SwingWorker<Void, Void>() {
+                                @Override
+                                public Void doInBackground() throws ParseException {
+                                    try {
+                                        updateOrderHistory(rowData.getString("order_id"));
+                                        JOptionPane.showMessageDialog(view, "Tiket telah terpakai!");
+                                        removeContent(view);
+                                        setGrid(view);
+                                        view.revalidate();
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    return null;
+                                }
+                            }.execute();
+                        }
+                    });
+                    updateButton.setFont(new Font("Serif", Font.PLAIN, 18));
+                    updateButton.setBounds(19, (heightSpace * 8), 1110, 30);
+                    cardPanel.add(updateButton);
                 }
 
                 JLabel studio = new JLabel();
@@ -263,5 +382,10 @@ public class OrderHistoryContoller {
             }
             System.out.println("Success Load Order History");
         }
+    }
+
+    public void removeContent(DashboardView view) {
+        view.getContent().removeAll();
+        view.getContent().revalidate();
     }
 }

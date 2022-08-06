@@ -8,18 +8,15 @@ import co.gararetech.cinemas.controller.UpcomingController;
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
-import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
@@ -477,7 +474,7 @@ public class DashboardView extends javax.swing.JFrame {
         this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
         new SwingWorker<Void, Void>() {
             @Override
-            public Void doInBackground() {
+            public Void doInBackground() throws ParseException {
                 try {
                     orderHistoryController.setGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
@@ -488,7 +485,6 @@ public class DashboardView extends javax.swing.JFrame {
                 return null;
             }
         }.execute();
-
     }//GEN-LAST:event_btnOrderHistoryActionPerformed
 
     private void editProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileActionPerformed

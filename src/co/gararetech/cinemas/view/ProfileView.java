@@ -5,14 +5,11 @@
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.ProfileController;
-import co.gararetech.cinemas.controller.RegisterController;
-import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.model.ProfileModel;
-import co.gararetech.cinemas.model.RegisterModel;
 import co.gararetech.cinemas.utils.GoogleCloudStorage;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
-import co.gararetech.cinemas.view.elements.RoundJCity;
+import co.gararetech.cinemas.view.elements.RoundJCBox;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
 import java.io.IOException;
@@ -20,9 +17,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -157,7 +152,7 @@ public class ProfileView extends javax.swing.JFrame {
         txtOldPassword = new RoundJPasswordField(50);
         txtNewPassword = new RoundJPasswordField(50);
         jLabel6 = new javax.swing.JLabel();
-        jCity = new RoundJCity();
+        jCity = new RoundJCBox();
         isChangePassword = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

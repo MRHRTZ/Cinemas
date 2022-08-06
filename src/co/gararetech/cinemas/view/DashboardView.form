@@ -34,6 +34,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="About Us"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="aboutUs.addActionListener(new java.awt.event.ActionListener() {&#xa;    public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;        aboutUsPerformed(evt);&#xa;    }&#xa;});"/>
+          </AuxValues>
         </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="line">
         </Component>
@@ -264,6 +267,9 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCinema1ActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="DashboardView_btnCinema1"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

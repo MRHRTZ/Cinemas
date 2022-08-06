@@ -5,12 +5,15 @@ import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundJButton;
 import co.gararetech.cinemas.view.elements.RoundJCity;
+import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import co.gararetech.cinemas.view.elements.UppercaseDocumentFilter;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -31,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.List;
+import static java.util.Locale.filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -44,15 +48,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CinemaListController {
 
     private DashboardModel model;
-
+    
     public DashboardModel getModel() {
         return model;
     }
@@ -112,14 +119,68 @@ public class CinemaListController {
             model.setCinemaList(new JSONArray());
         }
     }
-
+    
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
         System.out.println("Refreshing cinemas content ..");
-
+        
         // Now Playing Container
         JPanel gridPane = new JPanel();
         gridPane.setLayout(new BoxLayout(gridPane, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
         gridPane.setBackground(Color.decode("#42382F"));
+        
+        
+        // Search Bar ContentPanel
+        final JPanel searchBarContentPanel = new JPanel();
+        searchBarContentPanel.setLayout(new CardLayout(50, 10));
+        searchBarContentPanel.setPreferredSize(new Dimension(350, 30));
+        searchBarContentPanel.setMaximumSize(new Dimension(350, 30));
+        searchBarContentPanel.setBackground(Color.decode("#42382F"));
+        searchBarContentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Search Bar Panel
+        final JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new BoxLayout(searchPanel,BoxLayout.Y_AXIS));
+        searchPanel.setMaximumSize(new Dimension(150, 50));
+        searchPanel.setBackground(Color.decode("#42382F"));
+        //Search Bar Button
+        JButton searchContent = new JButton();
+        searchContent.setLayout(new BorderLayout());
+        searchContent.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        searchContent.setBackground(Color.decode("#42382F"));
+        //Search Bar Label
+        JLabel labelSearchBar = new JLabel();
+        labelSearchBar.setText("                     PENCARIAN");
+        labelSearchBar.setFont(new Font("Serif UI", Font.BOLD, 18));
+        labelSearchBar.setForeground(Color.white);
+        //Search Bar Label Panel
+        final JPanel searchLabelPanel = new JPanel();
+        searchBarContentPanel.setLayout(new CardLayout(0, 0));
+        searchLabelPanel.setMaximumSize(new Dimension(300,37));
+        searchLabelPanel.setBackground(Color.decode("#42382F"));
+        searchLabelPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //Search Bar Text Field
+        DocumentFilter filter = new UppercaseDocumentFilter();
+        JTextField searchBar = new JTextField();
+        searchBar.setBackground(Color.decode("#42382F"));
+        searchBar.setFont(new Font("Serif UI", Font.BOLD, 16));
+        searchBar.setForeground(Color.white);
+        searchBar.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, Color.white));
+        ((AbstractDocument) searchBar.getDocument()).setDocumentFilter(filter);
+        searchBar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                if(! searchBar.equals("")){
+                    String search = searchBar.getText();
+                    model.setSearchBar(search);
+                    searchingTheater(model.getSearchBar(),view);
+                }
+        }
+        });       
+        searchContent.add(searchBar);
+        searchLabelPanel.add(labelSearchBar);
+        searchPanel.add(searchContent);
+        searchBarContentPanel.add(searchPanel);
+        gridPane.add(searchLabelPanel);
+        gridPane.add(searchBarContentPanel);
         
         
         // List Data
@@ -191,14 +252,26 @@ public class CinemaListController {
                 contentPanel.add(cardPanel);
                 gridPane.add(contentPanel);
             }
-
+            
         gridPane.add(Box.createVerticalBox());
         view.getContent().add(gridPane);
 
         System.out.println("Success load cinemas");
         }
     }
-
+    //Buat searching theater
+    public void searchingTheater(String Theater, DashboardView view){
+        // search bar
+        JSONArray listData = model.getCinemaList();
+        for (int i = 0; i < listData.length(); i++) {
+            JSONObject rowData = listData.getJSONObject(i);
+            if(Theater.equals(rowData.getString("name"))){
+                System.out.println("Ada : " + rowData.getString("name"));
+                viewTheaterDetail(view, rowData);
+            }
+        }
+    }
+    
     public void viewTheaterDetail(DashboardView view, JSONObject rowData) {
         new Thread() {
             public void run() {

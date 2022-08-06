@@ -27,7 +27,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class DashboardView extends javax.swing.JFrame {
-
+    private AboutUsView aboutusview;
     private NowPlayingController nowPlayingController;
     private UpcomingController upcomingController;
     private OrderHistoryContoller orderHistoryController;
@@ -56,7 +56,7 @@ public class DashboardView extends javax.swing.JFrame {
         cinemaListController = new CinemaListController();
         orderHistoryController = new OrderHistoryContoller();
         googleCloudStorage = new GoogleCloudStorage();
-
+        aboutusview = new AboutUsView();
         initComponents();
 
         dashboardController.setModel(dashboardModel);
@@ -201,6 +201,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         aboutUs.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         aboutUs.setText("About Us");
+        aboutUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutUsPerformed(evt);
+            }
+        });
         popupProfile.add(aboutUs);
         popupProfile.add(line);
 
@@ -510,7 +515,11 @@ public class DashboardView extends javax.swing.JFrame {
             }
         }.execute();
     }//GEN-LAST:event_editProfileActionPerformed
-
+    
+    private void aboutUsPerformed(java.awt.event.ActionEvent evt) {                                       
+        aboutusview.setVisible(true);
+    }
+    
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         try {
             // TODO add your handling code here:

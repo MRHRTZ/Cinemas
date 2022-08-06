@@ -31,7 +31,8 @@ public class DashboardModel {
     private String activeTab;
     private String invalidMessage;
     private Boolean needRefresh;
-    
+    private String searchBar;
+
     public DashboardModel() {
         try {
             String baseUrl = "https://api.tix.id";
@@ -146,4 +147,13 @@ public class DashboardModel {
     public void setUserData(JSONObject userData) {
         this.userData = userData;
     }   
+    //Buat searching theater
+    public String getSearchBar() {
+        return searchBar;
+    }
+
+    public void setSearchBar(String searchBar) {
+        this.searchBar = searchBar;
+    }
+    
 }

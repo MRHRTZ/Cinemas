@@ -195,6 +195,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         bugReport.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         bugReport.setText("Bug Report");
+        bugReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bugReportActionPerformed(evt);
+            }
+        });
         popupProfile.add(bugReport);
 
         aboutUs.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -539,6 +544,11 @@ public class DashboardView extends javax.swing.JFrame {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_LogoutActionPerformed
+
+    private void bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bugReportActionPerformed
+        // TODO add your handling code here:
+        dashboardController.viewBugReport(this);
+    }//GEN-LAST:event_bugReportActionPerformed
 
     /**
      * @param args the command line arguments

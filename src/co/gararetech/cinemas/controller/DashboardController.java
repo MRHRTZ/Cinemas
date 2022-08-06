@@ -5,6 +5,7 @@
 package co.gararetech.cinemas.controller;
 
 import co.gararetech.cinemas.model.DashboardModel;
+import co.gararetech.cinemas.view.BugReportView;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.LoginView;
 import co.gararetech.cinemas.view.ProfileView;
@@ -21,7 +22,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -393,6 +393,21 @@ public class DashboardController {
             }
         } else {
             System.out.println("Opening dashboard, no need to refresh");
+        }
+    }
+    
+    public void viewBugReport(DashboardView view) {
+        try {
+            BugReportView bgView = new BugReportView();
+            bgView.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

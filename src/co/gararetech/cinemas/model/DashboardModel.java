@@ -19,6 +19,7 @@ public class DashboardModel {
     private URL tokenEndpoint;
     private URL usersEndpoint;
     private URL orderHistoryUrl;
+    private URL bugReportUrl;
 
     private JSONArray playingList;
     private JSONArray upcomingList;
@@ -35,7 +36,6 @@ public class DashboardModel {
     private String activeTab;
     private String invalidMessage;
     private Boolean needRefresh;
-    private String searchBar;
 
     public DashboardModel() {
         try {
@@ -48,6 +48,7 @@ public class DashboardModel {
             this.movieScheduleUrl = new URL(baseUrl + "/v3/schedule");
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
             this.usersEndpoint = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
+            this.bugReportUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/create_report.php");
             this.orderHistoryUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/");
             this.invalidMessage = null;
         } catch (MalformedURLException ex) {
@@ -57,6 +58,10 @@ public class DashboardModel {
 
     public JSONObject getOrderHistoryUpdate() {
         return orderHistoryUpdate;
+    }
+
+    public URL getBugReportUrl() {
+        return bugReportUrl;
     }
 
     public void setOrderHistoryList(JSONArray orderHistoryList) {
@@ -197,16 +202,7 @@ public class DashboardModel {
 
     public void setUserData(JSONObject userData) {
         this.userData = userData;
-    }   
-    //Buat searching theater
-    public String getSearchBar() {
-        return searchBar;
     }
-
-    public void setSearchBar(String searchBar) {
-        this.searchBar = searchBar;
-    }
-    
 
     public JSONObject getOrderHistoryDelete() {
         return orderHistoryDelete;
@@ -215,6 +211,5 @@ public class DashboardModel {
     public void setOrderHistoryDelete(JSONObject orderHistoryDelete) {
         this.orderHistoryDelete = orderHistoryDelete;
     }
-
 
 }

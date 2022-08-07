@@ -5,6 +5,7 @@
 package co.gararetech.cinemas.controller;
 
 import co.gararetech.cinemas.model.DashboardModel;
+import co.gararetech.cinemas.view.BugReportView;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.LoginView;
 import co.gararetech.cinemas.view.ProfileView;
@@ -21,6 +22,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -385,15 +388,45 @@ public class DashboardController {
                     model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
                     removeDialogLoading(view);
+                    
                 }
             }
         } else {
             System.out.println("Opening dashboard, no need to refresh");
         }
     }
+    
+    public void viewBugReport(DashboardView view) {
+        try {
+            BugReportView bgView = new BugReportView();
+            bgView.getBugReportController().setModel(model);
+            String currentEmail = model.getUserData().getString("email");
+            bgView.getTxtEmail().setText(currentEmail);
+            bgView.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public void hidePopupProfile(DashboardView view) {
+        view.getPopupProfile().setVisible(false);
+        
+    }
+    
+    public void showPopupProfile(DashboardView view) {
+        view.getPopupProfile().show(view, 965, 65);
+        view.getPopupProfile().setVisible(true);
+    }
 
     public void logout(DashboardView dashboardView, LoginView loginView) {
-        if (JOptionPane.showConfirmDialog(dashboardView, "Apakah anda mau mengakhiri hidup anda ?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(dashboardView, "Masih banyak film yang seru nih, apakah anda mau keluar?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             dashboardView.dispose();
             loginView.setVisible(true);
         }

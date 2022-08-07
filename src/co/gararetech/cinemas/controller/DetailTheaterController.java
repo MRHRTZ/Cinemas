@@ -124,6 +124,7 @@ public class DetailTheaterController {
         locAddressText.setBounds(locAddressTextX, locAddressTextY, contentPanelWidth - locationMarker.getWidth() - 70, 50);
         locAddressText.setWrapStyleWord(true);
         locAddressText.setLineWrap(true);
+        locAddressText.setEditable(false);
         contentPanel.add(locAddressText);
 
         // Static Maps

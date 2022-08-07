@@ -8,6 +8,9 @@ import co.gararetech.cinemas.controller.CheckoutTicketController;
 import co.gararetech.cinemas.model.CheckoutTicketModel;
 import co.gararetech.cinemas.view.elements.RoundJTextField;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import co.gararetech.cinemas.view.elements.RoundJButton;
+import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
+import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -53,10 +56,13 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         checkoutTicketController = new CheckoutTicketController();
         bookingticketview = new BookingTicketView();
         initComponents();
-        
 
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
+    }
+
+    public JTextField getFilterTanggal() {
+        return filterTanggal;
     }
 
     public CheckoutTicketController getCheckoutTicketController() {
@@ -130,13 +136,26 @@ public class CheckoutTicketView extends javax.swing.JFrame {
 
         headerPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        Divider = new javax.swing.JPanel();
         contentContainer = new javax.swing.JPanel();
         filterPanel = new RoundedPanel();
-        filterPanel.setVisible(false);
+        filterPanel.setVisible(true);
         filterBioskop = new RoundJTextField(50);
         ;
         checkoutTicketController.setfilterBioskopPlaceholder(this.getFilterBioskop());
         jLabel11 = new javax.swing.JLabel();
+        filterTanggal = new RoundJTextField(50);
+        ;
+        showDate = new com.github.lgooddatepicker.components.DatePicker();
+        showDate.setDateToToday();
+        showDate.addDateChangeListener(new DateChangeListener() {
+            @Override
+            public void dateChanged(DateChangeEvent dce) {
+                checkoutTicketController.onDateChange(CheckoutTicketView.this, dce);
+            }
+        });
+        filterTanggal.setText(showDate.getDate().toString());
+        datePick = new javax.swing.JLabel();
         containerScroller = new RoundedPanel();
         scrollContent = new javax.swing.JScrollPane();
         scrollContent.setOpaque(false);
@@ -144,7 +163,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         scrollContent.getVerticalScrollBar().setUnitIncrement(25);
         scrollContent.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         scrollContent.getViewport().setScrollMode(JViewport.BACKINGSTORE_SCROLL_MODE);
-        contentPanelCheckout = new RoundedPanel();
+        contentPanelCheckout = new javax.swing.JPanel();
         infoPanel = new RoundedPanel();
         titleLabel = new javax.swing.JLabel();
         BtnBatal = new javax.swing.JButton();
@@ -186,19 +205,34 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(112, 112, 112)
                 .addComponent(jLabel1)
-                .addContainerGap(777, Short.MAX_VALUE))
+                .addContainerGap(689, Short.MAX_VALUE))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getContentPane().add(headerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 90));
+
+        Divider.setBackground(Color.decode("#42382F"));
+
+        javax.swing.GroupLayout DividerLayout = new javax.swing.GroupLayout(Divider);
+        Divider.setLayout(DividerLayout);
+        DividerLayout.setHorizontalGroup(
+            DividerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 960, Short.MAX_VALUE)
+        );
+        DividerLayout.setVerticalGroup(
+            DividerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(Divider, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 960, 60));
 
         contentContainer.setBackground(Color.decode("#42382F"));
         contentContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -230,28 +264,79 @@ public class CheckoutTicketView extends javax.swing.JFrame {
             filterBioskopKeyTyped(evt);
         }
     });
-    filterPanel.add(filterBioskop, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 550, 40));
+    filterPanel.add(filterBioskop, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 290, 40));
 
     jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/search-icon.png"))); // NOI18N
-    filterPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, 40));
+    jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            jLabel11MouseClicked(evt);
+        }
+    });
+    filterPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 60));
+
+    filterTanggal.setEditable(false);
+    filterTanggal.setBackground(Color.decode("#454444"));
+    filterTanggal.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
+    filterTanggal.setForeground(new java.awt.Color(203, 203, 203));
+    filterTanggal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    filterTanggal.setBorder(BorderFactory.createCompoundBorder(
+        filterBioskop.getBorder(), 
+        BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+filterTanggal.setCaretColor(new java.awt.Color(255, 255, 255));
+filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        filterTanggalFocusGained(evt);
+    }
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        filterTanggalFocusLost(evt);
+    }
+    });
+    filterTanggal.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            filterTanggalMouseClicked(evt);
+        }
+    });
+    filterTanggal.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            filterTanggalActionPerformed(evt);
+        }
+    });
+    filterTanggal.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            filterTanggalKeyReleased(evt);
+        }
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            filterTanggalKeyTyped(evt);
+        }
+    });
+    filterPanel.add(filterTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 110, 40));
+
+    showDate.setOpaque(false);
+    filterPanel.add(showDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 0, 40));
+
+    datePick.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/calendar-39.png"))); // NOI18N
+    datePick.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            datePickMouseClicked(evt);
+        }
+    });
+    filterPanel.add(datePick, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, -1, 40));
 
     contentContainer.add(filterPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 40, 610, 60));
 
     containerScroller.setBackground(Color.decode("#19181C"));
     containerScroller.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    scrollContent.setBackground(Color.decode("#19181C"));
     scrollContent.setBorder(null);
     scrollContent.setForeground(new java.awt.Color(102, 102, 102));
     scrollContent.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    scrollContent.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-    contentPanelCheckout.setBackground(new Color(0, 0, 0, 0));
+    contentPanelCheckout.setBackground(Color.decode("#19181C"));
     contentPanelCheckout.setLayout(new javax.swing.BoxLayout(contentPanelCheckout, javax.swing.BoxLayout.PAGE_AXIS));
     scrollContent.setViewportView(contentPanelCheckout);
 
-    containerScroller.add(scrollContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 620, 430));
+    containerScroller.add(scrollContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 620, 390));
 
     contentContainer.add(containerScroller, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 680, 510));
 
@@ -452,7 +537,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
 
     contentContainer.add(infoPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(728, 27, -1, -1));
 
-    getContentPane().add(contentContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 83, 960, 570));
+    getContentPane().add(contentContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 93, 960, 560));
 
     pack();
     setLocationRelativeTo(null);
@@ -489,6 +574,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
 
     private void BtnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPilihActionPerformed
         // TODO add your handling code here:
+
 //        JPanel contentPanel = new JPanel();
 //        contentPanel.setLayout(new CardLayout(50, 30));
 ////        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 450));
@@ -500,6 +586,9 @@ public class CheckoutTicketView extends javax.swing.JFrame {
 //        this.getContentPanelCheckout().revalidate();
         this.dispose();
         bookingticketview.setVisible(true);
+
+        this.getScrollContent().getVerticalScrollBar().setValue(0);
+
     }//GEN-LAST:event_BtnPilihActionPerformed
 
     private void filterBioskopKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterBioskopKeyTyped
@@ -510,6 +599,41 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         // TODO add your handling code here:
         checkoutTicketController.onFilterTyped(this, evt);
     }//GEN-LAST:event_filterBioskopKeyReleased
+
+    private void filterTanggalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_filterTanggalFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterTanggalFocusGained
+
+    private void filterTanggalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_filterTanggalFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterTanggalFocusLost
+
+    private void filterTanggalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterTanggalKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterTanggalKeyReleased
+
+    private void filterTanggalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterTanggalKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterTanggalKeyTyped
+
+    private void filterTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterTanggalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterTanggalActionPerformed
+
+    private void datePickMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datePickMouseClicked
+        // TODO add your handling code here:
+        showDate.openPopup();
+    }//GEN-LAST:event_datePickMouseClicked
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+        // TODO add your handling code here:
+        filterBioskop.requestFocus();
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void filterTanggalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterTanggalMouseClicked
+        // TODO add your handling code here:
+        showDate.openPopup();
+    }//GEN-LAST:event_filterTanggalMouseClicked
 
     /**
      * @param args the command line arguments
@@ -560,12 +684,15 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBatal;
     private javax.swing.JButton BtnPilih;
+    private javax.swing.JPanel Divider;
     private javax.swing.JPanel containerScroller;
     private javax.swing.JPanel contentContainer;
     private javax.swing.JPanel contentPanelCheckout;
+    private javax.swing.JLabel datePick;
     private javax.swing.JTextField durasiField;
     private javax.swing.JTextField filterBioskop;
     private javax.swing.JPanel filterPanel;
+    private javax.swing.JTextField filterTanggal;
     private javax.swing.JTextField genreField;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JPanel infoPanel;
@@ -581,6 +708,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     private javax.swing.JPanel separator1;
     private javax.swing.JPanel separator2;
     private javax.swing.JPanel separator3;
+    private com.github.lgooddatepicker.components.DatePicker showDate;
     private javax.swing.JTextField sutradaraField;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

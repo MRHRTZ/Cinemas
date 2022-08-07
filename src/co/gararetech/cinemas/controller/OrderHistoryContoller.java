@@ -23,6 +23,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -214,7 +218,7 @@ public class OrderHistoryContoller {
 
                 // Grid panel
                 final JPanel contentPanel = new JPanel();
-                contentPanel.setLayout(new CardLayout(20, 10));
+                contentPanel.setLayout(new CardLayout(33, 10));
                 contentPanel.setPreferredSize(new Dimension(view.getContent().getWidth(), 380));
                 contentPanel.setMaximumSize(new Dimension(view.getContent().getWidth(), 380));
                 contentPanel.setBackground(Color.decode("#42382F"));
@@ -279,7 +283,14 @@ public class OrderHistoryContoller {
                 Image imgtgl = rawPoster4.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconImg = new ImageIcon(imgtgl);
                 tanggal.setIcon(iconImg);
-                tanggal.setText("  " + rowData.getString("updated_at"));
+                int timestamp = rowData.getInt("show_time");
+                Date date = new Date(timestamp * 1000L);
+                Locale id = new Locale("in", "ID");
+                String pattern = "EEEEE, dd-MM-yyyy HH:mm";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, id);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("273"));
+                String time = simpleDateFormat.format(date);
+                tanggal.setText("  " + time);
                 tanggal.setForeground(Color.WHITE);
                 tanggal.setFont(new Font("Serif", Font.PLAIN, 15));
                 tanggal.setBounds(labelX, heightSpace * 5, 500, 70);
@@ -333,7 +344,7 @@ public class OrderHistoryContoller {
                         }
                     });
                     deleteButton.setFont(new Font("Serif", Font.PLAIN, 18));
-                    deleteButton.setBounds(19, (heightSpace * 8), 1110, 30);
+                    deleteButton.setBounds(12, (heightSpace * 8), 1110, 30);
                     cardPanel.add(deleteButton);
                 } else {
                     //update button
@@ -362,7 +373,7 @@ public class OrderHistoryContoller {
                         }
                     });
                     updateButton.setFont(new Font("Serif", Font.PLAIN, 18));
-                    updateButton.setBounds(19, (heightSpace * 8), 1110, 30);
+                    updateButton.setBounds(12, (heightSpace * 8), 1110, 30);
                     cardPanel.add(updateButton);
                 }
 

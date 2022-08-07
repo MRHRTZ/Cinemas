@@ -18,12 +18,15 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class DashboardView extends javax.swing.JFrame {
+
     private AboutUsView aboutusview;
     private NowPlayingController nowPlayingController;
     private UpcomingController upcomingController;
@@ -75,15 +78,8 @@ public class DashboardView extends javax.swing.JFrame {
                     dashboardController.getCities();
                     nowPlayingController.setNewGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
-                } catch (IOException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -155,6 +151,10 @@ public class DashboardView extends javax.swing.JFrame {
         this.loadingUser = loadingUser;
     }
 
+    public JPopupMenu getPopupProfile() {
+        return popupProfile;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -194,6 +194,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         bugReport.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         bugReport.setText("Bug Report");
+        bugReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bugReportActionPerformed(evt);
+            }
+        });
         popupProfile.add(bugReport);
 
         aboutUs.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -247,7 +252,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnNowPlaying.setBackground(Color.decode("#3D3C3A"));
         btnNowPlaying.setForeground(new java.awt.Color(255, 255, 255));
         btnNowPlaying.setText("Sedang Tayang");
-        btnNowPlaying.setToolTipText("");
+        btnNowPlaying.setToolTipText("Sedang Tayang");
         btnNowPlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNowPlayingActionPerformed(evt);
@@ -256,7 +261,8 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnUpcoming.setBackground(Color.decode("#D9D9D9"));
         btnUpcoming.setForeground(new java.awt.Color(204, 204, 204));
-        btnUpcoming.setText("Segera");
+        btnUpcoming.setText("Segera Tayang");
+        btnUpcoming.setToolTipText("Segera Tayang");
         btnUpcoming.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpcomingActionPerformed(evt);
@@ -265,6 +271,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnCinema.setBackground(Color.decode("#D9D9D9"));
         btnCinema.setText("Bioskop");
+        btnCinema.setToolTipText("Bioskop");
         btnCinema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCinemaActionPerformed(evt);
@@ -273,6 +280,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
         btnOrderHistory.setText("Riwayat Pesanan");
+        btnOrderHistory.setToolTipText("Riwayat Pesanan");
         btnOrderHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOrderHistoryActionPerformed(evt);
@@ -280,7 +288,7 @@ public class DashboardView extends javax.swing.JFrame {
         });
 
         minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
-        minimize.setToolTipText("MINIMIZE");
+        minimize.setToolTipText("Minimize");
         minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         minimize.setIconTextGap(0);
         minimize.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -290,7 +298,7 @@ public class DashboardView extends javax.swing.JFrame {
         });
 
         exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
-        exit.setToolTipText("EXIT");
+        exit.setToolTipText("Close");
         exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         exit.setIconTextGap(0);
         exit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -301,6 +309,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         btnCinema1.setBackground(Color.decode("#D9D9D9"));
         btnCinema1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
+        btnCinema1.setToolTipText("Profile");
         btnCinema1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCinema1ActionPerformed(evt);
@@ -370,9 +379,6 @@ public class DashboardView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showPopupProfile() {
-        this.popupProfile.show(this, 970, 65);
-    }
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
         // TODO add your handling code here:
@@ -385,6 +391,7 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
+        dashboardController.hidePopupProfile(this);
         this.setMousepX(evt.getX());
         this.setMousepY(evt.getY());
     }//GEN-LAST:event_jPanel1MousePressed
@@ -401,7 +408,8 @@ public class DashboardView extends javax.swing.JFrame {
                     upcomingController.setNewGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -421,7 +429,8 @@ public class DashboardView extends javax.swing.JFrame {
                     nowPlayingController.setNewGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -451,7 +460,8 @@ public class DashboardView extends javax.swing.JFrame {
                     cinemaListController.setNewGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -460,7 +470,7 @@ public class DashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCinemaActionPerformed
 
     private void btnCinema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinema1ActionPerformed
-        this.showPopupProfile();
+        dashboardController.showPopupProfile(this);
     }//GEN-LAST:event_btnCinema1ActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -479,7 +489,8 @@ public class DashboardView extends javax.swing.JFrame {
                     orderHistoryController.setGrid(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -494,50 +505,34 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     dashboardController.viewProfile(DashboardView.this, new ProfileView());
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
             }
         }.execute();
     }//GEN-LAST:event_editProfileActionPerformed
-    
-    private void aboutUsPerformed(java.awt.event.ActionEvent evt) {                                       
+
+    private void aboutUsPerformed(java.awt.event.ActionEvent evt) {
         aboutusview.setVisible(true);
     }
-    
+
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         try {
             // TODO add your handling code here:
             dashboardController.logout(this, new LoginView());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DashboardView.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            Logger.getLogger(DashboardView.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(DashboardView.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(DashboardView.class
-                    .getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_LogoutActionPerformed
+
+    private void bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bugReportActionPerformed
+        // TODO add your handling code here:
+        dashboardController.viewBugReport(this);
+    }//GEN-LAST:event_bugReportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -580,29 +575,9 @@ public class DashboardView extends javax.swing.JFrame {
                 try {
                     new DashboardView().setVisible(false);
 
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(DashboardView.class
-                            .getName()).log(Level.SEVERE, null, ex);
-
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(DashboardView.class
-                            .getName()).log(Level.SEVERE, null, ex);
-
-                } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(DashboardView.class
-                            .getName()).log(Level.SEVERE, null, ex);
-
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(DashboardView.class
-                            .getName()).log(Level.SEVERE, null, ex);
-
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(DashboardView.class
-                            .getName()).log(Level.SEVERE, null, ex);
-
-                } catch (IOException ex) {
-                    Logger.getLogger(DashboardView.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

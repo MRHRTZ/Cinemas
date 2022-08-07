@@ -25,7 +25,9 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
@@ -298,6 +300,7 @@ public class NowPlayingController {
                 try {
                     detailFilmController.showDetail(view, rowData);
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + e.getMessage());
                     e.printStackTrace();
                 }
 
@@ -318,6 +321,7 @@ public class NowPlayingController {
                     removeDialogLoading(view);
                     view.setVisible(false);
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + e.getMessage());
                     e.printStackTrace();
                 }
                 return null;
@@ -372,7 +376,7 @@ public class NowPlayingController {
     }
 
     public JDialog addDialogLoading(DashboardView view, String message) {
-        JDialog frame = new JDialog(view);
+        JDialog frame = new JDialog();
 
         JPanel framePanel = new RoundedPanel();
         framePanel.setBackground(Color.decode("#42382F"));

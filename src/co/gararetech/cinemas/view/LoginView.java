@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -187,7 +188,7 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
     });
 
     minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
-    minimize.setToolTipText("MINIMIZE");
+    minimize.setToolTipText("Minimize");
     minimize.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     minimize.setIconTextGap(0);
     minimize.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -197,7 +198,7 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
     });
 
     exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
-    exit.setToolTipText("EXIT");
+    exit.setToolTipText("Close");
     exit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     exit.setIconTextGap(0);
     exit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -282,13 +283,8 @@ txtPassword.addActionListener(new java.awt.event.ActionListener() {
         try {
             // TODO add your handling code here:
             loginController.viewRegister(this, new RegisterView());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Kesalahan system " + ex.getMessage());
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegisterActionPerformed

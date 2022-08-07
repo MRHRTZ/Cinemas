@@ -81,7 +81,6 @@ public class BugReportController {
     public void sendReport(BugReportView view) {
         String email = view.getTxtEmail().getText();
         String description = view.getTxtBugDesc().getText();
-        
         if (description.equals("")) {
             JOptionPane.showMessageDialog(view, "Deskripsikan bug aplikasi secara rinci.");
             view.getTxtBugDesc().requestFocus();

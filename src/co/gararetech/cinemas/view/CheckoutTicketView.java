@@ -41,7 +41,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     private CheckoutTicketController checkoutTicketController;
     private CheckoutTicketModel checkoutTicketModel;
     private ImageIcon appIcon;
-
+    private BookingTicketView bookingticketview;
     private int mouseX;
     private int mouseY;
 
@@ -54,7 +54,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 
         checkoutTicketController = new CheckoutTicketController();
-
+        bookingticketview = new BookingTicketView();
         initComponents();
 
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
@@ -359,7 +359,6 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
     BtnPilih.setBackground(Color.decode("#2E5B0B"));
     BtnPilih.setForeground(new java.awt.Color(255, 255, 255));
     BtnPilih.setText("PILIH KURSI");
-    BtnPilih.setEnabled(false);
     BtnPilih.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BtnPilihActionPerformed(evt);
@@ -575,7 +574,21 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
 
     private void BtnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPilihActionPerformed
         // TODO add your handling code here:
+
+//        JPanel contentPanel = new JPanel();
+//        contentPanel.setLayout(new CardLayout(50, 30));
+////        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 450));
+////        contentPanel.setMaximumSize(new Dimension(this.scrollContent.getWidth(), 450));
+//        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 85));
+//        contentPanel.setMaximumSize(new Dimension(this.scrollContent.getWidth(), 85));
+//        contentPanel.setBackground(Color.RED);
+//        this.getContentPanelCheckout().add(contentPanel);
+//        this.getContentPanelCheckout().revalidate();
+        this.dispose();
+        bookingticketview.setVisible(true);
+
         this.getScrollContent().getVerticalScrollBar().setValue(0);
+
     }//GEN-LAST:event_BtnPilihActionPerformed
 
     private void filterBioskopKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterBioskopKeyTyped

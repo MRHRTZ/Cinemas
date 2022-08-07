@@ -16,7 +16,6 @@ import javax.swing.JPanel;
  * @author LENOVO
  */
 public class AboutUsView extends javax.swing.JFrame {
-
     /**
      * Creates new form AboutUsView
      */
@@ -73,6 +72,7 @@ public class AboutUsView extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         panelBadar = new RoundedPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -150,7 +150,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("(Kontribusi)");
+        jLabel9.setText("UI/UX, BACK END, FRONT END");
         panelEdwin.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 89, -1, -1));
 
         panelDaftarAnggota.add(panelEdwin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 410, 140));
@@ -175,7 +175,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("(Kontribusi)");
+        jLabel12.setText("UI/UX,BACK END, FRONT END");
         panelEri.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 89, -1, -1));
 
         panelDaftarAnggota.add(panelEri, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 410, 140));
@@ -199,8 +199,13 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("(Kontribusi)");
-        panelHanif.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 89, -1, -1));
+        jLabel18.setText("API STRUCTURE");
+        panelHanif.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 110, 310, -1));
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("UI/UX, BACK END,FRONT END,");
+        panelHanif.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 89, 310, -1));
 
         panelDaftarAnggota.add(panelHanif, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 410, 140));
 
@@ -213,7 +218,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("ALFATIHNAMAN B");
+        jLabel13.setText("ALFATIHNAMAN BADHARIJA ");
         panelBadar.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 15, -1, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -223,7 +228,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("(Kontribusi)");
+        jLabel15.setText("UI/UX, FRONT END");
         panelBadar.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 89, -1, -1));
 
         panelDaftarAnggota.add(panelBadar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 200, 410, 140));
@@ -247,7 +252,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("(Kontribusi)");
+        jLabel21.setText("UI/UX, FRONT END");
         panelIlmi.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 89, -1, -1));
 
         panelDaftarAnggota.add(panelIlmi, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 410, 140));
@@ -339,6 +344,7 @@ public class AboutUsView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

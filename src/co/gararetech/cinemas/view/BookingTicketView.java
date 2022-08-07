@@ -1,25 +1,66 @@
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
 public class BookingTicketView extends javax.swing.JFrame {
-
+    
     private List<String> kursi;
-
-    public BookingTicketView() {
-        kursi = new ArrayList();
+    private int harga;
+    private int totalHarga;
+    private ImageIcon appIcon;
+    private PembayaranView pv;
+    
+    public BookingTicketView() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        Properties p = new Properties();
+        p.put("windowTitleFont", "Ebrima PLAIN 15");
+        p.put("logoString", "");
+        p.put("windowDecoration", "off");
+        AluminiumLookAndFeel.setCurrentTheme(p);
+        UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+        
+        kursi = new ArrayList<String>();
+        pv = new PembayaranView();
         initComponents();
+        
+        appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
+        this.setIconImage(appIcon.getImage());
 
+    }
+        
+    public int getTotalHarga() {
+        return totalHarga;
+    }
+
+    public void setTotalHarga(int totalHarga) {
+        this.totalHarga = totalHarga;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
     }
 
     public JPanel getPanelKursi() {
@@ -39,12 +80,27 @@ public class BookingTicketView extends javax.swing.JFrame {
         panelHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelKursi = new RoundedPanel();
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new RoundedPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel3 = new RoundedPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jPanel2 = new RoundedPanel();
         panelHarga = new javax.swing.JPanel();
+        btnPilihKursi = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        tampilHarga = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        tampilTax = new javax.swing.JTextField();
+        tampilTotalHarga = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         panelTampilKursi = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tampilKursi = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        btnBatal = new javax.swing.JButton();
+        btnBayar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1024, 640));
@@ -53,9 +109,10 @@ public class BookingTicketView extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1024, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        panelUtama.setBackground(new java.awt.Color(66, 56, 47));
         panelUtama.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelHeader.setBackground(Color.decode("#1D1C1C"));
+        panelHeader.setBackground(new java.awt.Color(29, 28, 28));
         panelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
@@ -63,59 +120,167 @@ public class BookingTicketView extends javax.swing.JFrame {
 
         panelUtama.add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1024, 90));
 
-        panelKursi.setBackground(new java.awt.Color(0, 0, 0));
+        panelKursi.setBackground(new java.awt.Color(25, 24, 28));
         panelKursi.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("Create");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        panelKursi.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("LAYAR");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, -1, -1));
+
+        panelKursi.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, 650, 30));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("PILIHAN ANDA");
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 3, -1, -1));
+
+        jPanel4.setBackground(new java.awt.Color(51, 255, 0));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 3, 20, 20));
+
+        panelKursi.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 360, 30));
 
         panelUtama.add(panelKursi, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 690, 510));
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 0));
+        jPanel2.setBackground(new java.awt.Color(34, 34, 34));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout panelHargaLayout = new javax.swing.GroupLayout(panelHarga);
-        panelHarga.setLayout(panelHargaLayout);
-        panelHargaLayout.setHorizontalGroup(
-            panelHargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 230, Short.MAX_VALUE)
-        );
-        panelHargaLayout.setVerticalGroup(
-            panelHargaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
-        );
+        panelHarga.setBackground(new java.awt.Color(34, 34, 34));
+        panelHarga.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnPilihKursi.setBackground(new java.awt.Color(162, 123, 92));
+        btnPilihKursi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnPilihKursi.setForeground(new java.awt.Color(255, 255, 255));
+        btnPilihKursi.setText("PILIH KURSI");
+        btnPilihKursi.setBorder(null);
+        btnPilihKursi.setBorderPainted(false);
+        btnPilihKursi.setFocusPainted(false);
+        btnPilihKursi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPilihKursiActionPerformed(evt);
+            }
+        });
+        panelHarga.add(btnPilihKursi, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 230, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("TOTAL HARGA");
+        jLabel4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 3, 0, new java.awt.Color(81, 81, 81)));
+        panelHarga.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
+
+        tampilHarga.setBackground(new java.awt.Color(34, 34, 34));
+        tampilHarga.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tampilHarga.setForeground(new java.awt.Color(255, 255, 255));
+        tampilHarga.setBorder(null);
+        tampilHarga.setEditable(false);
+        panelHarga.add(tampilHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 42, 90, 20));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(116, 116, 116));
+        jLabel5.setText("Harga :");
+        panelHarga.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(116, 116, 116));
+        jLabel6.setText("Tax      :");
+        panelHarga.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+
+        tampilTax.setBackground(new java.awt.Color(34, 34, 34));
+        tampilTax.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tampilTax.setForeground(new java.awt.Color(255, 255, 255));
+        tampilTax.setText("3%");
+        tampilTax.setBorder(null);
+        tampilHarga.setEditable(false);
+        panelHarga.add(tampilTax, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 90, 20));
+
+        tampilTotalHarga.setBackground(new java.awt.Color(34, 34, 34));
+        tampilTotalHarga.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tampilTotalHarga.setForeground(new java.awt.Color(255, 255, 255));
+        tampilTotalHarga.setBorder(null);
+        tampilHarga.setEditable(false);
+        panelHarga.add(tampilTotalHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 90, 20));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(116, 116, 116));
+        jLabel7.setText("Total   :");
+        panelHarga.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
 
         jPanel2.add(panelHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 250));
 
+        panelTampilKursi.setBackground(new java.awt.Color(34, 34, 34));
+        panelTampilKursi.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        tampilKursi.setBackground(new java.awt.Color(34, 34, 34));
         tampilKursi.setColumns(20);
-        tampilKursi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tampilKursi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tampilKursi.setForeground(new java.awt.Color(255, 255, 255));
         tampilKursi.setLineWrap(true);
         tampilKursi.setRows(5);
+        tampilKursi.setBorder(null);
+        tampilKursi.setEditable(false);
         jScrollPane1.setViewportView(tampilKursi);
 
-        javax.swing.GroupLayout panelTampilKursiLayout = new javax.swing.GroupLayout(panelTampilKursi);
-        panelTampilKursi.setLayout(panelTampilKursiLayout);
-        panelTampilKursiLayout.setHorizontalGroup(
-            panelTampilKursiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTampilKursiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelTampilKursiLayout.setVerticalGroup(
-            panelTampilKursiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTampilKursiLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
+        panelTampilKursi.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 210, 110));
 
-        jPanel2.add(panelTampilKursi, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 230, 220));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("TEMPAT DUDUK");
+        jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 3, 0, new java.awt.Color(81, 81, 81)));
+        panelTampilKursi.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, -1));
+
+        btnBatal.setBackground(new java.awt.Color(162, 123, 92));
+        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnBatal.setForeground(new java.awt.Color(255, 255, 255));
+        btnBatal.setText("BATAL");
+        btnBatal.setBorder(null);
+        btnBatal.setBorderPainted(false);
+        btnBatal.setFocusPainted(false);
+        btnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBatalActionPerformed(evt);
+            }
+        });
+        panelTampilKursi.add(btnBatal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 230, -1));
+
+        btnBayar.setBackground(new java.awt.Color(102, 255, 51));
+        btnBayar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnBayar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBayar.setText("BAYAR");
+        btnBayar.setBorder(null);
+        btnBayar.setBorderPainted(false);
+        btnBayar.setFocusPainted(false);
+        btnBayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBayarActionPerformed(evt);
+            }
+        });
+        panelTampilKursi.add(btnBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 230, -1));
+
+        jPanel2.add(panelTampilKursi, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 230, 230));
 
         panelUtama.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 110, 250, 510));
 
@@ -125,21 +290,39 @@ public class BookingTicketView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnPilihKursiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihKursiActionPerformed
         // TODO add your handling code here:
+        setHarga(0);
         int h = 20;
         int w = 80;
-
-        int maxX = 11;
+        int maxX = 12;
         int maxY = 7;
-
-        for (int ix = 0; ix < maxX; ix++) {
+        int nomorKursi=3;
+        String namaBaris = "";
+        for (int ix = 1; ix < maxX; ix++) {
+            if(ix!=3 && ix!=9){
             for (int iy = 0; iy < maxY; iy++) {
-                System.out.println(ix + "." + iy + " : " + h + "x" + w);
+                if(iy==0){
+                    namaBaris="G";
+                }else if(iy==1){
+                    namaBaris="F";
+                }else if(iy==2){
+                    namaBaris="E";
+                }else if(iy==3){
+                    namaBaris="D";
+                }else if(iy==4){
+                    namaBaris="C";
+                }else if(iy==5){
+                    namaBaris="B";
+                }else if(iy==6){
+                    namaBaris="A";
+                }
+                System.out.println(namaBaris + " " + iy + " : " + h + "x" + w);
                 JToggleButton btnkursi = new JToggleButton();
-                btnkursi.setText(ix + "." + iy);
+                if(ix<=3){
+                btnkursi.setText(namaBaris + ix);
                 btnkursi.setForeground(Color.WHITE);
-                btnkursi.setFont(new Font("Serial", Font.PLAIN, 13));
+                btnkursi.setFont(new Font("Segue UI", Font.PLAIN, 12));
                 btnkursi.setBackground(Color.RED);
                 btnkursi.addItemListener(new ItemListener() {
                     @Override
@@ -151,24 +334,103 @@ public class BookingTicketView extends javax.swing.JFrame {
                             BookingTicketView.this.kursi.add(nama);
                             thisToggleBtn.setBackground(Color.GREEN);
                             thisToggleBtn.setForeground(Color.BLACK);
-                        } else {
+                            harga+=60000;
+                        } else if(e.getStateChange() == ItemEvent.DESELECTED) {
+                            harga-=60000;
                             BookingTicketView.this.kursi.remove(String.valueOf(nama));
                             thisToggleBtn.setBackground(Color.RED);
                             thisToggleBtn.setForeground(Color.WHITE);
                         }
+                        if(harga==0){
+                            tampilHarga.setText("");
+                        }else{
+                            setHarga(harga);
+                            String hargaKursi = Integer.toString(harga);
+                            tampilHarga.setText(hargaKursi);
+                        }
+                        int hargaSetelahPPN = ((harga*3)/100);
+                        int hargaAkhir = harga+hargaSetelahPPN;
+                        setTotalHarga(hargaAkhir);
+                        System.out.println(totalHarga);
+                        String strTotal = Integer.toString(totalHarga);
+                        tampilTotalHarga.setText("Rp"+strTotal);
                         String delim = "-";
                         String res = String.join(delim, BookingTicketView.this.kursi);
                         BookingTicketView.this.tampilKursi.setText(res);
                     }
                 });
-                this.getPanelKursi().add(btnkursi, new AbsoluteConstraints(h, w, 50, 30));
+                }else if(ix>3 && ix!=9){
+                btnkursi.setText(namaBaris + nomorKursi);
+                btnkursi.setForeground(Color.WHITE);
+                btnkursi.setFont(new Font("Segue UI", Font.PLAIN, 12));
+                btnkursi.setBackground(Color.RED);
+                btnkursi.addItemListener(new ItemListener() {
+                    @Override
+                    public void itemStateChanged(ItemEvent e) {
+                        JToggleButton thisToggleBtn = (JToggleButton) e.getSource();
+                        String nama = thisToggleBtn.getText();
+                        System.out.println("Kursi " + nama + " Dipilih");
+                        if (e.getStateChange() == ItemEvent.SELECTED) {
+                            BookingTicketView.this.kursi.add(nama);
+                            thisToggleBtn.setBackground(Color.GREEN);
+                            thisToggleBtn.setForeground(Color.BLACK);
+                            harga+=60000;
+                        } else if(e.getStateChange() == ItemEvent.DESELECTED) {
+                            BookingTicketView.this.kursi.remove(String.valueOf(nama));
+                            thisToggleBtn.setBackground(Color.RED);
+                            thisToggleBtn.setForeground(Color.WHITE);
+                            harga-=60000;
+                        }
+                        if(harga==0){
+                            tampilHarga.setText("");
+                        }else{
+                            setHarga(harga);
+                            String hargaKursi = Integer.toString(harga);
+                            tampilHarga.setText(hargaKursi);
+                        }
+                        int hargaSetelahPPN = ((harga*3)/100);
+                        int hargaAkhir = harga+hargaSetelahPPN;
+                        setTotalHarga(hargaAkhir);
+                        System.out.println(totalHarga);
+                        String strTotal = Integer.toString(totalHarga);
+                        tampilTotalHarga.setText("Rp"+strTotal);
+                        String delim = "-";
+                        String res = String.join(delim, BookingTicketView.this.kursi);
+                        BookingTicketView.this.tampilKursi.setText(res);
+                    }
+                });  
+                }
+                this.getPanelKursi().add(btnkursi, new AbsoluteConstraints(h, w, 55, 30));                
                 w += 50;
                 this.revalidate();
             }
+            }
             h += 60;
             w = 80;
+            if(ix>3 && ix!=9){
+                nomorKursi+=1;
+            }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnPilihKursiActionPerformed
+
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        this.dispose();
+        
+    }//GEN-LAST:event_btnBatalActionPerformed
+
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        pv.setVisible(true);
+    }//GEN-LAST:event_btnBayarActionPerformed
+
+    public JTextField getTampilTotalHarga() {
+        return tampilTotalHarga;
+    }
+
+    public void setTampilTotalHarga(JTextField tampilTotalHarga) {
+        this.tampilTotalHarga = tampilTotalHarga;
+    }
 
     public JTextArea getTampilKursi() {
         return tampilKursi;
@@ -208,21 +470,46 @@ public class BookingTicketView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BookingTicketView().setVisible(true);
+                try {
+                    new BookingTicketView().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(BookingTicketView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(BookingTicketView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(BookingTicketView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(BookingTicketView.class.getName()).log(Level.SEVERE, null, ex);
+                }   
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnBatal;
+    private javax.swing.JButton btnBayar;
+    private javax.swing.JButton btnPilihKursi;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelHarga;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelKursi;
     private javax.swing.JPanel panelTampilKursi;
     private javax.swing.JPanel panelUtama;
+    private javax.swing.JTextField tampilHarga;
     private javax.swing.JTextArea tampilKursi;
+    private javax.swing.JTextField tampilTax;
+    private javax.swing.JTextField tampilTotalHarga;
     // End of variables declaration//GEN-END:variables
 }

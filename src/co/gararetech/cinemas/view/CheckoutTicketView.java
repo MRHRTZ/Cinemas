@@ -38,7 +38,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     private CheckoutTicketController checkoutTicketController;
     private CheckoutTicketModel checkoutTicketModel;
     private ImageIcon appIcon;
-
+    private BookingTicketView bookingticketview;
     private int mouseX;
     private int mouseY;
 
@@ -51,7 +51,7 @@ public class CheckoutTicketView extends javax.swing.JFrame {
         UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
 
         checkoutTicketController = new CheckoutTicketController();
-
+        bookingticketview = new BookingTicketView();
         initComponents();
         
 
@@ -274,7 +274,6 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     BtnPilih.setBackground(Color.decode("#2E5B0B"));
     BtnPilih.setForeground(new java.awt.Color(255, 255, 255));
     BtnPilih.setText("PILIH KURSI");
-    BtnPilih.setEnabled(false);
     BtnPilih.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BtnPilihActionPerformed(evt);
@@ -376,31 +375,6 @@ public class CheckoutTicketView extends javax.swing.JFrame {
     infoPanelLayout.setHorizontalGroup(
         infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(infoPanelLayout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addGroup(infoPanelLayout.createSequentialGroup()
-                    .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(infoPanelLayout.createSequentialGroup()
-                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(durasiField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(genreField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(sutradaraField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(ratingUsiaField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(separator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
-                    .addGap(3, 3, 3))
-                .addComponent(posterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addGroup(infoPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(7, Short.MAX_VALUE))
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
             .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -410,7 +384,34 @@ public class CheckoutTicketView extends javax.swing.JFrame {
                     .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(separator3, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                         .addComponent(BtnPilih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnBatal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(BtnBatal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(infoPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(infoPanelLayout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(infoPanelLayout.createSequentialGroup()
+                                    .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(infoPanelLayout.createSequentialGroup()
+                                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(durasiField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(genreField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(sutradaraField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ratingUsiaField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(separator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+                                    .addGap(3, 3, 3))
+                                .addComponent(posterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(infoPanelLayout.createSequentialGroup()
+                            .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 1, Short.MAX_VALUE)))))
             .addContainerGap())
     );
     infoPanelLayout.setVerticalGroup(
@@ -488,15 +489,17 @@ public class CheckoutTicketView extends javax.swing.JFrame {
 
     private void BtnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPilihActionPerformed
         // TODO add your handling code here:
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new CardLayout(50, 30));
-//        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 450));
-//        contentPanel.setMaximumSize(new Dimension(this.scrollContent.getWidth(), 450));
-        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 85));
-        contentPanel.setMaximumSize(new Dimension(this.scrollContent.getWidth(), 85));
-        contentPanel.setBackground(Color.RED);
-        this.getContentPanelCheckout().add(contentPanel);
-        this.getContentPanelCheckout().revalidate();
+//        JPanel contentPanel = new JPanel();
+//        contentPanel.setLayout(new CardLayout(50, 30));
+////        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 450));
+////        contentPanel.setMaximumSize(new Dimension(this.scrollContent.getWidth(), 450));
+//        contentPanel.setPreferredSize(new Dimension(this.scrollContent.getWidth(), 85));
+//        contentPanel.setMaximumSize(new Dimension(this.scrollContent.getWidth(), 85));
+//        contentPanel.setBackground(Color.RED);
+//        this.getContentPanelCheckout().add(contentPanel);
+//        this.getContentPanelCheckout().revalidate();
+        this.dispose();
+        bookingticketview.setVisible(true);
     }//GEN-LAST:event_BtnPilihActionPerformed
 
     private void filterBioskopKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterBioskopKeyTyped

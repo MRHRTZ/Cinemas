@@ -9,12 +9,18 @@ import co.gararetech.cinemas.view.BugReportView;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.LoginView;
 import co.gararetech.cinemas.view.ProfileView;
+import co.gararetech.cinemas.view.elements.RoundJButton;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,11 +32,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -338,6 +347,53 @@ public class DashboardController {
         }
     }
 
+    public BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = output.createGraphics();
+
+        // This is what we want, but it only does hard-clipping, i.e. aliasing
+        // g2.setClip(new RoundRectangle2D ...)
+        // so instead fake soft-clipping by first drawing the desired clip shape
+        // in fully opaque white with antialiasing enabled...
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        g2.fill(new RoundRectangle2D.Float(0, 0, w, h, cornerRadius, cornerRadius));
+
+        // ... then compositing the image on top,
+        // using the white shape from above as alpha source
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+    }
+    
+    public void btnProfile(DashboardView view) throws MalformedURLException, IOException{
+        if (!model.getUserData().isNull("image")) {
+                if (model.getUserData().getString("image").equals("")) {
+                    BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"));
+                    BufferedImage Images = makeRoundedCorner(Img, 1000);
+                    view.getBtnProfile().setIcon(new ImageIcon(Images));
+                    view.getBtnProfile().setBackground(Color.decode("#1D1C1C"));
+                } else {
+                    System.out.println("Img url : " + model.getUserData().getString("image"));
+                    URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
+                    
+                    BufferedImage Img = ImageIO.read(dataImageUrl);
+                    BufferedImage roundedImage = makeRoundedCorner(Img, 5000);
+                    
+                    Image images = roundedImage.getScaledInstance(55, 55, Image.SCALE_SMOOTH);
+                    ImageIcon img = new ImageIcon(images);
+                    view.getBtnProfile().setIcon(img);
+                    view.getBtnProfile().setBackground(Color.decode("#1D1C1C"));
+                }
+            } 
+    }
     public JDialog addDialogLoading(DashboardView view, String message) {
         JDialog frame = new JDialog(view);
 

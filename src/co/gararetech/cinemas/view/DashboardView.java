@@ -7,6 +7,7 @@ import co.gararetech.cinemas.controller.OrderHistoryContoller;
 import co.gararetech.cinemas.controller.UpcomingController;
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.GoogleCloudStorage;
+import co.gararetech.cinemas.view.elements.RoundJButton;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
 import java.io.IOException;
@@ -64,12 +65,13 @@ public class DashboardView extends javax.swing.JFrame {
         upcomingController.setModel(dashboardModel);
         cinemaListController.setModel(dashboardModel);
         orderHistoryController.setModel(dashboardModel);
-
+        
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
-
+        
         dashboardController.setActiveButton(this, "nowplaying");
         this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
+        
         new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() {
@@ -77,6 +79,7 @@ public class DashboardView extends javax.swing.JFrame {
                     dashboardController.initPage(DashboardView.this);
                     dashboardController.getCities();
                     nowPlayingController.setNewGrid(DashboardView.this);
+                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
@@ -87,6 +90,16 @@ public class DashboardView extends javax.swing.JFrame {
         }.execute();
     }
 
+    public JButton getBtnProfile() {
+        return btnProfile;
+    }
+
+    public void setBtnProfile(JButton btnProfile) {
+        this.btnProfile = btnProfile;
+    }
+
+    
+    
     public JPanel getLoadingPanel() {
         return loadingPanel;
     }
@@ -178,7 +191,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnOrderHistory = new javax.swing.JButton();
         minimize = new javax.swing.JLabel();
         exit = new javax.swing.JLabel();
-        btnCinema1 = new javax.swing.JButton();
+        btnProfile = new javax.swing.JButton();
         contentPane = new javax.swing.JScrollPane();
         contentPane.getVerticalScrollBar().setUnitIncrement(25);
         content = new javax.swing.JPanel();
@@ -307,12 +320,18 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
-        btnCinema1.setBackground(Color.decode("#D9D9D9"));
-        btnCinema1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
-        btnCinema1.setToolTipText("Profile");
-        btnCinema1.addActionListener(new java.awt.event.ActionListener() {
+        btnProfile.setBackground(Color.decode("#D9D9D9"));
+        btnProfile.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        btnProfile.setForeground(new java.awt.Color(255, 255, 255));
+        btnProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
+        btnProfile.setToolTipText("Profile");
+        btnProfile.setBorderPainted(false);
+        btnProfile.setContentAreaFilled(false);
+        btnProfile.setFocusPainted(false);
+        btnProfile.setFocusable(false);
+        btnProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCinema1ActionPerformed(evt);
+                btnProfileActionPerformed(evt);
             }
         });
 
@@ -323,7 +342,7 @@ public class DashboardView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -332,8 +351,8 @@ public class DashboardView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addComponent(btnCinema1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81)
+                .addComponent(btnProfile)
+                .addGap(98, 98, 98)
                 .addComponent(minimize)
                 .addGap(18, 18, 18)
                 .addComponent(exit)
@@ -348,17 +367,18 @@ public class DashboardView extends javax.swing.JFrame {
                     .addComponent(exit))
                 .addGap(66, 66, 66))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(btnCinema1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9)))
+                    .addComponent(btnProfile)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -406,6 +426,7 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     upcomingController.setNewGrid(DashboardView.this);
+                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -427,6 +448,7 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     nowPlayingController.setNewGrid(DashboardView.this);
+                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -458,6 +480,7 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     cinemaListController.setNewGrid(DashboardView.this);
+                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -468,10 +491,6 @@ public class DashboardView extends javax.swing.JFrame {
             }
         }.execute();
     }//GEN-LAST:event_btnCinemaActionPerformed
-
-    private void btnCinema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinema1ActionPerformed
-        dashboardController.showPopupProfile(this);
-    }//GEN-LAST:event_btnCinema1ActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
@@ -487,6 +506,7 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() throws ParseException {
                 try {
                     orderHistoryController.setGrid(DashboardView.this);
+                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -533,6 +553,15 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         dashboardController.viewBugReport(this);
     }//GEN-LAST:event_bugReportActionPerformed
+
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
+        dashboardController.showPopupProfile(this);
+        try {
+            dashboardController.btnProfile(this);
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnProfileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,9 +616,9 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JMenuItem Logout;
     private javax.swing.JMenuItem aboutUs;
     private javax.swing.JButton btnCinema;
-    private javax.swing.JButton btnCinema1;
     private javax.swing.JButton btnNowPlaying;
     private javax.swing.JButton btnOrderHistory;
+    private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnUpcoming;
     private javax.swing.JMenuItem bugReport;
     private javax.swing.JPanel content;

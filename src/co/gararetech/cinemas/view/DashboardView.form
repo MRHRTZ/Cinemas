@@ -121,7 +121,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="98" max="32767" attributes="0"/>
+                  <EmptySpace pref="92" max="32767" attributes="0"/>
                   <Component id="btnNowPlaying" min="-2" pref="153" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnUpcoming" min="-2" pref="153" max="-2" attributes="0"/>
@@ -130,8 +130,8 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnCinema" min="-2" pref="153" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="btnCinema1" min="-2" pref="72" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
+                  <Component id="btnProfile" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
                   <Component id="minimize" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="exit" min="-2" max="-2" attributes="0"/>
@@ -150,19 +150,20 @@
                   <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnUpcoming" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnCinema" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnOrderHistory" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnNowPlaying" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnCinema1" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnUpcoming" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="btnCinema" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="btnOrderHistory" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="btnNowPlaying" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="btnProfile" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="57" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -261,22 +262,29 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="exitMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnCinema1">
+        <Component class="javax.swing.JButton" name="btnProfile">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="Color.decode(&quot;#D9D9D9&quot;)" type="code"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Impact" size="18" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/co/gararetech/cinemas/view/images/ProfileIconBlack.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Profile"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="contentAreaFilled" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCinema1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProfileActionPerformed"/>
           </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="DashboardView_btnCinema1"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

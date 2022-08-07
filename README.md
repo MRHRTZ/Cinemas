@@ -25,4 +25,4 @@
 - [x] Cinema Site List
 - [x] Cinema Detail
 - [ ] Bug Report Form
-- [ ] About Page
+- [x] About Page

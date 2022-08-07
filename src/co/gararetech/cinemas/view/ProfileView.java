@@ -4,6 +4,7 @@
  */
 package co.gararetech.cinemas.view;
 
+import co.gararetech.cinemas.controller.DashboardController;
 import co.gararetech.cinemas.controller.ProfileController;
 import co.gararetech.cinemas.model.ProfileModel;
 import co.gararetech.cinemas.utils.GoogleCloudStorage;
@@ -26,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -40,6 +42,7 @@ public class ProfileView extends javax.swing.JFrame {
      */
     private GoogleCloudStorage googleCloudStorage;
     private ProfileController profileController;
+    private DashboardController dashboardController;
     private ProfileModel profileModel;
     private DashboardView dashboardView;
     private ImageIcon appIcon;
@@ -57,14 +60,28 @@ public class ProfileView extends javax.swing.JFrame {
         profileController = new ProfileController();
         profileModel = new ProfileModel();
         googleCloudStorage = new GoogleCloudStorage();
-
+        dashboardController = new DashboardController();
         initComponents();
 
-        profileController.setModel(profileModel);
-
+        profileController.pictureload(ProfileView.this);
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
+//        new SwingWorker<Void, Void>() {
+//            @Override
+//            public Void doInBackground() {
+//                try {
+//                    profileController.pictureload(ProfileView.this);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                return null;
+//            }
+//        }.execute();
     }
+
+    
+        
+    
 
     public void setDashboardView(DashboardView dashboardView) {
         this.dashboardView = dashboardView;
@@ -327,7 +344,7 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(profilePicture)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel6)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jCity, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -430,8 +447,12 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     private void profilePictureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePictureMouseClicked
         try {
             profileController.chooseImage(this, this.getGoogleCloudStorage());
-        } catch (IOException ex) {
-            Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+            profileController.pictureload(this);
+
+} catch (IOException ex) {
+            Logger.getLogger(ProfileView.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_profilePictureMouseClicked
 
@@ -449,16 +470,28 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProfileView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProfileView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProfileView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProfileView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProfileView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ProfileView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ProfileView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ProfileView.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -470,7 +503,11 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
                     new ProfileView().setVisible(true);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger
+
+.getLogger(ProfileView.class  
+
+.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

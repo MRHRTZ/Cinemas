@@ -366,12 +366,16 @@ public class CheckoutTicketController {
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("273"));
                             String time = simpleDateFormat.format(dateButton);
-                            int nowTimeStamp = (int) (new Date(System.currentTimeMillis()).getTime() / 1000);
-                            int expiredTimestamp = showTimeObj.getInt("expired");
-                            if (expiredTimestamp < nowTimeStamp) {
+                            int timeStatus = showTimeObj.getInt("status");
+                            if (timeStatus == 0) {
                                 timeButton.setEnabled(false);
                             }
-                            timeButton.setText(time);
+                            String buttonStudioType = showTimeObj.getString("studio_type");
+                            if (buttonStudioType.equals("dolby")) {
+                                timeButton.setText("<html><center>" + time + " (<b>DA</b>)</html>");
+                            } else {
+                                timeButton.setText(time);
+                            }
                             timeButton.setName(rowData.getString("id") + "|" + stadiumObj.getString("category") + "|" + time);
                             timeButton.setFont(new Font("Serif", Font.PLAIN, 14));
                             timeButton.setBackground(Color.decode("#D9D9D9"));

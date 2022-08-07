@@ -187,6 +187,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Sedang Tayang"/>
             <Property name="toolTipText" type="java.lang.String" value="Sedang Tayang"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNowPlayingActionPerformed"/>
@@ -202,6 +203,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Segera Tayang"/>
             <Property name="toolTipText" type="java.lang.String" value="Segera Tayang"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpcomingActionPerformed"/>
@@ -214,6 +216,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Bioskop"/>
             <Property name="toolTipText" type="java.lang.String" value="Bioskop"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCinemaActionPerformed"/>
@@ -226,6 +229,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Riwayat Pesanan"/>
             <Property name="toolTipText" type="java.lang.String" value="Riwayat Pesanan"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOrderHistoryActionPerformed"/>
@@ -270,6 +274,7 @@
               <Image iconType="3" name="/co/gararetech/cinemas/view/images/ProfileIconBlack.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Profile"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCinema1ActionPerformed"/>

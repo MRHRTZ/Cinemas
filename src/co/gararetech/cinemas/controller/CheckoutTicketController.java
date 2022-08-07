@@ -129,14 +129,14 @@ public class CheckoutTicketController {
 
     public void setfilterBioskopPlaceholder(JTextField filterBioskop) {
         if (filterBioskop.getText().isEmpty()) {
-            String placeholder = "Pilih bioskop kesayangan kamu ..";
+            String placeholder = "Cari Bioskop";
             filterBioskop.setText(placeholder);
             filterBioskop.setForeground(Color.decode("#757575"));
         }
     }
 
     public void resetFilterBioskopPlaceholder(JTextField filterBioskop) {
-        String placeholder = "Pilih bioskop kesayangan kamu ..";
+        String placeholder = "Cari Bioskop";
         if (filterBioskop.getText().equals(placeholder)) {
             filterBioskop.setText("");
             filterBioskop.setForeground(Color.WHITE);

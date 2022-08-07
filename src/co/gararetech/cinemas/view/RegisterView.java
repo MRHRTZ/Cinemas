@@ -167,7 +167,7 @@ public class RegisterView extends javax.swing.JFrame {
     btnRegisterSave.setBackground(Color.decode("#A27B5C"));
     btnRegisterSave.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnRegisterSave.setForeground(new java.awt.Color(255, 255, 255));
-    btnRegisterSave.setText("REGISTER");
+    btnRegisterSave.setText("DAFTAR");
     btnRegisterSave.setToolTipText("Register");
     btnRegisterSave.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +178,7 @@ public class RegisterView extends javax.swing.JFrame {
     jLabel4.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
     jLabel4.setForeground(new java.awt.Color(255, 255, 255));
     jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel4.setText("REPEAT PASSWORD");
+    jLabel4.setText("ULANGI PASSWORD");
 
     jLabel5.setBackground(new java.awt.Color(255, 255, 255));
     jLabel5.setForeground(new java.awt.Color(255, 255, 255));

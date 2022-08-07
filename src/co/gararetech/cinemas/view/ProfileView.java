@@ -202,7 +202,7 @@ public class ProfileView extends javax.swing.JFrame {
     jLabel3.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
     jLabel3.setForeground(new java.awt.Color(255, 255, 255));
     jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel3.setText("OLD PASSWORD");
+    jLabel3.setText("PASSWORD LAMA");
 
     btnBack.setBackground(Color.decode("#A27B5C"));
     btnBack.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -229,7 +229,7 @@ public class ProfileView extends javax.swing.JFrame {
     jLabel4.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
     jLabel4.setForeground(new java.awt.Color(255, 255, 255));
     jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel4.setText("NEW PASSWORD");
+    jLabel4.setText("PASSWORD BARU");
 
     profilePicture.setBackground(new java.awt.Color(255, 255, 255));
     profilePicture.setForeground(new java.awt.Color(255, 255, 255));
@@ -268,7 +268,7 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     jLabel6.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
     jLabel6.setForeground(new java.awt.Color(255, 255, 255));
     jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel6.setText("YOUR CITY");
+    jLabel6.setText("KOTA");
 
     jCity.setBackground(Color.decode("#E3DDDD"));
     jCity.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -278,7 +278,7 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     isChangePassword.setBackground(Color.decode("#222222"));
     isChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
     isChangePassword.setForeground(new java.awt.Color(255, 255, 255));
-    isChangePassword.setText("Change Password");
+    isChangePassword.setText("Ubah Password");
     isChangePassword.addChangeListener(new javax.swing.event.ChangeListener() {
         public void stateChanged(javax.swing.event.ChangeEvent evt) {
             isChangePasswordStateChanged(evt);

@@ -301,7 +301,7 @@ public class OrderHistoryContoller {
                 Image imghrg = rawPoster5.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconHrg = new ImageIcon(imghrg);
                 harga.setIcon(iconHrg);
-                harga.setText("  Rp." + rowData.getString("total"));
+                harga.setText("  Rp" + rowData.getString("total"));
                 harga.setForeground(Color.WHITE);
                 harga.setFont(new Font("Serif", Font.PLAIN, 15));
                 harga.setBounds(labelX, heightSpace * 6, 500, 70);
@@ -324,7 +324,7 @@ public class OrderHistoryContoller {
                     deleteButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if (JOptionPane.showConfirmDialog(view, "Yakin hapus data history pembayaran ini ?", "Cinemas",
+                            if (JOptionPane.showConfirmDialog(view, "Apakah anda yakin ingin menghapus ?", "Cinemas",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                                 new SwingWorker<Void, Void>() {
                                     @Override
@@ -360,7 +360,7 @@ public class OrderHistoryContoller {
                                 public Void doInBackground() throws ParseException {
                                     try {
                                         updateOrderHistory(rowData.getString("order_id"));
-                                        JOptionPane.showMessageDialog(view, "Tiket telah terpakai!");
+                                        JOptionPane.showMessageDialog(view, "Selamat menonton !");
                                         removeContent(view);
                                         setGrid(view);
                                         view.revalidate();

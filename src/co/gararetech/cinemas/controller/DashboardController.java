@@ -282,7 +282,7 @@ public class DashboardController {
     }
 
     public void exitButton(DashboardView view) {
-        if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas",
+        if (JOptionPane.showConfirmDialog(view, "Apakah anda yakin ingin keluar ?", "Cinemas",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -294,7 +294,7 @@ public class DashboardController {
 
     public void viewProfile(DashboardView dashboardView, ProfileView profileView) throws MalformedURLException, IOException {
         if (model.getCityList() == null) {
-            JOptionPane.showMessageDialog(dashboardView, "Masih proses loading, tunggu sebentar ...");
+            JOptionPane.showMessageDialog(dashboardView, "Sedang diproses, mohon tunggu sebentar");
             viewProfile(dashboardView, profileView);
         } else {
             profileView.getjCity().removeAllItems();
@@ -426,7 +426,7 @@ public class DashboardController {
     }
 
     public void logout(DashboardView dashboardView, LoginView loginView) {
-        if (JOptionPane.showConfirmDialog(dashboardView, "Masih banyak film yang seru nih, apakah anda mau keluar?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(dashboardView, "Apakah anda yakin ingin keluar?", "Cinemas", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             dashboardView.dispose();
             loginView.setVisible(true);
         }

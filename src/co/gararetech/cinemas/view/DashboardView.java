@@ -253,6 +253,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnNowPlaying.setForeground(new java.awt.Color(255, 255, 255));
         btnNowPlaying.setText("Sedang Tayang");
         btnNowPlaying.setToolTipText("Sedang Tayang");
+        btnNowPlaying.setFocusPainted(false);
         btnNowPlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNowPlayingActionPerformed(evt);
@@ -263,6 +264,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnUpcoming.setForeground(new java.awt.Color(204, 204, 204));
         btnUpcoming.setText("Segera Tayang");
         btnUpcoming.setToolTipText("Segera Tayang");
+        btnUpcoming.setFocusPainted(false);
         btnUpcoming.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpcomingActionPerformed(evt);
@@ -272,6 +274,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnCinema.setBackground(Color.decode("#D9D9D9"));
         btnCinema.setText("Bioskop");
         btnCinema.setToolTipText("Bioskop");
+        btnCinema.setFocusPainted(false);
         btnCinema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCinemaActionPerformed(evt);
@@ -281,6 +284,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
         btnOrderHistory.setText("Riwayat Pesanan");
         btnOrderHistory.setToolTipText("Riwayat Pesanan");
+        btnOrderHistory.setFocusPainted(false);
         btnOrderHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOrderHistoryActionPerformed(evt);
@@ -310,6 +314,7 @@ public class DashboardView extends javax.swing.JFrame {
         btnCinema1.setBackground(Color.decode("#D9D9D9"));
         btnCinema1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
         btnCinema1.setToolTipText("Profile");
+        btnCinema1.setFocusPainted(false);
         btnCinema1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCinema1ActionPerformed(evt);

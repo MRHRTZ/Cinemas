@@ -300,7 +300,7 @@ public class NowPlayingController {
                 try {
                     detailFilmController.showDetail(view, rowData);
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(view, "Kesalahan system " + e.getMessage());
+                    JOptionPane.showMessageDialog(view, "Kesalahan sistem " + e.getMessage());
                     e.printStackTrace();
                 }
 
@@ -309,7 +309,7 @@ public class NowPlayingController {
     }
 
     public void checkoutTicketView(DashboardView view, JSONObject rowData) {
-        view.setLoadingUser(addDialogLoading(view, "Menelusuri bioskop yang tersedia dikota anda ..."));
+        view.setLoadingUser(addDialogLoading(view, "Sedang diproses, mohon tunggu sebentar"));
         CheckoutTicketController checkoutTicketController = new CheckoutTicketController();
         new SwingWorker<Void, Void>() {
             @Override
@@ -321,7 +321,7 @@ public class NowPlayingController {
                     removeDialogLoading(view);
                     view.setVisible(false);
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(view, "Kesalahan system " + e.getMessage());
+                    JOptionPane.showMessageDialog(view, "Kesalahan sistem " + e.getMessage());
                     e.printStackTrace();
                 }
                 return null;

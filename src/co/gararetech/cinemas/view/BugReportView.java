@@ -123,7 +123,7 @@ public class BugReportView extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("BUG DESCRIPTION :");
+        jLabel2.setText("DESKRIPSI BUG:");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, -1, -1));
 
         txtEmail.setEditable(false);

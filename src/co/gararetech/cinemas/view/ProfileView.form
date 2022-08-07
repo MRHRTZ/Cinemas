@@ -201,7 +201,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="OLD PASSWORD"/>
+                <Property name="text" type="java.lang.String" value="PASSWORD LAMA"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnBack">
@@ -249,7 +249,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="NEW PASSWORD"/>
+                <Property name="text" type="java.lang.String" value="PASSWORD BARU"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="profilePicture">
@@ -318,7 +318,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="YOUR CITY"/>
+                <Property name="text" type="java.lang.String" value="KOTA"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jCity">
@@ -353,7 +353,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Change Password"/>
+                <Property name="text" type="java.lang.String" value="Ubah Password"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="isChangePasswordStateChanged"/>

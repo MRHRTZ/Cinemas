@@ -85,7 +85,7 @@ public class DetailFilmController {
                 e.printStackTrace();
             }
         } else {
-            JOptionPane.showMessageDialog(detailDialog, "Maaf system kamu tidak support untuk membuka link ini.");
+            JOptionPane.showMessageDialog(detailDialog, "Maaf, sistem anda tidak mendukung untuk membuka link ini.");
         }
     }
     

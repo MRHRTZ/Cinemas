@@ -51,7 +51,6 @@ public class AboutUsView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainPanel = new javax.swing.JPanel();
         panelHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         exit = new javax.swing.JLabel();
@@ -91,23 +90,11 @@ public class AboutUsView extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1024, 640));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        mainPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                mainPanelMouseDragged(evt);
-            }
-        });
-        mainPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                mainPanelMousePressed(evt);
-            }
-        });
-        mainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         panelHeader.setBackground(Color.decode("#1D1C1C"));
         panelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
-        panelHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        panelHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 18, -1, -1));
 
         exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
         exit.setToolTipText("EXIT");
@@ -120,19 +107,17 @@ public class AboutUsView extends javax.swing.JFrame {
         });
         panelHeader.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 10, -1, -1));
 
-        jLabel22.setFont(new java.awt.Font("Serif", 3, 18)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("DEVELOPERS");
-        panelHeader.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        panelHeader.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 29, -1, -1));
 
-        mainPanel.add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1024, 90));
+        getContentPane().add(panelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1024, 90));
 
         panelDaftarAnggota.setBackground(Color.decode("#42382F"));
-        panelDaftarAnggota.setToolTipText("");
         panelDaftarAnggota.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelEdwin.setBackground(Color.decode("#1D1C1C"));
-        panelEdwin.setToolTipText("Edwin Liona Jaya");
         panelEdwin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devEdwin.png"))); // NOI18N
@@ -156,11 +141,9 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelEdwin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 410, 140));
 
         panelEri.setBackground(Color.decode("#1D1C1C"));
-        panelEri.setToolTipText("Eri Sukmawan");
         panelEri.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devEri.png"))); // NOI18N
-        jLabel3.setToolTipText("Eri Sukmawan");
         panelEri.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -181,7 +164,6 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelEri, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 410, 140));
 
         panelHanif.setBackground(Color.decode("#1D1C1C"));
-        panelHanif.setToolTipText("Hanif Ahmad Syauqi");
         panelHanif.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devHanif.png"))); // NOI18N
@@ -200,7 +182,7 @@ public class AboutUsView extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("API STRUCTURE");
-        panelHanif.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 110, 310, -1));
+        panelHanif.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 112, 310, -1));
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,7 +192,6 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelHanif, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 410, 140));
 
         panelBadar.setBackground(Color.decode("#1D1C1C"));
-        panelBadar.setToolTipText("ALFATIHNAMAN B");
         panelBadar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devBadar.png"))); // NOI18N
@@ -218,7 +199,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("ALFATIHNAMAN BADHARIJA ");
+        jLabel13.setText("ALFATIHNAMAN BADHARIJA");
         panelBadar.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 15, -1, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -234,7 +215,6 @@ public class AboutUsView extends javax.swing.JFrame {
         panelDaftarAnggota.add(panelBadar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 200, 410, 140));
 
         panelIlmi.setBackground(Color.decode("#1D1C1C"));
-        panelIlmi.setToolTipText("ILMI FATHURAHMAN G.");
         panelIlmi.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/devs/devIlmi.png"))); // NOI18N
@@ -257,9 +237,7 @@ public class AboutUsView extends javax.swing.JFrame {
 
         panelDaftarAnggota.add(panelIlmi, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 410, 140));
 
-        mainPanel.add(panelDaftarAnggota, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1030, 550));
-
-        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 640));
+        getContentPane().add(panelDaftarAnggota, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1030, 550));
 
         pack();
         setLocationRelativeTo(null);
@@ -352,7 +330,6 @@ public class AboutUsView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel panelBadar;
     private javax.swing.JPanel panelDaftarAnggota;
     private javax.swing.JPanel panelEdwin;

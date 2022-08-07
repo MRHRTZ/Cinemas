@@ -151,7 +151,7 @@ public class LoginView extends javax.swing.JFrame {
     btnRegister.setBackground(Color.decode("#A27B5C"));
     btnRegister.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnRegister.setForeground(new java.awt.Color(255, 255, 255));
-    btnRegister.setText("REGISTER");
+    btnRegister.setText("DAFTAR");
     btnRegister.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             btnRegisterActionPerformed(evt);
@@ -161,7 +161,7 @@ public class LoginView extends javax.swing.JFrame {
     btnLoginSave.setBackground(Color.decode("#A27B5C"));
     btnLoginSave.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
     btnLoginSave.setForeground(new java.awt.Color(255, 255, 255));
-    btnLoginSave.setText("LOGIN");
+    btnLoginSave.setText("MASUK");
     btnLoginSave.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mousePressed(java.awt.event.MouseEvent evt) {
             btnLoginSaveMousePressed(evt);

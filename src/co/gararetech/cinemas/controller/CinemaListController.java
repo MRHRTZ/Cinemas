@@ -155,7 +155,7 @@ public class CinemaListController {
 
 //        Label Domisisli
         JLabel labelDomisili = new JLabel();
-        labelDomisili.setText("KOTA ANDA :");
+        labelDomisili.setText("KOTA");
         labelDomisili.setHorizontalAlignment(SwingConstants.CENTER);
         labelDomisili.setBounds(15, 5, 520, 20);
         labelDomisili.setFont(new Font("Serif UI", Font.BOLD, 15));
@@ -185,7 +185,7 @@ public class CinemaListController {
 
 //        label search
         JLabel labelSearchBar = new JLabel();
-        labelSearchBar.setText("PENCARIAN :");
+        labelSearchBar.setText("PENCARIAN");
         labelSearchBar.setHorizontalAlignment(SwingConstants.CENTER);
         labelSearchBar.setBounds(15, 5, 430, 20);
         labelSearchBar.setFont(new Font("Serif UI", Font.BOLD, 15));
@@ -218,6 +218,7 @@ public class CinemaListController {
         searchButton.setForeground(Color.WHITE);
         searchButton.setBackground(Color.decode("#86290B"));
         searchButton.setText("CARI");
+        searchButton.setFocusPainted(false);
         searchButton.setBounds(450, 10, 90, 40);
         ((AbstractDocument) searchBar.getDocument()).setDocumentFilter(filter);
         searchButton.addActionListener(new ActionListener() {

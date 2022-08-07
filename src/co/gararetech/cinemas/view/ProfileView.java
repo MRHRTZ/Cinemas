@@ -250,7 +250,7 @@ public class ProfileView extends javax.swing.JFrame {
     profilePicture.setBackground(new java.awt.Color(255, 255, 255));
     profilePicture.setForeground(new java.awt.Color(255, 255, 255));
     profilePicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"))); // NOI18N
+    profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
     profilePicture.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             profilePictureMouseClicked(evt);

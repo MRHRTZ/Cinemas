@@ -319,21 +319,19 @@ public class DashboardController {
 
             if (!model.getUserData().isNull("image")) {
                 if (model.getUserData().getString("image").equals("")) {
-                    ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
-                    profileView.getProfilePicture().setIcon(defaultIcon);
+                    BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
+                    BufferedImage Images = makeRoundedCorner(Img, 1000);
+                    profileView.getProfilePicture().setIcon(new ImageIcon(Images));
                 } else {
                     System.out.println("Img url : " + model.getUserData().getString("image"));
                     URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
-                    Image iconURL = ImageIO.read(dataImageUrl);
-
-                    ImageIcon image = new ImageIcon(iconURL);
-                    Image img;
-                    if (image.getIconWidth() > image.getIconHeight()) {
-                        img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);
-                    } else {
-                        img = image.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
-                    }
-                    profileView.getProfilePicture().setIcon(new ImageIcon(img));
+                    
+                    BufferedImage Img = ImageIO.read(dataImageUrl);
+                    BufferedImage roundedImage = makeRoundedCorner(Img, 8100);
+                    
+                    Image images = roundedImage.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+                    ImageIcon img = new ImageIcon(images);
+                    profileView.getProfilePicture().setIcon(img);
                 }
             } else {
                 ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
@@ -385,7 +383,7 @@ public class DashboardController {
                     URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
                     
                     BufferedImage Img = ImageIO.read(dataImageUrl);
-                    BufferedImage roundedImage = makeRoundedCorner(Img, 5000);
+                    BufferedImage roundedImage = makeRoundedCorner(Img, 7000);
                     
                     Image images = roundedImage.getScaledInstance(55, 55, Image.SCALE_SMOOTH);
                     ImageIcon img = new ImageIcon(images);

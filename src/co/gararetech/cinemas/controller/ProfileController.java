@@ -279,8 +279,8 @@ public class ProfileController {
             System.out.println("icon img : " + image);
             URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
             BufferedImage Img = ImageIO.read(dataImageUrl);
-            BufferedImage roundedImage = makeRoundedCorner(Img, 8000);
-            Image img = roundedImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            BufferedImage roundedImage = makeRoundedCorner(Img, 8100);
+            Image img = roundedImage.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
             ImageIcon profile_pic = new ImageIcon(img);
             view.getProfilePicture().setIcon(profile_pic);
 

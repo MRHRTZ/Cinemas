@@ -62,21 +62,20 @@ public class ProfileView extends javax.swing.JFrame {
         googleCloudStorage = new GoogleCloudStorage();
         dashboardController = new DashboardController();
         initComponents();
-
-        profileController.pictureload(ProfileView.this);
+        profileController.setModel(profileModel);
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
-//        new SwingWorker<Void, Void>() {
-//            @Override
-//            public Void doInBackground() {
-//                try {
-//                    profileController.pictureload(ProfileView.this);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                return null;
-//            }
-//        }.execute();
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    profileController.pictureload(ProfileView.this);
+                } catch (IOException ex) {
+                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
     }
 
     
@@ -447,12 +446,8 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     private void profilePictureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePictureMouseClicked
         try {
             profileController.chooseImage(this, this.getGoogleCloudStorage());
-            profileController.pictureload(this);
-
-} catch (IOException ex) {
-            Logger.getLogger(ProfileView.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_profilePictureMouseClicked
 

@@ -19,10 +19,10 @@
 - [x] Dashboard
 - [x] Film Detail
 - [x] Checkout Ticket
-- [ ] Booking Ticket
+- [x] Booking Ticket
 - [x] Upcoming
 - [x] Order History
 - [x] Cinema Site List
 - [x] Cinema Detail
-- [ ] Bug Report Form
+- [x] Bug Report Form
 - [x] About Page

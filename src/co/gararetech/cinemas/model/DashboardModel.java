@@ -18,7 +18,9 @@ public class DashboardModel {
     private URL movieDetailUrl;
     private URL tokenEndpoint;
     private URL usersEndpoint;
-    private URL orderHistoryUrl;
+    private URL showOrderHistoryUrl;
+    private URL deleteOrderHistoryUrl;
+    private URL updateOrderHistoryUrl;
     private URL bugReportUrl;
     private URL showStudioUrl;
     private URL createStudioUrl;
@@ -58,7 +60,9 @@ public class DashboardModel {
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
             this.usersEndpoint = new URL(DbBaseUrl + "/show_user.php");
             this.bugReportUrl = new URL(DbBaseUrl + "/create_report.php");
-            this.orderHistoryUrl = new URL(DbBaseUrl + "/show_order.php");
+            this.showOrderHistoryUrl = new URL(DbBaseUrl + "/show_order.php");
+            this.deleteOrderHistoryUrl = new URL(DbBaseUrl + "/delete_order.php");
+            this.updateOrderHistoryUrl = new URL(DbBaseUrl + "/update_order.php");
             this.showStudioUrl = new URL(DbBaseUrl + "/show_studio.php");
             this.createStudioUrl = new URL(DbBaseUrl + "/create_studio.php");
             this.updateStudioUrl = new URL(DbBaseUrl + "/update_studio.php");
@@ -103,8 +107,16 @@ public class DashboardModel {
         this.orderHistoryUpdate = orderHistoryUpdate;
     }
 
-    public URL getOrderHistoryUrl() {
-        return orderHistoryUrl;
+    public URL getShowOrderHistoryUrl() {
+        return showOrderHistoryUrl;
+    }
+
+    public URL getDeleteOrderHistoryUrl() {
+        return deleteOrderHistoryUrl;
+    }
+
+    public URL getUpdateOrderHistoryUrl() {
+        return updateOrderHistoryUrl;
     }
 
     public Boolean getNeedRefresh() {
@@ -266,6 +278,5 @@ public class DashboardModel {
     public void setMousepY(int mousepY) {
         this.mousepY = mousepY;
     }
-    
 
 }

@@ -107,8 +107,8 @@ public class OrderHistoryContoller {
     }
 
     public void deleteOrderHistory(String orderId) throws MalformedURLException, IOException {
-        System.out.println("Get Order History");
-        URL url = new URL(model.getOrderHistoryUrl().toString() + "delete_order.php?order_id=" + orderId);
+        System.out.println("Delete Order History");
+        URL url = new URL(model.getDeleteOrderHistoryUrl().toString() + "?order_id=" + orderId);
 
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");
@@ -138,8 +138,8 @@ public class OrderHistoryContoller {
     }
 
     public void updateOrderHistory(String orderId) throws MalformedURLException, IOException {
-        System.out.println("Get Order History");
-        URL url = new URL(model.getOrderHistoryUrl().toString() + "update_order.php?status=expired&order_id=" + orderId);
+        System.out.println("Update Order History");
+        URL url = new URL(model.getUpdateOrderHistoryUrl().toString() + "?status=expired&order_id=" + orderId);
 
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");
@@ -170,7 +170,7 @@ public class OrderHistoryContoller {
 
     public JSONArray getOrderHistory() throws MalformedURLException, IOException {
         System.out.println("Get Order History");
-        URL url = new URL(model.getOrderHistoryUrl().toString() + "?uid=" + model.getUserData().getString("user_id"));
+        URL url = new URL(model.getShowOrderHistoryUrl().toString() + "?uid=" + model.getUserData().getString("user_id"));
 
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");

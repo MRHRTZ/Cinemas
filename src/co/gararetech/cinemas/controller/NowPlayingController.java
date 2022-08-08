@@ -115,15 +115,9 @@ public class NowPlayingController {
             JSONObject rowData = listData.getJSONObject(i);
             removeLoadingContent(view.getContent(), view.getLoadingPanel());
             view.setLoadingPanel(addLoadingContent(view.getContent(), "GET RESOURCES : " + rowData.getString("title")));
+            System.out.println("GET RESOURCES : " + rowData.getString("title"));
             // Filter jika film belum sepenuhnya rilis jangan ditampilkan
-            Boolean isGrid;
-
-            if (rowData.getInt("presale_flag") == 1) {
-                isGrid = false;
-            } else {
-                isGrid = true;
-            }
-
+            
             // Grid panel
             final JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new CardLayout(25, 25));
@@ -283,10 +277,8 @@ public class NowPlayingController {
             orderButton.setMaximumSize(new Dimension(200, 30));
             cardPanel.add(orderButton);
 
-            if (isGrid) {
-                contentPanel.add(cardPanel);
-                gridPane.add(contentPanel);
-            }
+            contentPanel.add(cardPanel);
+            gridPane.add(contentPanel);
 
         }
 

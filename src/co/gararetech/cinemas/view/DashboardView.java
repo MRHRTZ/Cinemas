@@ -238,8 +238,10 @@ public class DashboardView extends javax.swing.JFrame {
                 jPanel1MousePressed(evt);
             }
         });
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 11, -1, 57));
 
         btnNowPlaying.setBackground(Color.decode("#3D3C3A"));
         btnNowPlaying.setForeground(new java.awt.Color(255, 255, 255));
@@ -251,6 +253,7 @@ public class DashboardView extends javax.swing.JFrame {
                 btnNowPlayingActionPerformed(evt);
             }
         });
+        jPanel1.add(btnNowPlaying, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 27, 153, 32));
 
         btnUpcoming.setBackground(Color.decode("#D9D9D9"));
         btnUpcoming.setForeground(new java.awt.Color(0, 0, 0));
@@ -262,6 +265,7 @@ public class DashboardView extends javax.swing.JFrame {
                 btnUpcomingActionPerformed(evt);
             }
         });
+        jPanel1.add(btnUpcoming, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 27, 153, 32));
 
         btnCinema.setBackground(Color.decode("#D9D9D9"));
         btnCinema.setText("Bioskop");
@@ -272,6 +276,7 @@ public class DashboardView extends javax.swing.JFrame {
                 btnCinemaActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCinema, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 27, 153, 32));
 
         btnOrderHistory.setBackground(Color.decode("#D9D9D9"));
         btnOrderHistory.setText("Riwayat Pesanan");
@@ -282,6 +287,7 @@ public class DashboardView extends javax.swing.JFrame {
                 btnOrderHistoryActionPerformed(evt);
             }
         });
+        jPanel1.add(btnOrderHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(617, 27, 153, 32));
 
         minimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/minimizeButton.png"))); // NOI18N
         minimize.setToolTipText("Minimize");
@@ -292,6 +298,7 @@ public class DashboardView extends javax.swing.JFrame {
                 minimizeMouseClicked(evt);
             }
         });
+        jPanel1.add(minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1134, 6, -1, -1));
 
         exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/exitButton.png"))); // NOI18N
         exit.setToolTipText("Close");
@@ -302,6 +309,7 @@ public class DashboardView extends javax.swing.JFrame {
                 exitMouseClicked(evt);
             }
         });
+        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1179, 6, -1, -1));
 
         btnProfile.setBackground(Color.decode("#D9D9D9"));
         btnProfile.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -316,53 +324,7 @@ public class DashboardView extends javax.swing.JFrame {
                 btnProfileActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(btnProfile)
-                .addGap(98, 98, 98)
-                .addComponent(minimize)
-                .addGap(18, 18, 18)
-                .addComponent(exit)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(minimize)
-                    .addComponent(exit))
-                .addGap(66, 66, 66))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUpcoming, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNowPlaying, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnProfile)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        jPanel1.add(btnProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 12, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1212, 90));
 

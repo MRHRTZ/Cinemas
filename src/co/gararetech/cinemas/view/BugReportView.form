@@ -316,7 +316,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Jangan khawatir sobat cinemas !. Kamu bisa memberitahu kendalanya pada kita loh"/>
+            <Property name="text" type="java.lang.String" value="Jangan khawatir sobat cinemas ! Kamu bisa memberitahu kendalanya pada kita loh"/>
             <Property name="verticalAlignment" type="int" value="1"/>
           </Properties>
           <Constraints>

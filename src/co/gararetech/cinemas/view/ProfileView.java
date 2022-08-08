@@ -159,24 +159,27 @@ public class ProfileView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtEmail = new RoundJTextField(50);
-        jLabel2 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         btnProfileSave = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        profilePicture = new javax.swing.JLabel();
-        txtOldPassword = new RoundJPasswordField(50);
-        txtNewPassword = new RoundJPasswordField(50);
+        txtOldPassword = new javax.swing.JPasswordField();
+        txtNewPassword = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        jCity = new co.gararetech.cinemas.view.elements.RoundJCBox();
+        jCity = new javax.swing.JComboBox();
         isChangePassword = new javax.swing.JCheckBox();
+        profilePicture = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemas Booking App");
         setUndecorated(true);
 
-        jPanel1.setBackground(Color.decode("#1D1C1C"));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(849, 785));
         jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -190,203 +193,169 @@ public class ProfileView extends javax.swing.JFrame {
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(Color.decode("#222222"));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(54, 12, 12)));
         jPanel2.setPreferredSize(new java.awt.Dimension(731, 502));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Futura Bk BT", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("EMAIL");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 120, 57, -1));
 
-        txtEmail.setBackground(Color.decode("#E3DDDD"));
-        txtEmail.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        txtEmail.setBackground(new java.awt.Color(0, 0, 0));
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(255, 255, 255));
         txtEmail.setToolTipText("Email");
-        txtEmail.setBorder(BorderFactory.createCompoundBorder(
-            txtEmail.getBorder(), 
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-    txtEmail.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            txtEmailActionPerformed(evt);
-        }
-    });
+        txtEmail.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtEmail.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 250, 38));
 
-    jLabel2.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
-    jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel2.setText("PROFILE");
+        jLabel3.setFont(new java.awt.Font("Futura Bk BT", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("PASSWORD LAMA");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 375, -1, -1));
 
-    jLabel3.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-    jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel3.setText("PASSWORD LAMA");
+        btnBack.setBackground(new java.awt.Color(217, 217, 217));
+        btnBack.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        btnBack.setForeground(new java.awt.Color(0, 0, 0));
+        btnBack.setText("KEMBALI");
+        btnBack.setToolTipText("Kembali");
+        btnBack.setBorder(null);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 515, 250, 36));
 
-    btnBack.setBackground(Color.decode("#A27B5C"));
-    btnBack.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-    btnBack.setForeground(new java.awt.Color(255, 255, 255));
-    btnBack.setText("KEMBALI");
-    btnBack.setToolTipText("Kembali");
-    btnBack.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnBackActionPerformed(evt);
-        }
-    });
+        btnProfileSave.setBackground(new java.awt.Color(217, 217, 217));
+        btnProfileSave.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        btnProfileSave.setForeground(new java.awt.Color(0, 0, 0));
+        btnProfileSave.setText("SIMPAN");
+        btnProfileSave.setToolTipText("Simpan");
+        btnProfileSave.setBorder(null);
+        btnProfileSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfileSaveActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnProfileSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 466, 250, 36));
 
-    btnProfileSave.setBackground(Color.decode("#A27B5C"));
-    btnProfileSave.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-    btnProfileSave.setForeground(new java.awt.Color(255, 255, 255));
-    btnProfileSave.setText("SIMPAN");
-    btnProfileSave.setToolTipText("Simpan");
-    btnProfileSave.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            btnProfileSaveActionPerformed(evt);
-        }
-    });
+        jLabel4.setFont(new java.awt.Font("Futura Bk BT", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("PASSWORD BARU");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 300, -1, -1));
 
-    jLabel4.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-    jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel4.setText("PASSWORD BARU");
+        txtOldPassword.setBackground(new java.awt.Color(0, 0, 0));
+        txtOldPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtOldPassword.setForeground(new java.awt.Color(255, 255, 255));
+        txtOldPassword.setToolTipText("Password Lama");
+        txtOldPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtOldPassword.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtOldPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOldPasswordActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtOldPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 395, 250, 38));
 
-    profilePicture.setBackground(new java.awt.Color(255, 255, 255));
-    profilePicture.setForeground(new java.awt.Color(255, 255, 255));
-    profilePicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
-    profilePicture.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            profilePictureMouseClicked(evt);
-        }
-    });
+        txtNewPassword.setBackground(new java.awt.Color(0, 0, 0));
+        txtNewPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNewPassword.setForeground(new java.awt.Color(255, 255, 255));
+        txtNewPassword.setToolTipText("Password Baru");
+        txtNewPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtNewPassword.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNewPasswordActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtNewPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 320, 250, 36));
 
-    txtOldPassword.setBackground(Color.decode("#E3DDDD"));
-    txtOldPassword.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-    txtOldPassword.setToolTipText("Password Lama");
-    txtOldPassword.setBorder(BorderFactory.createCompoundBorder(
-        txtOldPassword.getBorder(), 
-        BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-txtOldPassword.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        txtOldPasswordActionPerformed(evt);
-    }
-    });
+        jLabel6.setFont(new java.awt.Font("Futura Bk BT", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("KOTA");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 190, -1, -1));
 
-    txtNewPassword.setBackground(Color.decode("#E3DDDD"));
-    txtNewPassword.setFont(new java.awt.Font("Impact", 0, 14)); // NOI18N
-    txtNewPassword.setToolTipText("Password Baru");
-    txtNewPassword.setBorder(BorderFactory.createCompoundBorder(
-        txtNewPassword.getBorder(), 
-        BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
-    public void actionPerformed(java.awt.event.ActionEvent evt) {
-        txtNewPasswordActionPerformed(evt);
-    }
-    });
+        jCity.setBackground(new java.awt.Color(0, 0, 0));
+        jCity.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jCity.setForeground(new java.awt.Color(255, 255, 255));
+        jCity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bandung", "Jakarta" }));
+        jCity.setToolTipText("Kota");
+        jCity.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
+        jPanel2.add(jCity, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 250, 38));
 
-    jLabel6.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-    jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel6.setText("KOTA");
+        isChangePassword.setBackground(new java.awt.Color(0, 0, 0));
+        isChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        isChangePassword.setForeground(new java.awt.Color(255, 255, 255));
+        isChangePassword.setText("Ubah Password");
+        isChangePassword.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                isChangePasswordStateChanged(evt);
+            }
+        });
+        isChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isChangePasswordActionPerformed(evt);
+            }
+        });
+        jPanel2.add(isChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(257, 270, 132, -1));
 
-    jCity.setBackground(Color.decode("#E3DDDD"));
-    jCity.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-    jCity.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bandung", "Jakarta" }));
-    jCity.setToolTipText("Kota");
+        profilePicture.setBackground(new java.awt.Color(255, 255, 255));
+        profilePicture.setForeground(new java.awt.Color(255, 255, 255));
+        profilePicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
+        profilePicture.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profilePictureMouseClicked(evt);
+            }
+        });
+        jPanel2.add(profilePicture, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 7, 180, -1));
 
-    isChangePassword.setBackground(Color.decode("#222222"));
-    isChangePassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-    isChangePassword.setForeground(new java.awt.Color(255, 255, 255));
-    isChangePassword.setText("Ubah Password");
-    isChangePassword.addChangeListener(new javax.swing.event.ChangeListener() {
-        public void stateChanged(javax.swing.event.ChangeEvent evt) {
-            isChangePasswordStateChanged(evt);
-        }
-    });
-    isChangePassword.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            isChangePasswordActionPerformed(evt);
-        }
-    });
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("2022");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 590, -1, -1));
 
-    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-    jPanel2.setLayout(jPanel2Layout);
-    jPanel2Layout.setHorizontalGroup(
-        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel2Layout.createSequentialGroup()
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(274, 274, 274)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(profilePicture, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(107, 107, 107)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(isChangePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(100, 100, 100)
-                                .addComponent(btnProfileSave, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6)
-                            .addComponent(jCity, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtNewPassword, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtOldPassword)))))
-            .addContainerGap(117, Short.MAX_VALUE))
-    );
-    jPanel2Layout.setVerticalGroup(
-        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel2Layout.createSequentialGroup()
-            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(profilePicture)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel6)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jCity, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
-            .addComponent(jLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
-            .addComponent(isChangePassword)
-            .addGap(7, 7, 7)
-            .addComponent(jLabel3)
-            .addGap(6, 6, 6)
-            .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jLabel4)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(btnProfileSave, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(31, 31, 31))
-    );
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Gararetech Co.");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 570, -1, -1));
 
-    jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, 660));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 470, 610));
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 0, Short.MAX_VALUE))
-    );
-    layout.setVerticalGroup(
-        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(layout.createSequentialGroup()
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 0, Short.MAX_VALUE))
-    );
+        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("PROFILE");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(207, 80, 180, 65));
 
-    pack();
-    setLocationRelativeTo(null);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logoGararetechLogin.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
@@ -517,7 +486,10 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel profilePicture;

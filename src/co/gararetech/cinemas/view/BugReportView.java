@@ -230,7 +230,7 @@ public class BugReportView extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Jangan khawatir sobat cinemas !. Kamu bisa memberitahu kendalanya pada kita loh");
+        jLabel5.setText("Jangan khawatir sobat cinemas ! Kamu bisa memberitahu kendalanya pada kita loh");
         jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         outerPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 950, 30));
 

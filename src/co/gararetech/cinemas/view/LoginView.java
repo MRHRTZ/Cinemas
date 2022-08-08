@@ -10,6 +10,7 @@ import co.gararetech.cinemas.model.LoginModel;
 import co.gararetech.cinemas.view.elements.RoundJPasswordField;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Properties;
@@ -172,6 +173,9 @@ public class LoginView extends javax.swing.JFrame {
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtPassword.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtPassword.setSelectedTextColor(new java.awt.Color(54, 12, 12));
+        txtPassword.setSelectionColor(new java.awt.Color(187, 187, 187));
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -183,6 +187,18 @@ public class LoginView extends javax.swing.JFrame {
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(255, 255, 255));
         txtEmail.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtEmail.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtEmail.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtEmail.setSelectedTextColor(new java.awt.Color(54, 12, 12));
+        txtEmail.setSelectionColor(new java.awt.Color(187, 187, 187));
+        txtEmail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtEmailMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtEmailMouseExited(evt);
+            }
+        });
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -194,7 +210,7 @@ public class LoginView extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("PASSWORD");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 128, -1, -1));
 
         btnLoginSave.setBackground(new java.awt.Color(217, 217, 217));
         btnLoginSave.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
@@ -344,6 +360,16 @@ public class LoginView extends javax.swing.JFrame {
         // TODO add your handling code here:
         loginController.minimizeButton(this);
     }//GEN-LAST:event_minimizeMouseClicked
+
+    private void txtEmailMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtEmailMouseEntered
+        Cursor cursor = new Cursor(Cursor.TEXT_CURSOR);
+        txtEmail.setCursor(cursor);
+    }//GEN-LAST:event_txtEmailMouseEntered
+
+    private void txtEmailMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtEmailMouseExited
+        Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+        txtEmail.setCursor(cursor);
+    }//GEN-LAST:event_txtEmailMouseExited
 
     /**
      * @param args the command line arguments

@@ -149,6 +149,9 @@ public class RegisterView extends javax.swing.JFrame {
         txtEmail.setForeground(new java.awt.Color(255, 255, 255));
         txtEmail.setToolTipText("Email");
         txtEmail.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtEmail.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtEmail.setSelectedTextColor(new java.awt.Color(54, 12, 12));
+        txtEmail.setSelectionColor(new java.awt.Color(187, 187, 187));
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -203,6 +206,9 @@ public class RegisterView extends javax.swing.JFrame {
         txtPassword1.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword1.setToolTipText("Password");
         txtPassword1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtPassword1.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtPassword1.setSelectedTextColor(new java.awt.Color(54, 12, 12));
+        txtPassword1.setSelectionColor(new java.awt.Color(187, 187, 187));
         txtPassword1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassword1ActionPerformed(evt);
@@ -215,6 +221,9 @@ public class RegisterView extends javax.swing.JFrame {
         txtPassword2.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword2.setToolTipText("Password Ulang");
         txtPassword2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtPassword2.setCaretColor(new java.awt.Color(54, 12, 12));
+        txtPassword2.setSelectedTextColor(new java.awt.Color(54, 12, 12));
+        txtPassword2.setSelectionColor(new java.awt.Color(187, 187, 187));
         txtPassword2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPassword2ActionPerformed(evt);

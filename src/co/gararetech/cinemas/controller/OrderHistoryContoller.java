@@ -227,14 +227,8 @@ public class OrderHistoryContoller {
         } else {
             for (int i = 0; i < orderList.length(); i++) {
                 JSONObject rowData = orderList.getJSONObject(i);
-                JSONObject movieDetail = null;
-                JSONArray nowPlayingList = model.getPlayingList();
-                for (int j = 0; j < nowPlayingList.length(); j++) {
-                    if (nowPlayingList.getJSONObject(j).getString("id").equals(rowData.getString("movie_id"))) {
-                        movieDetail = nowPlayingList.getJSONObject(j);
-                    }
-                }
-                //JSONObject movieDetail = getMovieDetail(rowData.getString("movie_id"));
+                
+                JSONObject movieDetail = getMovieDetail(rowData.getString("movie_id"));
 
                 // Grid panel
                 final JPanel contentPanel = new JPanel();
@@ -251,7 +245,7 @@ public class OrderHistoryContoller {
 
                 // Poster
                 JLabel posterImage = new JLabel();
-                BufferedImage rawPosterImg = ImageIO.read(new URL(movieDetail.getString("poster_path")));
+                BufferedImage rawPosterImg = ImageIO.read(new URL(movieDetail.getString("poster")));
                 Image scaledPoster = rawPosterImg.getScaledInstance(155, 250, Image.SCALE_SMOOTH);
                 ImageIcon iconPoster = new ImageIcon(scaledPoster);
                 posterImage.setBounds(40, 35, iconPoster.getIconWidth(), iconPoster.getIconHeight());
@@ -270,7 +264,7 @@ public class OrderHistoryContoller {
                 cardPanel.add(idTiket);
 
                 JLabel judulFilm = new JLabel();
-                judulFilm.setText(movieDetail.getString("title"));
+                judulFilm.setText(movieDetail.getString("name"));
                 judulFilm.setForeground(Color.WHITE);
                 judulFilm.setFont(new Font("Serif", Font.PLAIN, 25));
                 judulFilm.setBounds(labelX, heightSpace * 2, 580, 70);

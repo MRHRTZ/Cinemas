@@ -60,13 +60,11 @@ public class PembayaranView extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Info : Pembayaran Berhasil!");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 430, 50));
 
         btnOk.setBackground(new java.awt.Color(217, 217, 217));
-        btnOk.setForeground(new java.awt.Color(0, 0, 0));
         btnOk.setText("OK");
         btnOk.setBorder(null);
         btnOk.setBorderPainted(false);

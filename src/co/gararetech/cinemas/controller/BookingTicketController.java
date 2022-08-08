@@ -491,6 +491,7 @@ public class BookingTicketController {
     public void showDialogPayment(BookingTicketView view) {
         JDialog frame = new JDialog(view);
         frame.setPreferredSize(new Dimension(600, 400));
+        frame.setUndecorated(true);
 
         JPanel panelOutter = new JPanel(new CardLayout(30, 20));
         panelOutter.setBackground(Color.decode("#16264F"));
@@ -513,7 +514,7 @@ public class BookingTicketController {
         bottomPanel.setBackground(Color.decode("#16264F"));
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-        JLabel textSuccess = new JLabel("Yeay, Pembayaran Telah Berhasil. Selamat menonton!");
+        JLabel textSuccess = new JLabel("Yeay, Pembayaran Telah Berhasil. Selamat Menonton!");
         textSuccess.setFont(new Font("Serif", Font.PLAIN, 18));
         textSuccess.setForeground(Color.WHITE);
         textSuccess.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -524,9 +525,11 @@ public class BookingTicketController {
         divider.setForeground(Color.decode("#16264F"));
         bottomPanel.add(divider);
 
-        JButton backButton = new JButton("Kembali");
+        JButton backButton = new JButton("Oke");
         backButton.setPreferredSize(new Dimension(80, 40));
         backButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        backButton.setBackground(Color.white);
+        backButton.setMaximumSize(new Dimension(80, 40));
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

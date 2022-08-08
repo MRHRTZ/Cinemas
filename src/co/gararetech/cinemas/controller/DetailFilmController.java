@@ -125,8 +125,14 @@ public class DetailFilmController {
         JLabel videoThumb = new JLabel();
         // Baca data dari URL ke Buffer
         BufferedImage rawImg = ImageIO.read(new URL(movieObject.getString("poster_path")));
+        BufferedImage rawImgTemp = null;
+        if (rawImg == null) {
+            rawImgTemp = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+        } else {
+            rawImgTemp = rawImg;
+        }
         // Crop pada tengah2image 
-        BufferedImage imageCrop = cropImage(rawImg, 0, rawImg.getHeight() / 2, rawImg.getWidth(), 80); //0, 0, 453, 150
+        BufferedImage imageCrop = cropImage(rawImgTemp, 0, rawImgTemp.getHeight() / 2, rawImgTemp.getWidth(), 80); //0, 0, 453, 150
         // Buat image menjadi rounded
         BufferedImage roundedImage = makeRoundedCorner(imageCrop, 30);
         // Perbesar skala mencapai max panel thumb
@@ -170,7 +176,13 @@ public class DetailFilmController {
         // Poster
         JLabel posterImage = new JLabel();
         BufferedImage rawPosterImg = ImageIO.read(new URL(movieObject.getString("poster_path")));
-        BufferedImage roundedPosterImage = makeRoundedCorner(rawPosterImg, 50);
+        BufferedImage rawPosterTemp = null;
+        if (rawPosterImg == null) {
+            rawPosterTemp = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+        } else {
+            rawPosterTemp = rawImg;
+        }
+        BufferedImage roundedPosterImage = makeRoundedCorner(rawPosterTemp, 50);
         Image scaledPoster = roundedPosterImage.getScaledInstance(135, 200, Image.SCALE_SMOOTH);
         ImageIcon iconPoster = new ImageIcon(scaledPoster);
         posterImage.setIcon(iconPoster);

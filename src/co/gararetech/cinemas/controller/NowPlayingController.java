@@ -196,6 +196,7 @@ public class NowPlayingController {
             ratingFilm.setBounds(0, poster.getHeight() - 80, poster.getWidth(), 11);
             cardPanel.add(ratingFilm);
             ratingFilm.setVisible(false);
+            ratingFilm.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             // Title
             JLabel titleLabel = new JLabel(rowData.getString("title"));
@@ -205,6 +206,7 @@ public class NowPlayingController {
             titleLabel.setBounds(0, ratingFilm.getY() + 10, poster.getWidth(), 30);
             cardPanel.add(titleLabel);
             titleLabel.setVisible(false);
+            titleLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             // Selengkapnya
             JLabel selengkapnya = new JLabel("<html><u>Lihat Selengkapnya</u></html>");
@@ -214,13 +216,15 @@ public class NowPlayingController {
             selengkapnya.setBounds(0, titleLabel.getY() + 25, poster.getWidth(), 20);
             cardPanel.add(selengkapnya);
             selengkapnya.setVisible(false);
+            selengkapnya.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             // Gradient Label
             JLabel labelGradient = new JLabel();
             labelGradient.setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/gradientHover.png")));
-            labelGradient.setBounds(-5, poster.getHeight() - 118, 260, 128);
+            labelGradient.setBounds(-5, poster.getHeight() - 118, 255, 128);
             cardPanel.add(labelGradient);
             labelGradient.setVisible(false);
+            labelGradient.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             poster.setCursor(new Cursor(Cursor.HAND_CURSOR));
             poster.addMouseListener(new MouseListener() {

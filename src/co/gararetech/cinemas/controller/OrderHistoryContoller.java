@@ -286,7 +286,7 @@ public class OrderHistoryContoller {
                 Image imgKrs = rawPoster3.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconKrs = new ImageIcon(imgKrs);
                 kursi.setIcon(iconKrs);
-                kursi.setText("  " + rowData.getString("chair"));
+                kursi.setText("  " + rowData.getString("chair").replaceAll(",", ", "));
                 kursi.setForeground(Color.WHITE);
                 kursi.setFont(new Font("Serif", Font.PLAIN, 15));
                 kursi.setBounds(labelX, heightSpace * 4, 500, 70);

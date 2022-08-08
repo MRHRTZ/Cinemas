@@ -1,8 +1,10 @@
 package co.gararetech.cinemas.controller;
 
+import co.gararetech.cinemas.model.BookingTicketModel;
 import co.gararetech.cinemas.model.CheckoutTicketModel;
 import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.ScaleImage;
+import co.gararetech.cinemas.view.BookingTicketView;
 import co.gararetech.cinemas.view.CheckoutTicketView;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -91,7 +95,7 @@ public class CheckoutTicketController {
             }
         }
         URL url = new URL((dashboardModel.getMovieScheduleUrl().toString() + "?city=" + cityId + "&date=" + date + "&lat=&lon=&merchant=&movie=" + movieId + "&page=" + page + "&q=" + query + "&sort=alfabetical&studio_type=").replaceAll(" ", "%20"));
-
+        System.out.println("Checkout Ticket URL : " + url);
         dashboardModel.setConnection((HttpURLConnection) url.openConnection());
         dashboardModel.getConnection().setRequestMethod("GET");
         dashboardModel.getConnection().setRequestProperty("Authorization", "Bearer " + dashboardModel.getToken());
@@ -200,7 +204,7 @@ public class CheckoutTicketController {
         }
         ageScore.setText(ageCategory);
         model.setMovieId(movieObj.getString("id"));
-        setListMovieSchedule(checkoutTicketView, "1", "", "");
+        setListMovieSchedule(checkoutTicketView, "1", "", checkoutTicketView.getFilterTanggal().getText());
         checkoutTicketView.getContentPanelCheckout().revalidate();
         checkoutTicketView.setVisible(true);
     }
@@ -247,11 +251,8 @@ public class CheckoutTicketController {
 
                     JPanel contentPanel = new JPanel();
                     contentPanel.setLayout(new CardLayout(20, 20));
-//                contentPanel.setMinimumSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 50, 450));
                     contentPanel.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth(), 450));
-//                contentPanel.setMaximumSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 50, 2450));
                     contentPanel.setBackground(Color.decode("#19181C"));
-//                contentPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
                     // Theater Panel
                     JPanel theaterPanel = new JPanel();
@@ -274,7 +275,6 @@ public class CheckoutTicketController {
                     theaterTitlePanel.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 20, 40));
                     theaterTitlePanel.setLayout(new BoxLayout(theaterTitlePanel, BoxLayout.X_AXIS));
                     theaterTitlePanel.setBackground(Color.decode("#42382F"));
-//                theaterTitlePanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
                     // Location Icon
                     JLabel markerIcon = new JLabel();
@@ -290,7 +290,6 @@ public class CheckoutTicketController {
                     theaterTitle.setText("  " + String.valueOf(rowData.getString("name")));
                     theaterTitle.setFont(new Font("Serif", Font.BOLD, 18));
                     theaterTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-//                theaterTitle.setBorder(BorderFactory.createLineBorder(Color.WHITE));
                     theaterTitlePanel.add(theaterTitle);
                     theaterTitlePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
                     theaterPanel.add(theaterTitlePanel);
@@ -306,7 +305,6 @@ public class CheckoutTicketController {
                     theaterAddress.setFont(new Font("Serif", Font.PLAIN, 14));
                     theaterAddress.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 30, 50));
                     theaterAddress.setMaximumSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 30, 50));
-//                theaterAddress.setBorder(BorderFactory.createLineBorder(Color.WHITE));
                     theaterAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
                     theaterPanel.add(space_1);
                     theaterPanel.add(theaterAddress);
@@ -324,7 +322,6 @@ public class CheckoutTicketController {
                         headerStadiumPanel.setMaximumSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 30, 20));
                         headerStadiumPanel.setLayout(new BorderLayout());
                         headerStadiumPanel.setBackground(Color.decode("#42382F"));
-//                    headerStadiumPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
                         headerStadiumPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
                         // Studio type
@@ -344,8 +341,6 @@ public class CheckoutTicketController {
                         showTimePanel.setLayout(new GridLayout(0, 5));
                         showTimePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
                         showTimePanel.setBackground(Color.decode("#42382F"));
-//                    showTimePanel.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth() - 30, 500));
-//                    showTimePanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
                         JSONArray showTimeList = stadiumObj.getJSONArray("show_time");
                         for (int k = 0; k < showTimeList.length(); k++) {
@@ -356,7 +351,6 @@ public class CheckoutTicketController {
                             timeButtonPanel.setLayout(new CardLayout(3, 3));
                             timeButtonPanel.setPreferredSize(new Dimension(20, 30));
                             timeButtonPanel.setBackground(Color.decode("#42382F"));
-//                        timeButtonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
                             // Toggle Button
                             JToggleButton timeButton = new JToggleButton();
@@ -372,11 +366,22 @@ public class CheckoutTicketController {
                             }
                             String buttonStudioType = showTimeObj.getString("studio_type");
                             if (buttonStudioType.equals("dolby")) {
-                                timeButton.setText("<html><center>" + time + " (<b>DA</b>)</html>");
+                                timeButton.setText("<html><center>" + time + " <b>[DA]</b></html>");
                             } else {
                                 timeButton.setText(time);
-                            }
-                            timeButton.setName(rowData.getString("id") + "|" + stadiumObj.getString("category") + "|" + time);
+                            } // model.getMovieId()
+                            // Generate String Object 
+
+                            String selectedTimeObj = "{"
+                                    + "\"movie_id\":" + "\"" + model.getMovieId() + "\","
+                                    + "\"theater_id\":" + "\"" + rowData.getString("id") + "\","
+                                    + "\"theater_name\":" + "\"" + rowData.getString("name") + "\","
+                                    + "\"price\":" + stadiumObj.getInt("low_price") + ","
+                                    + "\"studio_category\":" + "\"" + stadiumObj.getString("category") + "\","
+                                    + "\"studio_id\":" + "\"" + showTimeObj.getString("studio") + "\","
+                                    + "\"show_time\":" + showTimeObj.getInt("time")
+                                    + "}";
+                            timeButton.setName(selectedTimeObj);
                             timeButton.setFont(new Font("Serif", Font.PLAIN, 14));
                             timeButton.setBackground(Color.decode("#D9D9D9"));
                             timeButton.setForeground(Color.BLACK);
@@ -384,9 +389,8 @@ public class CheckoutTicketController {
                                 @Override
                                 public void itemStateChanged(ItemEvent e) {
                                     JToggleButton thisToggleBtn = (JToggleButton) e.getSource();
-                                    String nama = thisToggleBtn.getName();
-                                    System.out.println("Selected : " + nama);
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
+                                        System.out.println("Seat selected : " + selectedTimeObj);
                                         if (model.getSelectedTime() == null) {
                                             thisToggleBtn.setBackground(Color.decode("#2E5B0B"));
                                             thisToggleBtn.setForeground(Color.WHITE);
@@ -418,7 +422,6 @@ public class CheckoutTicketController {
                         JPanel divider = new JPanel();
                         divider.setPreferredSize(new Dimension(50, 30));
                         divider.setBackground(Color.decode("#42382F"));
-//                    divider.setBorder(BorderFactory.createLineBorder(Color.yellow));
 
                         stadiumContentHeight += headerStadiumPanel.getPreferredSize().getHeight() + showTimePanel.getPreferredSize().getHeight() + divider.getPreferredSize().getHeight();
                         theaterPanel.add(headerStadiumPanel);
@@ -427,10 +430,8 @@ public class CheckoutTicketController {
                     }
 
                     double contentHeight = 100 + theaterTitlePanel.getPreferredSize().getHeight() + theaterAddress.getPreferredSize().getHeight() + stadiumContentHeight;
-//                    contentPanel.setPreferredSize(new Dimension(checkoutTicketView.getScrollContent().getWidth(), (int) contentHeight));
                     contentPanel.setMaximumSize(new Dimension(checkoutTicketView.getScrollContent().getWidth(), (int) contentHeight));
-//                    if (scheduleList.length() == 1) {
-//                    }
+
                     cardPanel.add(theaterPanel);
                     contentPanel.add(cardPanel);
                     contentPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -439,8 +440,38 @@ public class CheckoutTicketController {
 
                 }
             }
-
         }
+    }
+
+    public void bookingTicket(CheckoutTicketView checkoutView, BookingTicketView bookingView) {
+        checkoutView.getBtnPilih().setEnabled(false);
+        checkoutView.getBtnPilih().setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif")));
+
+        new Thread() {
+            public void run() {
+                try {
+                    BookingTicketController btController = new BookingTicketController();
+                    BookingTicketModel btModel = new BookingTicketModel();
+                    JSONObject seatObj = new JSONObject(model.getSelectedTime().getName());
+                    btModel.setCheckoutTicketObj(seatObj);
+                    btModel.setCheckoutView(checkoutView);
+                    btController.setModel(btModel);
+                    btController.setDashboardModel(dashboardModel);
+                    btController.initSeat(bookingView, btModel.getCheckoutTicketObj());
+                    bookingView.setBookingTicketController(btController);
+                    bookingView.setBookingTicketModel(btModel);
+                    checkoutView.setVisible(false);
+                    bookingView.setVisible(true);
+                    checkoutView.getBtnPilih().setEnabled(true);
+                    checkoutView.getBtnPilih().setIcon(null);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(checkoutView, "Kesalahan sistem " + ex.getMessage());
+                    System.exit(0);
+                }
+            }
+        }.start();
+
     }
 
     public void onFilterTyped(CheckoutTicketView view, KeyEvent e) {
@@ -480,8 +511,9 @@ public class CheckoutTicketController {
             @Override
             public Void doInBackground() {
                 try {
+                    String placeholder = "Cari Bioskop";
                     String q = "";
-                    if (!view.getFilterBioskop().getText().equals("Pilih bioskop kesayangan kamu ..")) {
+                    if (!view.getFilterBioskop().getText().equals(placeholder)) {
                         q = view.getFilterBioskop().getText();
                     }
                     view.getFilterTanggal().setText(tanggal);

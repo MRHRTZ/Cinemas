@@ -20,6 +20,10 @@ public class DashboardModel {
     private URL usersEndpoint;
     private URL orderHistoryUrl;
     private URL bugReportUrl;
+    private URL showStudioUrl;
+    private URL createStudioUrl;
+    private URL updateStudioUrl;
+    private URL createOrderUrl;
 
     private JSONArray playingList;
     private JSONArray upcomingList;
@@ -40,6 +44,7 @@ public class DashboardModel {
     public DashboardModel() {
         try {
             String baseUrl = "https://api.tix.id";
+            String DbBaseUrl = "https://mrhrtz.com/gararetech/cinemas/api/v1";
             this.tokenEndpoint = new URL(baseUrl + "/v1/token");
             this.nowPlayingUrl = new URL(baseUrl + "/v1/movies/now_playing?tz=7");
             this.upcomingUrl = new URL(baseUrl + "/v1/movies/upcoming");
@@ -47,9 +52,13 @@ public class DashboardModel {
             this.citiesUrl = new URL(baseUrl + "/v1/cities");
             this.movieScheduleUrl = new URL(baseUrl + "/v3/schedule");
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
-            this.usersEndpoint = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/show_user.php");
-            this.bugReportUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/create_report.php");
-            this.orderHistoryUrl = new URL("https://mrhrtz.com/gararetech/cinemas/api/v1/");
+            this.usersEndpoint = new URL(DbBaseUrl + "/show_user.php");
+            this.bugReportUrl = new URL(DbBaseUrl + "/create_report.php");
+            this.orderHistoryUrl = new URL(DbBaseUrl + "/");
+            this.showStudioUrl = new URL(DbBaseUrl + "/show_studio.php");
+            this.createStudioUrl = new URL(DbBaseUrl + "/create_studio.php");
+            this.updateStudioUrl = new URL(DbBaseUrl + "/update_studio.php");
+            this.createOrderUrl = new URL(DbBaseUrl + "/create_order.php");
             this.invalidMessage = null;
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,6 +68,11 @@ public class DashboardModel {
     public JSONObject getOrderHistoryUpdate() {
         return orderHistoryUpdate;
     }
+
+    public URL getCreateOrderUrl() {
+        return createOrderUrl;
+    }
+    
 
     public URL getBugReportUrl() {
         return bugReportUrl;
@@ -210,6 +224,18 @@ public class DashboardModel {
 
     public void setOrderHistoryDelete(JSONObject orderHistoryDelete) {
         this.orderHistoryDelete = orderHistoryDelete;
+    }
+
+    public URL getShowStudioUrl() {
+        return showStudioUrl;
+    }
+
+    public URL getCreateStudioUrl() {
+        return createStudioUrl;
+    }
+
+    public URL getUpdateStudioUrl() {
+        return updateStudioUrl;
     }
 
 }

@@ -354,25 +354,28 @@ public class OrderHistoryContoller {
                     JButton updateButton = new JButton();
                     updateButton.setForeground(Color.WHITE);
                     updateButton.setBackground(Color.decode("#83860B"));
-                    updateButton.setText("Tonton Sekarang");
+                    updateButton.setText("Check In Studio");
                     updateButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            new SwingWorker<Void, Void>() {
-                                @Override
-                                public Void doInBackground() throws ParseException {
-                                    try {
-                                        updateOrderHistory(rowData.getString("order_id"));
-                                        JOptionPane.showMessageDialog(view, "Selamat menonton !");
-                                        removeContent(view);
-                                        setGrid(view);
-                                        view.revalidate();
-                                    } catch (IOException ex) {
-                                        Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                            if (JOptionPane.showConfirmDialog(view, "Pastikan anda sudah berada didalam studio, lanjutkan ?", "Cinemas",
+                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                new SwingWorker<Void, Void>() {
+                                    @Override
+                                    public Void doInBackground() throws ParseException {
+                                        try {
+                                            updateOrderHistory(rowData.getString("order_id"));
+                                            JOptionPane.showMessageDialog(view, "Selamat menonton !");
+                                            removeContent(view);
+                                            setGrid(view);
+                                            view.revalidate();
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                        return null;
                                     }
-                                    return null;
-                                }
-                            }.execute();
+                                }.execute();
+                            }
                         }
                     });
                     updateButton.setFont(new Font("Serif", Font.PLAIN, 18));

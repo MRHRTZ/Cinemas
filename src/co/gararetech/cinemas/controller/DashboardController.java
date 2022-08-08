@@ -59,7 +59,7 @@ public class DashboardController {
     public void setModel(DashboardModel model) {
         this.model = model;
     }
-    
+
     public JSONArray getUserList() throws MalformedURLException, IOException {
         URL usersUrl = model.getUsersEndpoint();
 
@@ -372,28 +372,29 @@ public class DashboardController {
 
         return output;
     }
-    
-    public void btnProfile(DashboardView view) throws MalformedURLException, IOException{
+
+    public void getProfilePic(DashboardView view) throws MalformedURLException, IOException {
         if (!model.getUserData().isNull("image")) {
-                if (model.getUserData().getString("image").equals("")) {
-                    BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"));
-                    BufferedImage Images = makeRoundedCorner(Img, 1000);
-                    view.getBtnProfile().setIcon(new ImageIcon(Images));
-                    view.getBtnProfile().setBackground(Color.decode("#1D1C1C"));
-                } else {
-                    System.out.println("Img url : " + model.getUserData().getString("image"));
-                    URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
-                    
-                    BufferedImage Img = ImageIO.read(dataImageUrl);
-                    BufferedImage roundedImage = makeRoundedCorner(Img, 5000);
-                    
-                    Image images = roundedImage.getScaledInstance(55, 55, Image.SCALE_SMOOTH);
-                    ImageIcon img = new ImageIcon(images);
-                    view.getBtnProfile().setIcon(img);
-                    view.getBtnProfile().setBackground(Color.decode("#1D1C1C"));
-                }
-            } 
+            if (model.getUserData().getString("image").equals("")) {
+                BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"));
+                BufferedImage Images = makeRoundedCorner(Img, 1000);
+                view.getBtnProfile().setIcon(new ImageIcon(Images));
+                view.getBtnProfile().setBackground(Color.decode("#1D1C1C"));
+            } else {
+                System.out.println("Get image profile : " + model.getUserData().getString("image"));
+                URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
+
+                BufferedImage Img = ImageIO.read(dataImageUrl);
+                BufferedImage roundedImage = makeRoundedCorner(Img, 5000);
+
+                Image images = roundedImage.getScaledInstance(55, 55, Image.SCALE_SMOOTH);
+                ImageIcon img = new ImageIcon(images);
+                view.getBtnProfile().setIcon(img);
+                view.getBtnProfile().setBackground(Color.decode("#1D1C1C"));
+            }
+        }
     }
+
     public JDialog addDialogLoading(DashboardView view, String message) {
         JDialog frame = new JDialog(view);
 
@@ -428,7 +429,7 @@ public class DashboardController {
     public void removeDialogLoading(DashboardView view) {
         view.getLoadingUser().dispose();
     }
-        
+
     public void refreshUserData(DashboardView view) throws InterruptedException, IOException {
         if (model.getNeedRefresh()) {
             System.out.println("Refreshing userData");
@@ -444,14 +445,14 @@ public class DashboardController {
                     model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
                     removeDialogLoading(view);
-                    
+
                 }
             }
         } else {
             System.out.println("Opening dashboard, no need to refresh");
         }
     }
-    
+
     public void viewBugReport(DashboardView view) {
         try {
             BugReportView bgView = new BugReportView();
@@ -469,13 +470,12 @@ public class DashboardController {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     public void hidePopupProfile(DashboardView view) {
         view.getPopupProfile().setVisible(false);
-        
+
     }
-    
+
     public void showPopupProfile(DashboardView view) {
         view.getPopupProfile().show(view, 965, 65);
         view.getPopupProfile().setVisible(true);

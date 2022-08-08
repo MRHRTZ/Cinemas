@@ -76,10 +76,10 @@ public class DashboardView extends javax.swing.JFrame {
             @Override
             public Void doInBackground() {
                 try {
+                    dashboardController.getProfilePic(DashboardView.this);
                     dashboardController.initPage(DashboardView.this);
                     dashboardController.getCities();
                     nowPlayingController.setNewGrid(DashboardView.this);
-                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
@@ -430,7 +430,6 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     upcomingController.setNewGrid(DashboardView.this);
-                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -452,7 +451,6 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     nowPlayingController.setNewGrid(DashboardView.this);
-                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -484,7 +482,6 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() {
                 try {
                     cinemaListController.setNewGrid(DashboardView.this);
-                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -510,7 +507,6 @@ public class DashboardView extends javax.swing.JFrame {
             public Void doInBackground() throws ParseException {
                 try {
                     orderHistoryController.setGrid(DashboardView.this);
-                    dashboardController.btnProfile(DashboardView.this);
                     dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
                     DashboardView.this.revalidate();
                 } catch (Exception ex) {
@@ -560,11 +556,6 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
         dashboardController.showPopupProfile(this);
-        try {
-            dashboardController.btnProfile(this);
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_btnProfileActionPerformed
 
     /**

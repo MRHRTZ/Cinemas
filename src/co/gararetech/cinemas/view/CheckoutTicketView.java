@@ -356,9 +356,10 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
         }
     });
 
+    BtnPilih.setText("PILIH KURSI");
     BtnPilih.setBackground(Color.decode("#2E5B0B"));
     BtnPilih.setForeground(new java.awt.Color(255, 255, 255));
-    BtnPilih.setText("PILIH KURSI");
+    BtnPilih.setEnabled(false);
     BtnPilih.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             BtnPilihActionPerformed(evt);
@@ -490,7 +491,7 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
                                                 .addComponent(genreField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(sutradaraField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(ratingUsiaField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addComponent(separator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+                                        .addComponent(separator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
                                     .addGap(3, 3, 3))
                                 .addComponent(posterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(0, 0, Short.MAX_VALUE))
@@ -573,7 +574,8 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
     }//GEN-LAST:event_BtnBatalActionPerformed
 
     private void BtnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPilihActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
 
 //        JPanel contentPanel = new JPanel();
 //        contentPanel.setLayout(new CardLayout(50, 30));
@@ -584,10 +586,20 @@ filterTanggal.addFocusListener(new java.awt.event.FocusAdapter() {
 //        contentPanel.setBackground(Color.RED);
 //        this.getContentPanelCheckout().add(contentPanel);
 //        this.getContentPanelCheckout().revalidate();
-        this.dispose();
-        bookingticketview.setVisible(true);
-
-        this.getScrollContent().getVerticalScrollBar().setValue(0);
+//        this.dispose();
+//        bookingticketview.setVisible(true);
+//
+//        this.getScrollContent().getVerticalScrollBar().setValue(0);
+            checkoutTicketController.bookingTicket(this, new BookingTicketView());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CheckoutTicketView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CheckoutTicketView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CheckoutTicketView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(CheckoutTicketView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_BtnPilihActionPerformed
 

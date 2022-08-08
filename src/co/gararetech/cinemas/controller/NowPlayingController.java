@@ -104,6 +104,7 @@ public class NowPlayingController {
             model.setPlayingList(new JSONArray());
         }
     }
+
     public BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
         int w = image.getWidth();
         int h = image.getHeight();
@@ -129,12 +130,12 @@ public class NowPlayingController {
 
         return output;
     }
-    
-     public BufferedImage cropImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
+
+    public BufferedImage cropImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
         BufferedImage croppedImage = bufferedImage.getSubimage(x, y, width, height);
         return croppedImage;
     }
-    
+
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
         view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
         int nextRID = model.nextRequestID();
@@ -152,13 +153,6 @@ public class NowPlayingController {
             removeLoadingContent(view.getContent(), view.getLoadingPanel());
             view.setLoadingPanel(addLoadingContent(view.getContent(), "GET RESOURCES : " + rowData.getString("title")));
             // Filter jika film belum sepenuhnya rilis jangan ditampilkan
-            Boolean isGrid;
-
-            if (rowData.getInt("presale_flag") == 1) {
-                isGrid = false;
-            } else {
-                isGrid = true;
-            }
 
             // Grid panel
             final JPanel contentPanel = new JPanel();
@@ -181,7 +175,6 @@ public class NowPlayingController {
 //            topSpace.setForeground(Color.decode("#222222"));
 //            topSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
 //            cardPanel.add(topSpace);
-
             // Poster Image
 //            URL posterUrl = new URL(rowData.getString("poster_path"));
             JLabel poster = new JLabel();
@@ -325,10 +318,8 @@ public class NowPlayingController {
 //            orderButton.setMaximumSize(new Dimension(200, 30));
 //            cardPanel.add(orderButton);
 //
-            if (isGrid) {
-                contentPanel.add(cardPanel);
-                gridPane.add(contentPanel);
-            }
+            contentPanel.add(cardPanel);
+            gridPane.add(contentPanel);
 
         }
 

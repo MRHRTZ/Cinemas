@@ -576,6 +576,7 @@ public class DashboardController {
                 openTab(clc, view);
             }
             removeDialogLoading(view);
+            removeDialogLoading(view);
         } else {
             System.out.println("Opening dashboard, no need to refresh");
         }
@@ -605,7 +606,7 @@ public class DashboardController {
 
         view.setLocation(kordinatX - model.getMousepX(), kordinatY - model.getMousepY());
     }
-    
+
     public void handleMousePressed(MouseEvent evt, JFrame view) {
         model.setMousepX(evt.getX());
         model.setMousepY(evt.getY());

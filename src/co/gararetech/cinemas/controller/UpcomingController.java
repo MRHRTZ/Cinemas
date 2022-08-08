@@ -182,28 +182,17 @@ public class UpcomingController {
                 BufferedImage imageBuffer = null;
                 try {
                     imageBuffer = ImageIO.read(new URL(rowData.getString("poster_path")));
-//                    Image icon = ImageIO.read(posterUrl);
                     if (imageBuffer == null) {
                         imageBuffer = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
-//                        posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
                     } else {
-//                        posterIcon = new ImageIcon(icon);
                     }
                 } catch (IIOException e) {
                     imageBuffer = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
-
-//                    posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
                 }
                 BufferedImage roundedPosterImage = makeRoundedCorner(imageBuffer, 70);
                 Image scaledPoster = roundedPosterImage.getScaledInstance(250, 360, Image.SCALE_SMOOTH);
                 ImageIcon iconPoster = new ImageIcon(scaledPoster);
                 poster.setPreferredSize(new Dimension(230, 287));
-//                ImageIcon posterIcon = new ImageIcon(iconPoster);
-//                if (icon == null) {
-//                    posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
-//                } else {
-//                    posterIcon = new ImageIcon(icon);
-//                }
 
                 poster.setIcon(iconPoster);
                 poster.setBounds(0, 0, 250, 360);

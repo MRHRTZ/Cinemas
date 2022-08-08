@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -46,6 +47,21 @@ public class GoogleCloudStorage {
         return storage;
     }
 
+    public String generateID(int length) {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = length;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return generatedString.toUpperCase();
+    }
+
     public byte[] extractBytes(String ImageName) throws IOException {
         // open image
         File imgPath = new File(ImageName);
@@ -60,24 +76,26 @@ public class GoogleCloudStorage {
 
     public String uploadFile(String imagePath) {
         File file = new File(imagePath);
+        String pathFilename = generateID(30) + "-" + file.getName();
+
         try {
             URLConnection connection = file.toURL().openConnection();
             String mimeType = connection.getContentType();
             System.out.println(mimeType);
-            byte[] content = extractBytes(imagePath);
 
-            BlobId blobId = BlobId.of(this.bucket, file.getName());
+            BlobId blobId = BlobId.of(this.bucket, pathFilename);
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                     .setContentType(mimeType)
                     .build();
-            
+
             storage.create(blobInfo, Files.readAllBytes(Paths.get(imagePath)));
 
             System.out.println("Uploaded filename to bucket " + this.bucket);
         } catch (IOException ex) {
             Logger.getLogger(GoogleCloudStorage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String result = "https://storage.googleapis.com/" + this.bucket + "/" + file.getName();
+        
+        String result = "https://storage.googleapis.com/" + this.bucket + "/" + pathFilename;
 
         return result;
     }

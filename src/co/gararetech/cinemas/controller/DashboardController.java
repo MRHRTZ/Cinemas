@@ -344,6 +344,7 @@ public class DashboardController {
             profileView.setDashboardView(dashboardView);
             profileView.getProfileModel().setUserData(model.getUserData());
             profileView.setVisible(true);
+            removeDialogLoading(dashboardView);
             dashboardView.setVisible(false);
         }
     }
@@ -480,7 +481,6 @@ public class DashboardController {
             public Void doInBackground() {
                 try {
                     viewProfile(view, new ProfileView());
-                    removeDialogLoading(view);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
@@ -575,7 +575,6 @@ public class DashboardController {
             } else if (model.getActiveTab().equals("cinemas")) {
                 openTab(clc, view);
             }
-            removeDialogLoading(view);
             removeDialogLoading(view);
         } else {
             System.out.println("Opening dashboard, no need to refresh");

@@ -62,21 +62,20 @@ public class ProfileView extends javax.swing.JFrame {
         googleCloudStorage = new GoogleCloudStorage();
         dashboardController = new DashboardController();
         initComponents();
-
-        profileController.pictureload(ProfileView.this);
+        profileController.setModel(profileModel);
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
-//        new SwingWorker<Void, Void>() {
-//            @Override
-//            public Void doInBackground() {
-//                try {
-//                    profileController.pictureload(ProfileView.this);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                return null;
-//            }
-//        }.execute();
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    profileController.pictureload(ProfileView.this);
+                } catch (IOException ex) {
+                    Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
     }
 
     
@@ -251,7 +250,7 @@ public class ProfileView extends javax.swing.JFrame {
     profilePicture.setBackground(new java.awt.Color(255, 255, 255));
     profilePicture.setForeground(new java.awt.Color(255, 255, 255));
     profilePicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"))); // NOI18N
+    profilePicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
     profilePicture.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             profilePictureMouseClicked(evt);
@@ -447,12 +446,8 @@ txtNewPassword.addActionListener(new java.awt.event.ActionListener() {
     private void profilePictureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePictureMouseClicked
         try {
             profileController.chooseImage(this, this.getGoogleCloudStorage());
-            profileController.pictureload(this);
-
-} catch (IOException ex) {
-            Logger.getLogger(ProfileView.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfileView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_profilePictureMouseClicked
 

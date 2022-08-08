@@ -16,6 +16,7 @@ import javax.swing.JPanel;
  * @author LENOVO
  */
 public class AboutUsView extends javax.swing.JFrame {
+
     /**
      * Creates new form AboutUsView
      */
@@ -91,6 +92,16 @@ public class AboutUsView extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelHeader.setBackground(Color.decode("#1D1C1C"));
+        panelHeader.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                panelHeaderMouseDragged(evt);
+            }
+        });
+        panelHeader.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelHeaderMousePressed(evt);
+            }
+        });
         panelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
@@ -250,17 +261,25 @@ public class AboutUsView extends javax.swing.JFrame {
 
     private void mainPanelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseDragged
         // TODO add your handling code here:
-        int x = evt.getXOnScreen();
-        int y = evt.getYOnScreen();
-
-        this.setLocation(x - this.getMouseX(), y - this.getMouseY());
     }//GEN-LAST:event_mainPanelMouseDragged
 
     private void mainPanelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMousePressed
         // TODO add your handling code here:
+    }//GEN-LAST:event_mainPanelMousePressed
+
+    private void panelHeaderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHeaderMouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+
+        this.setLocation(x - this.getMouseX(), y - this.getMouseY());
+    }//GEN-LAST:event_panelHeaderMouseDragged
+
+    private void panelHeaderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHeaderMousePressed
+        // TODO add your handling code here:
         this.setMouseX(evt.getX());
         this.setMouseY(evt.getY());
-    }//GEN-LAST:event_mainPanelMousePressed
+    }//GEN-LAST:event_panelHeaderMousePressed
 
     public JPanel getPanelEdwin() {
         return panelEdwin;

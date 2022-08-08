@@ -100,7 +100,9 @@ public class UpcomingController {
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
-        System.out.println("Building upcoming content ..");
+        view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
+        int nextRID = model.nextRequestID();
+        System.out.println("Building upcoming content .. " + "~" + nextRID);
 
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
@@ -283,9 +285,12 @@ public class UpcomingController {
                 gridPane.add(contentPanel);
             }
 
-            view.getContent().add(gridPane);
-            System.out.println("Success load upcoming");
-
+            if (model.getRequestID() == nextRID) {
+                view.getContent().add(gridPane);
+                System.out.println("Success load upcoming");
+            } else {
+                System.out.println("cancel load upcoming");
+            }
         }
     }
 

@@ -40,6 +40,10 @@ public class DashboardModel {
     private String activeTab;
     private String invalidMessage;
     private Boolean needRefresh;
+    private int requestID;
+
+    private int mousepX;
+    private int mousepY;
 
     public DashboardModel() {
         try {
@@ -60,9 +64,19 @@ public class DashboardModel {
             this.updateStudioUrl = new URL(DbBaseUrl + "/update_studio.php");
             this.createOrderUrl = new URL(DbBaseUrl + "/create_order.php");
             this.invalidMessage = null;
+            this.requestID = 0;
         } catch (MalformedURLException ex) {
             Logger.getLogger(DashboardModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public int getRequestID() {
+        return requestID;
+    }
+
+    public int nextRequestID() {
+        this.requestID += 1;
+        return this.requestID;
     }
 
     public JSONObject getOrderHistoryUpdate() {
@@ -72,7 +86,6 @@ public class DashboardModel {
     public URL getCreateOrderUrl() {
         return createOrderUrl;
     }
-    
 
     public URL getBugReportUrl() {
         return bugReportUrl;
@@ -237,5 +250,22 @@ public class DashboardModel {
     public URL getUpdateStudioUrl() {
         return updateStudioUrl;
     }
+
+    public int getMousepX() {
+        return mousepX;
+    }
+
+    public void setMousepX(int mousepX) {
+        this.mousepX = mousepX;
+    }
+
+    public int getMousepY() {
+        return mousepY;
+    }
+
+    public void setMousepY(int mousepY) {
+        this.mousepY = mousepY;
+    }
+    
 
 }

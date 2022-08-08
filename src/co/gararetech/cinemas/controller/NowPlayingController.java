@@ -59,7 +59,7 @@ public class NowPlayingController {
     }
 
     public void getNowPlaying() throws ProtocolException, IOException {
-        System.out.println("Get API Now Playing ..");
+        System.out.println("Get API Now Playing .. ");
         String cityId = getCityId(model.getUserData().getString("city_id"));
         URL url = new URL(model.getNowPlayingUrl().toString() + "?city_id=" + cityId);
 
@@ -100,7 +100,9 @@ public class NowPlayingController {
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
-        System.out.println("Building now playing content ..");
+        view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
+        int nextRID = model.nextRequestID();
+        System.out.println("Building now playing content .. " + "~" + nextRID);
 
         // Now Playing Container
         JPanel gridPane = new JPanel(new GridLayout(0, 4));
@@ -288,8 +290,12 @@ public class NowPlayingController {
 
         }
 
-        view.getContent().add(gridPane);
-        System.out.println("Success load now playing");
+        if (model.getRequestID() == nextRID) {
+            view.getContent().add(gridPane);
+            System.out.println("Success load now playing");
+        } else {
+            System.out.println("Cancel load now playing");
+        }
 
     }
 

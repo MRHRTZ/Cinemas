@@ -39,8 +39,6 @@ public class DashboardView extends javax.swing.JFrame {
     private ImageIcon appIcon;
     private JPanel loadingPanel;
     private JDialog loadingUser;
-    private int mousepX;
-    private int mousepY;
 
     public DashboardView() throws ClassNotFoundException, InstantiationException, UnsupportedLookAndFeelException, IllegalAccessException, URISyntaxException, IOException {
         Properties p = new Properties();
@@ -58,6 +56,7 @@ public class DashboardView extends javax.swing.JFrame {
         orderHistoryController = new OrderHistoryContoller();
         googleCloudStorage = new GoogleCloudStorage();
         aboutusview = new AboutUsView();
+        
         initComponents();
 
         dashboardController.setModel(dashboardModel);
@@ -65,29 +64,27 @@ public class DashboardView extends javax.swing.JFrame {
         upcomingController.setModel(dashboardModel);
         cinemaListController.setModel(dashboardModel);
         orderHistoryController.setModel(dashboardModel);
-        
+
         appIcon = new ImageIcon(getClass().getResource("images/chair.png"));
         this.setIconImage(appIcon.getImage());
-        
-        dashboardController.setActiveButton(this, "nowplaying");
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
-        
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() {
-                try {
-                    dashboardController.getProfilePic(DashboardView.this);
-                    dashboardController.initPage(DashboardView.this);
-                    dashboardController.getCities();
-                    nowPlayingController.setNewGrid(DashboardView.this);
-                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }.execute();
+
+        dashboardController.openFirstTab(this, nowPlayingController);
+    }
+
+    public NowPlayingController getNowPlayingController() {
+        return nowPlayingController;
+    }
+
+    public UpcomingController getUpcomingController() {
+        return upcomingController;
+    }
+
+    public OrderHistoryContoller getOrderHistoryController() {
+        return orderHistoryController;
+    }
+
+    public CinemaListController getCinemaListController() {
+        return cinemaListController;
     }
 
     public JButton getBtnProfile() {
@@ -98,8 +95,6 @@ public class DashboardView extends javax.swing.JFrame {
         this.btnProfile = btnProfile;
     }
 
-    
-    
     public JPanel getLoadingPanel() {
         return loadingPanel;
     }
@@ -122,22 +117,6 @@ public class DashboardView extends javax.swing.JFrame {
 
     public JButton getBtnUpcoming() {
         return btnUpcoming;
-    }
-
-    public int getMousepX() {
-        return mousepX;
-    }
-
-    public void setMousepX(int mousepX) {
-        this.mousepX = mousepX;
-    }
-
-    public int getMousepY() {
-        return mousepY;
-    }
-
-    public void setMousepY(int mousepY) {
-        this.mousepY = mousepY;
     }
 
     public JPanel getContent() {
@@ -274,7 +253,7 @@ public class DashboardView extends javax.swing.JFrame {
         });
 
         btnUpcoming.setBackground(Color.decode("#D9D9D9"));
-        btnUpcoming.setForeground(new java.awt.Color(204, 204, 204));
+        btnUpcoming.setForeground(new java.awt.Color(0, 0, 0));
         btnUpcoming.setText("Segera Tayang");
         btnUpcoming.setToolTipText("Segera Tayang");
         btnUpcoming.setFocusPainted(false);
@@ -329,7 +308,6 @@ public class DashboardView extends javax.swing.JFrame {
         btnProfile.setForeground(new java.awt.Color(255, 255, 255));
         btnProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"))); // NOI18N
         btnProfile.setToolTipText("Profile");
-        btnProfile.setFocusPainted(false);
         btnProfile.setBorderPainted(false);
         btnProfile.setContentAreaFilled(false);
         btnProfile.setFocusable(false);
@@ -406,60 +384,23 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
         // TODO add your handling code here:
-
-        int kordinatX = evt.getXOnScreen();
-        int kordinatY = evt.getYOnScreen();
-
-        this.setLocation(kordinatX - this.getMousepX(), kordinatY - this.getMousepY());
+        dashboardController.handleMouseDragged(evt, this);
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
         dashboardController.hidePopupProfile(this);
-        this.setMousepX(evt.getX());
-        this.setMousepY(evt.getY());
+        dashboardController.handleMousePressed(evt, this);
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void btnUpcomingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpcomingActionPerformed
         // TODO add your handling code here:
-        dashboardController.setActiveButton(this, "upcoming");
-        dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() {
-                try {
-                    upcomingController.setNewGrid(DashboardView.this);
-                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
-                    DashboardView.this.revalidate();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }.execute();
+        dashboardController.openTab(upcomingController, this);
     }//GEN-LAST:event_btnUpcomingActionPerformed
 
     private void btnNowPlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNowPlayingActionPerformed
         // TODO add your handling code here:
-        dashboardController.setActiveButton(this, "nowplaying");
-        dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() {
-                try {
-                    nowPlayingController.setNewGrid(DashboardView.this);
-                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
-                    DashboardView.this.revalidate();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }.execute();
+        dashboardController.openTab(nowPlayingController, this);
     }//GEN-LAST:event_btnNowPlayingActionPerformed
 
     private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
@@ -474,23 +415,7 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void btnCinemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinemaActionPerformed
         // TODO add your handling code here:
-        dashboardController.setActiveButton(this, "cinemas");
-        dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() {
-                try {
-                    cinemaListController.setNewGrid(DashboardView.this);
-                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
-                    DashboardView.this.revalidate();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }.execute();
+        dashboardController.openTab(cinemaListController, this);
     }//GEN-LAST:event_btnCinemaActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -499,39 +424,12 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void btnOrderHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderHistoryActionPerformed
         // TODO add your handling code here:
-        dashboardController.setActiveButton(this, "orderhistory");
-        dashboardController.removeContent(this);
-        this.loadingPanel = dashboardController.addLoadingContent(this.getContent(), "");
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() throws ParseException {
-                try {
-                    orderHistoryController.setGrid(DashboardView.this);
-                    dashboardController.removeLoadingContent(DashboardView.this.getContent(), DashboardView.this.loadingPanel);
-                    DashboardView.this.revalidate();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }.execute();
+        dashboardController.openTab(orderHistoryController, this);
     }//GEN-LAST:event_btnOrderHistoryActionPerformed
 
     private void editProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editProfileActionPerformed
         // TODO add your handling code here:
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() {
-                try {
-                    dashboardController.viewProfile(DashboardView.this, new ProfileView());
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
-                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return null;
-            }
-        }.execute();
+        dashboardController.openProfileTab(this);
     }//GEN-LAST:event_editProfileActionPerformed
 
     private void aboutUsPerformed(java.awt.event.ActionEvent evt) {
@@ -542,7 +440,6 @@ public class DashboardView extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             dashboardController.logout(this, new LoginView());
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(DashboardView.this, "Kesalahan system " + ex.getMessage());
             Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);

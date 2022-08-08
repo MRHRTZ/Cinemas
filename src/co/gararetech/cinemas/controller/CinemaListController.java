@@ -123,7 +123,9 @@ public class CinemaListController {
     }
 
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
-        System.out.println("Refreshing cinemas content ..");
+        view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
+        int nextRID = model.nextRequestID();
+        System.out.println("Building cinemas content .. " + "~" + nextRID);
 
         // Now Playing Container
         JPanel gridPane = new JPanel();
@@ -300,9 +302,13 @@ public class CinemaListController {
             }
 
             gridPane.add(Box.createVerticalBox());
-            view.getContent().add(gridPane);
 
-            System.out.println("Success load cinemas");
+            if (model.getRequestID() == nextRID) {
+                view.getContent().add(gridPane);
+                System.out.println("Success load cinemas");
+            } else {
+                System.out.println("cancel load cinemas");
+            }
         }
     }
 
@@ -312,7 +318,7 @@ public class CinemaListController {
         JSONArray listData = model.getCinemaList();
         JSONObject cinemaFound = null;
         String searchText = searchBar.getText();
-        
+
         if (searchText.equals("")) {
             JOptionPane.showMessageDialog(view, "kotak pencarian masih kosong!");
         } else {

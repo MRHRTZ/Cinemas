@@ -63,7 +63,7 @@ public class ProfileController {
         new Thread() {
             public void run() {
                 try {
-                    dashboardView.getDashboardController().refreshUserData(dashboardView);
+                    dashboardView.getDashboardController().refreshUserData(dashboardView, dashboardView.getNowPlayingController(), dashboardView.getUpcomingController(), dashboardView.getOrderHistoryController(), dashboardView.getCinemaListController());
                     dashboardView.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -95,7 +95,7 @@ public class ProfileController {
 
         if (!userData.isNull("image")) {
             String image = userData.getString("image");
-            
+
             URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
             BufferedImage Img = ImageIO.read(dataImageUrl);
             BufferedImage roundedImage = makeRoundedCorner(Img, 8000);
@@ -168,6 +168,9 @@ public class ProfileController {
     }
 
     public void updateUser(ProfileView view) throws IOException {
+        view.getBtnProfileSave().setEnabled(false);
+        view.getBtnProfileSave().setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif")));
+
         String city_name = String.valueOf(view.getjCity().getSelectedItem());
         String email = view.getTxtEmail().getText();
         String pass_old = String.valueOf(view.getTxtOldPassword().getPassword());
@@ -192,6 +195,8 @@ public class ProfileController {
                     public void run() {
                         try {
                             postUpdate("all");
+                            view.getBtnProfileSave().setEnabled(true);
+                            view.getBtnProfileSave().setIcon(null);
                             JOptionPane.showMessageDialog(view, "Berhasil update profile!");
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -208,6 +213,8 @@ public class ProfileController {
                 public void run() {
                     try {
                         postUpdate("no_pass");
+                        view.getBtnProfileSave().setEnabled(true);
+                        view.getBtnProfileSave().setIcon(null);
                         JOptionPane.showMessageDialog(view, "Berhasil update profile!");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -217,26 +224,27 @@ public class ProfileController {
             }.start();
         }
     }
-    public void pictureload(ProfileView view) throws MalformedURLException, IOException{
+
+    public void pictureload(ProfileView view) throws MalformedURLException, IOException {
         if (!model.getUserData().isNull("image")) {
-                if (model.getUserData().getString("image").equals("")) {
-                    BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"));
-                    BufferedImage Images = makeRoundedCorner(Img, 1000);
-                    view.getProfilePicture().setIcon(new ImageIcon(Images));
-                } else {
-                    System.out.println("Img url : " + model.getUserData().getString("image"));
-                    URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
-                    
-                    BufferedImage Img = ImageIO.read(dataImageUrl);
-                    BufferedImage roundedImage = makeRoundedCorner(Img, 8000);
-                    
-                    Image images = roundedImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    ImageIcon img = new ImageIcon(images);
-                    view.getProfilePicture().setIcon(img);
-                }
-            } 
+            if (model.getUserData().getString("image").equals("")) {
+                BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/ProfileIconBlack.png"));
+                BufferedImage Images = makeRoundedCorner(Img, 1000);
+                view.getProfilePicture().setIcon(new ImageIcon(Images));
+            } else {
+                System.out.println("Img url : " + model.getUserData().getString("image"));
+                URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
+
+                BufferedImage Img = ImageIO.read(dataImageUrl);
+                BufferedImage roundedImage = makeRoundedCorner(Img, 8000);
+
+                Image images = roundedImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                ImageIcon img = new ImageIcon(images);
+                view.getProfilePicture().setIcon(img);
+            }
+        }
     }
-    
+
     public String fileToBase64(Path filePath) throws IOException {
         try ( InputStream in = Files.newInputStream(filePath, StandardOpenOption.READ)) {
             final ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -270,7 +278,7 @@ public class ProfileController {
         if (opt == JFileChooser.APPROVE_OPTION) {
             String path = ch.getSelectedFile().getAbsolutePath();
             System.out.println("Set profile picture " + path);
-            
+
             String imageUrl = gcs.uploadFile(path);
             System.out.println("Uploaded URL : " + imageUrl);
 
@@ -279,8 +287,8 @@ public class ProfileController {
             System.out.println("icon img : " + image);
             URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
             BufferedImage Img = ImageIO.read(dataImageUrl);
-            BufferedImage roundedImage = makeRoundedCorner(Img, 8000);
-            Image img = roundedImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            BufferedImage roundedImage = makeRoundedCorner(Img, 8100);
+            Image img = roundedImage.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
             ImageIcon profile_pic = new ImageIcon(img);
             view.getProfilePicture().setIcon(profile_pic);
 
@@ -323,7 +331,7 @@ public class ProfileController {
 
         return output;
     }
-    
+
     public void loading(JButton button, Boolean status) {
         if (status) {
             button.setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif")));
@@ -336,8 +344,7 @@ public class ProfileController {
         if (JOptionPane.showConfirmDialog(view, "Apakah Anda Mau Keluar ?", "Cinemas",
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             System.exit(0);
-            
-            
+
         }
     }
 

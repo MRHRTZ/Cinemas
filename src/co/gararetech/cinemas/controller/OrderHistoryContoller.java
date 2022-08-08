@@ -18,10 +18,12 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -196,16 +198,25 @@ public class OrderHistoryContoller {
 
         return new JSONArray(responseContent.toString());
     }
+    
+    public String getIndoCurrency(String price) {
+        BigDecimal valueToFormat = new BigDecimal(price);
+        NumberFormat indoFormat = NumberFormat.getCurrencyInstance(new Locale("in", "ID"));
+        String formattedString = indoFormat.format(valueToFormat);
+
+        return formattedString;
+    }
 
     public void setGrid(DashboardView view) throws IOException, ParseException {
-        System.out.println("Building Order History Content");
+        view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
+        int nextRID = model.nextRequestID();
+        System.out.println("Building Order History Content .. " + "~" + nextRID);
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.PAGE_AXIS)); //new BoxLayout(gridPane, BoxLayout.PAGE_AXIS
         gridPanel.setBackground(Color.decode("#42382F"));
 
         JSONArray orderList = getOrderHistory();
         if (orderList.isEmpty()) {
-            System.out.println("Uji");
             JLabel posterImage = new JLabel();
             BufferedImage rawPosterImg = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/history kosong.png"));
             Image scaledPoster = rawPosterImg.getScaledInstance(400, 250, Image.SCALE_SMOOTH);
@@ -217,7 +228,14 @@ public class OrderHistoryContoller {
         } else {
             for (int i = 0; i < orderList.length(); i++) {
                 JSONObject rowData = orderList.getJSONObject(i);
-                JSONObject movieDetail = getMovieDetail(rowData.getString("movie_id"));
+                JSONObject movieDetail = null;
+                JSONArray nowPlayingList = model.getPlayingList();
+                for (int j = 0; j < nowPlayingList.length(); j++) {
+                    if (nowPlayingList.getJSONObject(j).getString("id").equals(rowData.getString("movie_id"))) {
+                        movieDetail = nowPlayingList.getJSONObject(j);
+                    }
+                }
+                //JSONObject movieDetail = getMovieDetail(rowData.getString("movie_id"));
 
                 // Grid panel
                 final JPanel contentPanel = new JPanel();
@@ -234,7 +252,7 @@ public class OrderHistoryContoller {
 
                 // Poster
                 JLabel posterImage = new JLabel();
-                BufferedImage rawPosterImg = ImageIO.read(new URL(movieDetail.getString("poster")));
+                BufferedImage rawPosterImg = ImageIO.read(new URL(movieDetail.getString("poster_path")));
                 Image scaledPoster = rawPosterImg.getScaledInstance(155, 250, Image.SCALE_SMOOTH);
                 ImageIcon iconPoster = new ImageIcon(scaledPoster);
                 posterImage.setBounds(40, 35, iconPoster.getIconWidth(), iconPoster.getIconHeight());
@@ -253,7 +271,7 @@ public class OrderHistoryContoller {
                 cardPanel.add(idTiket);
 
                 JLabel judulFilm = new JLabel();
-                judulFilm.setText(movieDetail.getString("name"));
+                judulFilm.setText(movieDetail.getString("title"));
                 judulFilm.setForeground(Color.WHITE);
                 judulFilm.setFont(new Font("Serif", Font.PLAIN, 25));
                 judulFilm.setBounds(labelX, heightSpace * 2, 580, 70);
@@ -303,8 +321,9 @@ public class OrderHistoryContoller {
                 BufferedImage rawPoster5 = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/dolar.png"));
                 Image imghrg = rawPoster5.getScaledInstance(40, 30, Image.SCALE_SMOOTH);
                 ImageIcon iconHrg = new ImageIcon(imghrg);
+                String formatHarga = this.getIndoCurrency(rowData.getString("total"));
                 harga.setIcon(iconHrg);
-                harga.setText("  Rp" + rowData.getString("total"));
+                harga.setText("  " + formatHarga);
                 harga.setForeground(Color.WHITE);
                 harga.setFont(new Font("Serif", Font.PLAIN, 15));
                 harga.setBounds(labelX, heightSpace * 6, 500, 70);
@@ -394,10 +413,14 @@ public class OrderHistoryContoller {
                 gridPanel.add(contentPanel);
 
                 gridPanel.add(Box.createVerticalBox());
-                view.getContent().add(gridPanel);
-
             }
-            System.out.println("Success Load Order History");
+            
+            if (model.getRequestID() == nextRID) {
+                view.getContent().add(gridPanel);
+                System.out.println("Success load Order History");
+            } else {
+                System.out.println("cancel load Order History");
+            }
         }
     }
 

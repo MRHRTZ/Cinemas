@@ -19,6 +19,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -36,10 +37,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -319,21 +322,19 @@ public class DashboardController {
 
             if (!model.getUserData().isNull("image")) {
                 if (model.getUserData().getString("image").equals("")) {
-                    ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
-                    profileView.getProfilePicture().setIcon(defaultIcon);
+                    BufferedImage Img = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
+                    BufferedImage Images = makeRoundedCorner(Img, 1000);
+                    profileView.getProfilePicture().setIcon(new ImageIcon(Images));
                 } else {
                     System.out.println("Img url : " + model.getUserData().getString("image"));
                     URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
-                    Image iconURL = ImageIO.read(dataImageUrl);
 
-                    ImageIcon image = new ImageIcon(iconURL);
-                    Image img;
-                    if (image.getIconWidth() > image.getIconHeight()) {
-                        img = image.getImage().getScaledInstance(100, -1, Image.SCALE_SMOOTH);
-                    } else {
-                        img = image.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
-                    }
-                    profileView.getProfilePicture().setIcon(new ImageIcon(img));
+                    BufferedImage Img = ImageIO.read(dataImageUrl);
+                    BufferedImage roundedImage = makeRoundedCorner(Img, 8100);
+
+                    Image images = roundedImage.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+                    ImageIcon img = new ImageIcon(images);
+                    profileView.getProfilePicture().setIcon(img);
                 }
             } else {
                 ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/profile.png"));
@@ -371,6 +372,122 @@ public class DashboardController {
         g2.dispose();
 
         return output;
+    }
+
+    public void openFirstTab(DashboardView view, NowPlayingController controller) {
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    initPage(view);
+                    getCities();
+                    openTab(controller, view);
+                    getProfilePic(view);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void openTab(NowPlayingController controller, DashboardView view) {
+        setActiveButton(view, "nowplaying");
+        removeContent(view);
+        view.setLoadingPanel(addLoadingContent(view.getContent(), ""));
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    controller.setNewGrid(view);
+                    removeLoadingContent(view.getContent(), view.getLoadingPanel());
+                    view.revalidate();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void openTab(UpcomingController controller, DashboardView view) {
+        setActiveButton(view, "upcoming");
+        removeContent(view);
+        view.setLoadingPanel(addLoadingContent(view.getContent(), ""));
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    controller.setNewGrid(view);
+                    removeLoadingContent(view.getContent(), view.getLoadingPanel());
+                    view.revalidate();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void openTab(OrderHistoryContoller controller, DashboardView view) {
+        setActiveButton(view, "orderhistory");
+        removeContent(view);
+        view.setLoadingPanel(addLoadingContent(view.getContent(), ""));
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    controller.setGrid(view);
+                    removeLoadingContent(view.getContent(), view.getLoadingPanel());
+                    view.revalidate();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void openTab(CinemaListController controller, DashboardView view) {
+        setActiveButton(view, "cinemas");
+        removeContent(view);
+        view.setLoadingPanel(addLoadingContent(view.getContent(), ""));
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    controller.setNewGrid(view);
+                    removeLoadingContent(view.getContent(), view.getLoadingPanel());
+                    view.revalidate();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void openProfileTab(DashboardView view) {
+        view.setLoadingUser(addDialogLoading(view, "Sedang memuat profile, mohon tunggu sebentar"));
+        hidePopupProfile(view);
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    viewProfile(view, new ProfileView());
+                    removeDialogLoading(view);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+                    Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+        }.execute();
     }
 
     public void getProfilePic(DashboardView view) throws MalformedURLException, IOException {
@@ -430,7 +547,7 @@ public class DashboardController {
         view.getLoadingUser().dispose();
     }
 
-    public void refreshUserData(DashboardView view) throws InterruptedException, IOException {
+    public void refreshUserData(DashboardView view, NowPlayingController npc, UpcomingController upc, OrderHistoryContoller ohc, CinemaListController clc) throws InterruptedException, IOException {
         if (model.getNeedRefresh()) {
             System.out.println("Refreshing userData");
             Thread.sleep(3000);
@@ -444,10 +561,21 @@ public class DashboardController {
                     model.setUpcomingList(null);
                     model.setOrderHistoryList(null);
                     System.out.println("Refresh success for id " + rowData.getString("user_id"));
-                    removeDialogLoading(view);
-
                 }
             }
+            getProfilePic(view);
+            npc.getNowPlaying();
+            upc.getUpcoming();
+            if (model.getActiveTab().equals("nowplaying")) {
+                openTab(npc, view);
+            } else if (model.getActiveTab().equals("upcoming")) {
+                openTab(upc, view);
+            } else if (model.getActiveTab().equals("orderhistory")) {
+                openTab(ohc, view);
+            } else if (model.getActiveTab().equals("cinemas")) {
+                openTab(clc, view);
+            }
+            removeDialogLoading(view);
         } else {
             System.out.println("Opening dashboard, no need to refresh");
         }
@@ -469,6 +597,18 @@ public class DashboardController {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void handleMouseDragged(MouseEvent evt, JFrame view) {
+        int kordinatX = evt.getXOnScreen();
+        int kordinatY = evt.getYOnScreen();
+
+        view.setLocation(kordinatX - model.getMousepX(), kordinatY - model.getMousepY());
+    }
+    
+    public void handleMousePressed(MouseEvent evt, JFrame view) {
+        model.setMousepX(evt.getX());
+        model.setMousepY(evt.getY());
     }
 
     public void hidePopupProfile(DashboardView view) {

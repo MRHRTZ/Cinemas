@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -37,6 +38,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -81,6 +83,9 @@ public class BookingTicketController {
                 + "&total=" + total
                 + "&show_time=" + showTime
                 + "&movie_id=" + movieId;
+
+        System.out.println("Parameter : " + urlParameters);
+
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
         int postDataLength = postData.length;
 
@@ -335,6 +340,7 @@ public class BookingTicketController {
             thisToggleBtn.setForeground(Color.BLACK);
             model.setHarga(hargaSkrng + model.getHargaTiket());
             model.getKursi().put(nama);
+            model.getKursiAnda().put(nama);
         } else if (e.getStateChange() == ItemEvent.DESELECTED) {
             thisToggleBtn.setBackground(Color.RED);
             thisToggleBtn.setForeground(Color.WHITE);
@@ -342,6 +348,9 @@ public class BookingTicketController {
             JSONArray oldSeat = model.getKursi();
             JSONArray removeSeat = removeArrayElement(oldSeat, nama);
             model.setKursi(removeSeat);
+            JSONArray oldSeatYou = model.getKursiAnda();
+            JSONArray removeSeatYou = removeArrayElement(oldSeatYou, nama);
+            model.setKursiAnda(removeSeatYou);
         }
         String formatHarga = this.getIndoCurrency(String.valueOf(model.getHarga()));
         view.getTampilHarga().setText(formatHarga);
@@ -409,12 +418,12 @@ public class BookingTicketController {
     }
 
     public void makeOrder(String studioId) throws IOException {
-        String orderId = generateID(3) + "-" + generateID(7);
+        String orderId = generateID(2) + "-" + generateID(10);
         createOrder(orderId,
                 studioId,
                 dashboardModel.getUserData().getString("user_id"),
-                String.valueOf(model.getCheckoutTicketObj().getJSONArray("seat").length()),
-                model.getCheckoutTicketObj().getJSONArray("seat").join(",").replaceAll("\"", ""),
+                String.valueOf(model.getKursiAnda().length()),
+                model.getKursiAnda().join(",").replaceAll("\"", ""),
                 String.valueOf((int) (model.getPajak() * 100)),
                 String.valueOf(model.getTotalHarga()),
                 Integer.toString(model.getCheckoutTicketObj().getInt("show_time")),
@@ -580,6 +589,18 @@ public class BookingTicketController {
     public void back(BookingTicketView bookingView) {
         model.getCheckoutView().setVisible(true);
         bookingView.dispose();
+    }
+
+    public void handleMouseDragged(MouseEvent evt, JFrame view) {
+        int kordinatX = evt.getXOnScreen();
+        int kordinatY = evt.getYOnScreen();
+
+        view.setLocation(kordinatX - dashboardModel.getMousepX(), kordinatY - dashboardModel.getMousepY());
+    }
+
+    public void handleMousePressed(MouseEvent evt, JFrame view) {
+        dashboardModel.setMousepX(evt.getX());
+        dashboardModel.setMousepY(evt.getY());
     }
 
 }

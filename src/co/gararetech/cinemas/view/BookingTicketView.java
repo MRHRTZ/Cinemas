@@ -1,6 +1,7 @@
 package co.gararetech.cinemas.view;
 
 import co.gararetech.cinemas.controller.BookingTicketController;
+import co.gararetech.cinemas.controller.DashboardController;
 import co.gararetech.cinemas.model.BookingTicketModel;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
@@ -47,6 +48,7 @@ public class BookingTicketView extends javax.swing.JFrame {
         this.setIconImage(appIcon.getImage());
 
     }
+
 
     public BookingTicketController getBookingTicketController() {
         return bookingTicketController;
@@ -149,6 +151,16 @@ public class BookingTicketView extends javax.swing.JFrame {
         panelUtama.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelHeader.setBackground(new java.awt.Color(29, 28, 28));
+        panelHeader.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                panelHeaderMouseDragged(evt);
+            }
+        });
+        panelHeader.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                panelHeaderMousePressed(evt);
+            }
+        });
         panelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/logo-159.png"))); // NOI18N
@@ -395,6 +407,16 @@ public class BookingTicketView extends javax.swing.JFrame {
     private void tampilHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tampilHargaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tampilHargaActionPerformed
+
+    private void panelHeaderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHeaderMouseDragged
+        // TODO add your handling code here:
+        bookingTicketController.handleMouseDragged(evt, this);
+    }//GEN-LAST:event_panelHeaderMouseDragged
+
+    private void panelHeaderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelHeaderMousePressed
+        // TODO add your handling code here:
+        bookingTicketController.handleMousePressed(evt, this);
+    }//GEN-LAST:event_panelHeaderMousePressed
 
     public JTextField getTampilTotalHarga() {
         return tampilTotalHarga;

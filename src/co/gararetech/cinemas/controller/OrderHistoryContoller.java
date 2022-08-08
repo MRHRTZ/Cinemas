@@ -170,7 +170,7 @@ public class OrderHistoryContoller {
 
     public JSONArray getOrderHistory() throws MalformedURLException, IOException {
         System.out.println("Get Order History");
-        URL url = new URL(model.getOrderHistoryUrl().toString() + "show_order.php?uid=" + model.getUserData().getString("user_id"));
+        URL url = new URL(model.getOrderHistoryUrl().toString() + "?uid=" + model.getUserData().getString("user_id"));
 
         model.setConnection((HttpURLConnection) url.openConnection());
         model.getConnection().setRequestMethod("GET");
@@ -208,7 +208,6 @@ public class OrderHistoryContoller {
     }
 
     public void setGrid(DashboardView view) throws IOException, ParseException {
-        view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
         int nextRID = model.nextRequestID();
         System.out.println("Building Order History Content .. " + "~" + nextRID);
         JPanel gridPanel = new JPanel();

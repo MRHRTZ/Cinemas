@@ -58,7 +58,7 @@ public class DashboardModel {
             this.movieDetailUrl = new URL("https://curated.tix.id/v1/app/movie/");
             this.usersEndpoint = new URL(DbBaseUrl + "/show_user.php");
             this.bugReportUrl = new URL(DbBaseUrl + "/create_report.php");
-            this.orderHistoryUrl = new URL(DbBaseUrl + "/");
+            this.orderHistoryUrl = new URL(DbBaseUrl + "/show_order.php");
             this.showStudioUrl = new URL(DbBaseUrl + "/show_studio.php");
             this.createStudioUrl = new URL(DbBaseUrl + "/create_studio.php");
             this.updateStudioUrl = new URL(DbBaseUrl + "/update_studio.php");

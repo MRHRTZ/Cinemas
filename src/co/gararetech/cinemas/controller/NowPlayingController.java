@@ -8,6 +8,7 @@ import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -27,6 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -171,7 +174,6 @@ public class NowPlayingController {
 
             JLabel poster = new JLabel();
             BufferedImage icon = ImageIO.read(new URL(rowData.getString("poster_path")));
-            BufferedImage imageCrop = cropImage(icon, 0, icon.getHeight() / 2, icon.getWidth(), 80); //0, 0, 453, 150
             BufferedImage roundedPosterImage = makeRoundedCorner(icon, 70);
             Image scaledPoster = roundedPosterImage.getScaledInstance(250, 360, Image.SCALE_SMOOTH);
             ImageIcon iconPoster = new ImageIcon(scaledPoster);
@@ -186,17 +188,50 @@ public class NowPlayingController {
             poster.setIcon(iconPoster);
             poster.setBounds(0, 0, 250, 360);
 
+            // Rating Film
+            JLabel ratingFilm = new JLabel();
+            ImageIcon ratingIcon = getRatingIcon(rowData.getDouble("rating_score"));
+            ratingFilm.setIcon(ratingIcon);
+            ratingFilm.setHorizontalAlignment(SwingConstants.CENTER);
+            ratingFilm.setBounds(0, poster.getHeight() - 80, poster.getWidth(), 11);
+            cardPanel.add(ratingFilm);
+            ratingFilm.setVisible(false);
+
+            // Title
+            JLabel titleLabel = new JLabel(rowData.getString("title"));
+            titleLabel.setForeground(Color.WHITE);
+            titleLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+            titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            titleLabel.setBounds(0, ratingFilm.getY() + 10, poster.getWidth(), 30);
+            cardPanel.add(titleLabel);
+            titleLabel.setVisible(false);
+
+            // Selengkapnya
+            JLabel selengkapnya = new JLabel("<html><u>Lihat Selengkapnya</u></html>");
+            selengkapnya.setForeground(Color.WHITE);
+            selengkapnya.setFont(new Font("Serif", Font.PLAIN, 12));
+            selengkapnya.setHorizontalAlignment(SwingConstants.CENTER);
+            selengkapnya.setBounds(0, titleLabel.getY() + 25, poster.getWidth(), 20);
+            cardPanel.add(selengkapnya);
+            selengkapnya.setVisible(false);
+
+            // Gradient Label
             JLabel labelGradient = new JLabel();
             labelGradient.setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/gradientHover.png")));
             labelGradient.setBounds(-5, poster.getHeight() - 118, 260, 128);
-            System.out.println(poster.getHeight());
-            System.out.println(poster.getPreferredSize().getHeight());
             cardPanel.add(labelGradient);
             labelGradient.setVisible(false);
+
+            poster.setCursor(new Cursor(Cursor.HAND_CURSOR));
             poster.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-
+                    DetailFilmController detailFilmController = new DetailFilmController();
+                    try {
+                        detailFilmController.showDetail(view, rowData);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UpcomingController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
                 @Override
@@ -211,12 +246,12 @@ public class NowPlayingController {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    onMouseEntered(e, labelGradient, cardPanel);
+                    onMouseEntered(e, labelGradient, cardPanel, ratingFilm, titleLabel, selengkapnya);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    onMouseExited(e, labelGradient, cardPanel);
+                    onMouseExited(e, labelGradient, cardPanel, ratingFilm, titleLabel, selengkapnya);
                 }
             });
 
@@ -235,15 +270,45 @@ public class NowPlayingController {
         }
 
     }
-    
-//    public void ratingIcon
 
-    public void onMouseEntered(MouseEvent e, JLabel info, JPanel parent) {
+    public ImageIcon getRatingIcon(double scoreDouble) {
+        ImageIcon icon = null;
+        int score = (int) scoreDouble;
+        System.out.println("Score : " + score);
+        if (score == 0) {
+            System.out.println("Bintang 0");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-0.png"));
+        } else if (score > 0 && score < 2) {
+            System.out.println("Bintang 1");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-1.png"));
+        } else if (score >= 2 && score < 4) {
+            System.out.println("Bintang 2");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-2.png"));
+        } else if (score >= 4 && score < 6) {
+            System.out.println("Bintang 3");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-3.png"));
+        } else if (score >= 6 && score <= 8) {
+            System.out.println("Bintang 4");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-4.png"));
+        } else if (score > 8) {
+            System.out.println("Bintang 5");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-5.png"));
+        }
+        return icon;
+    }
+
+    public void onMouseEntered(MouseEvent e, JLabel info, JPanel parent, JLabel ratingFilm, JLabel titleLabel, JLabel selengkapnya) {
+        titleLabel.setVisible(true);
+        selengkapnya.setVisible(true);
+        ratingFilm.setVisible(true);
         info.setVisible(true);
         parent.revalidate();
     }
 
-    public void onMouseExited(MouseEvent e, JLabel info, JPanel parent) {
+    public void onMouseExited(MouseEvent e, JLabel info, JPanel parent, JLabel ratingFilm, JLabel titleLabel, JLabel selengkapnya) {
+        titleLabel.setVisible(false);
+        selengkapnya.setVisible(false);
+        ratingFilm.setVisible(false);
         info.setVisible(false);
         parent.revalidate();
     }
@@ -261,27 +326,6 @@ public class NowPlayingController {
 
             }
         }.start();
-    }
-
-    public void checkoutTicketView(DashboardView view, JSONObject rowData) {
-        view.setLoadingUser(addDialogLoading(view, "Sedang diproses, mohon tunggu sebentar"));
-        CheckoutTicketController checkoutTicketController = new CheckoutTicketController();
-        new SwingWorker<Void, Void>() {
-            @Override
-            public Void doInBackground() {
-                try {
-                    checkoutTicketController.setDashboardModel(model);
-                    checkoutTicketController.setDashboardView(view);
-                    checkoutTicketController.showFrame(rowData);
-                    removeDialogLoading(view);
-                    view.setVisible(false);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(view, "Kesalahan sistem " + e.getMessage());
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute();
     }
 
     public void setNewGrid(DashboardView view) throws IOException {

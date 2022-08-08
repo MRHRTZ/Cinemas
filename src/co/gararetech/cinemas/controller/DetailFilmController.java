@@ -1,5 +1,6 @@
 package co.gararetech.cinemas.controller;
 
+import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
 import java.awt.AlphaComposite;
@@ -37,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -88,7 +90,6 @@ public class DetailFilmController {
             JOptionPane.showMessageDialog(detailDialog, "Maaf, sistem anda tidak mendukung untuk membuka link ini.");
         }
     }
-    
 
     public void showDetail(DashboardView view, JSONObject movieObject) throws MalformedURLException, IOException {
         System.out.println("Opening Modal Detail Film : " + movieObject.getString("title"));
@@ -297,6 +298,23 @@ public class DetailFilmController {
         backButton.setBounds(videoThumbPanel.getWidth() - 165, videoThumbPanel.getHeight() + (heightSpace) * 5 + heightSpace + 10 + synopsisTextScroll.getHeight() + 10, 150, 30);
         contentPanel.add(backButton);
 
+        // Buy button
+        if (view.getDashboardModel().getActiveTab().equals("nowplaying")) {
+            JButton buyButton = new JButton();
+            buyButton.setForeground(Color.WHITE);
+            buyButton.setBackground(Color.decode("#2E5B0B"));
+            buyButton.setText("Beli Tiket");
+            buyButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    checkoutTicketView(view, view.getDashboardModel(), movieObject);
+                }
+            });
+            buyButton.setFont(new Font("Serif", Font.PLAIN, 18));
+            buyButton.setBounds(videoThumbPanel.getWidth() - 320, videoThumbPanel.getHeight() + (heightSpace) * 5 + heightSpace + 10 + synopsisTextScroll.getHeight() + 10, 150, 30);
+            contentPanel.add(buyButton);
+        }
+
         contentPanel.add(videoThumbPanel);
         mainPanel.add(contentPanel);
         frame.getContentPane().add(mainPanel);
@@ -308,5 +326,61 @@ public class DetailFilmController {
         frame.setVisible(true);
 
         System.out.println("Success close film detail modal");
+    }
+
+    public void checkoutTicketView(DashboardView view, DashboardModel dashboardModel, JSONObject rowData) {
+        view.setLoadingUser(addDialogLoading(view, "Sedang diproses, mohon tunggu sebentar"));
+        CheckoutTicketController checkoutTicketController = new CheckoutTicketController();
+        new SwingWorker<Void, Void>() {
+            @Override
+            public Void doInBackground() {
+                try {
+                    checkoutTicketController.setDashboardModel(dashboardModel);
+                    checkoutTicketController.setDashboardView(view);
+                    checkoutTicketController.showFrame(rowData);
+                    removeDialogLoading(view);
+                    view.setVisible(false);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(view, "Kesalahan sistem " + e.getMessage());
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public JDialog addDialogLoading(DashboardView view, String message) {
+        JDialog frame = new JDialog();
+
+        JPanel framePanel = new RoundedPanel();
+        framePanel.setBackground(Color.decode("#42382F"));
+        JPanel refreshPanel = new JPanel(new CardLayout(5, 5));
+        refreshPanel.setBackground(new Color(0, 0, 0, 0));
+        JPanel contentRefreshPane = new JPanel();
+        contentRefreshPane.setBackground(Color.decode("#42382F"));
+        refreshPanel.add(contentRefreshPane);
+
+        JLabel refreshContent = new JLabel();
+        ImageIcon loadIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/loading-25.gif"));
+        refreshContent.setIcon(loadIcon);
+        refreshContent.setText(message);
+        refreshContent.setFont(new Font("Serial", Font.BOLD, 15));
+        refreshContent.setForeground(Color.WHITE);
+        contentRefreshPane.add(refreshContent);
+
+        refreshPanel.setPreferredSize(new Dimension(400, 50));
+        framePanel.add(refreshPanel);
+        frame.getContentPane().add(framePanel);
+
+        frame.setUndecorated(true);
+        frame.setBackground(new Color(0, 0, 0, 0));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    public void removeDialogLoading(DashboardView view) {
+        view.getLoadingUser().dispose();
     }
 }

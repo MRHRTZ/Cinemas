@@ -96,11 +96,6 @@ public class ProfileController {
         if (!userData.isNull("image")) {
             String image = userData.getString("image");
 
-            URL dataImageUrl = new URL(model.getUserData().getString("image").replaceAll(" ", "%20"));
-            BufferedImage Img = ImageIO.read(dataImageUrl);
-            BufferedImage roundedImage = makeRoundedCorner(Img, 8000);
-            Image img = roundedImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-            ImageIcon profile_pic = new ImageIcon(img);
             if (image.equals("")) {
                 urlParameters = "post_type=" + post_type + "&user_id=" + user_id + "&city_id=" + city_id + "&email=" + email + "&password=" + password;
             } else {
@@ -184,8 +179,12 @@ public class ProfileController {
 
             if (!user_pass_old.equals(md5_pass_old)) {
                 JOptionPane.showMessageDialog(view, "Password lama tidak sesuai!");
+                view.getBtnProfileSave().setEnabled(true);
+
             } else if (pass_new.equals("")) {
                 JOptionPane.showMessageDialog(view, "Field masih kosong");
+                view.getBtnProfileSave().setEnabled(true);
+
             } else {
                 model.getUserData().put("city_id", city_name);
                 model.getUserData().put("email", email);

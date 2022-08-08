@@ -4,15 +4,22 @@ import co.gararetech.cinemas.model.DashboardModel;
 import co.gararetech.cinemas.utils.ScaleImage;
 import co.gararetech.cinemas.view.DashboardView;
 import co.gararetech.cinemas.view.elements.RoundedPanel;
+import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -99,6 +107,37 @@ public class UpcomingController {
         }
     }
 
+    public BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = output.createGraphics();
+
+        // This is what we want, but it only does hard-clipping, i.e. aliasing
+        // g2.setClip(new RoundRectangle2D ...)
+        // so instead fake soft-clipping by first drawing the desired clip shape
+        // in fully opaque white with antialiasing enabled...
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        g2.fill(new RoundRectangle2D.Float(0, 0, w, h, cornerRadius, cornerRadius));
+
+        // ... then compositing the image on top,
+        // using the white shape from above as alpha source
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+    }
+
+    public BufferedImage cropImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
+        BufferedImage croppedImage = bufferedImage.getSubimage(x, y, width, height);
+        return croppedImage;
+    }
+
     public void setGrid(DashboardView view) throws MalformedURLException, IOException {
         view.getDashboardController().removeLoadingContent(view.getContent(), view.getLoadingPanel());
         int nextRID = model.nextRequestID();
@@ -128,145 +167,85 @@ public class UpcomingController {
 
                 // Grid panel
                 final JPanel contentPanel = new JPanel();
-                contentPanel.setLayout(new CardLayout(25, 25));
-                contentPanel.setPreferredSize(new Dimension(250, 550));
-                //contentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                contentPanel.setLayout(new CardLayout(25, 10));
+                contentPanel.setPreferredSize(new Dimension(250, 400));
                 contentPanel.setBackground(Color.decode("#42382F"));
 
                 // Card Panel
-                final JPanel cardPanel = new RoundedPanel();
-                cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS));
-                cardPanel.setSize(150, 300);
-                cardPanel.setBackground(Color.decode("#222222"));
+                final JPanel cardPanel = new JPanel();
+                cardPanel.setBorder(BorderFactory.createEmptyBorder());
+                cardPanel.setLayout(null);
+                cardPanel.setSize(150, 250);
+                cardPanel.setBackground(Color.decode("#42382F"));
 
-                // Film Content 
-                // Top Space
-                JLabel topSpace = new JLabel();
-                topSpace.setText("---------");
-                topSpace.setForeground(Color.decode("#222222"));
-                topSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topSpace);
-
-                // Poster Image
-                URL posterUrl = new URL(rowData.getString("poster_path"));
                 JLabel poster = new JLabel();
-                poster.setPreferredSize(new Dimension(230, 287));
-                ImageIcon posterIcon = null;
+                BufferedImage imageBuffer = null;
                 try {
-                    Image icon = ImageIO.read(posterUrl);
-                    if (icon == null) {
-                        posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+                    imageBuffer = ImageIO.read(new URL(rowData.getString("poster_path")));
+//                    Image icon = ImageIO.read(posterUrl);
+                    if (imageBuffer == null) {
+                        imageBuffer = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+//                        posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
                     } else {
-                        posterIcon = new ImageIcon(icon);
+//                        posterIcon = new ImageIcon(icon);
                     }
                 } catch (IIOException e) {
-                    posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+                    imageBuffer = ImageIO.read(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+
+//                    posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
                 }
-                ScaleImage scaleImg = new ScaleImage(posterIcon, 230, 287);
-                ImageIcon resizePoster = scaleImg.scaleImage();
-                poster.setIcon(resizePoster);
-                poster.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(poster);
+                BufferedImage roundedPosterImage = makeRoundedCorner(imageBuffer, 70);
+                Image scaledPoster = roundedPosterImage.getScaledInstance(250, 360, Image.SCALE_SMOOTH);
+                ImageIcon iconPoster = new ImageIcon(scaledPoster);
+                poster.setPreferredSize(new Dimension(230, 287));
+//                ImageIcon posterIcon = new ImageIcon(iconPoster);
+//                if (icon == null) {
+//                    posterIcon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/blankposter.png"));
+//                } else {
+//                    posterIcon = new ImageIcon(icon);
+//                }
 
-                // Film Rating Panel
-                JPanel ratingPanel = new JPanel();
-                ratingPanel.setPreferredSize(new Dimension(250, 10));
-                ratingPanel.setLayout(new BoxLayout(ratingPanel, BoxLayout.X_AXIS));
-                ratingPanel.setBackground(Color.decode("#222222"));
+                poster.setIcon(iconPoster);
+                poster.setBounds(0, 0, 250, 360);
 
-                // Top Rating Space
-                JLabel topRatingSpace = new JLabel();
-                topRatingSpace.setText("---------");
-                topRatingSpace.setForeground(Color.decode("#222222"));
-                topRatingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topRatingSpace);
+                // Rating Film
+                JLabel ratingFilm = new JLabel();
+                ImageIcon ratingIcon = getRatingIcon(rowData.getDouble("rating_score"));
+                ratingFilm.setIcon(ratingIcon);
+                ratingFilm.setHorizontalAlignment(SwingConstants.CENTER);
+                ratingFilm.setBounds(0, poster.getHeight() - 80, poster.getWidth(), 11);
+                cardPanel.add(ratingFilm);
+                ratingFilm.setVisible(false);
 
-                // Rating Icon
-                JLabel starIcon = new JLabel();
-                URL starIconPath = getClass().getResource("/co/gararetech/cinemas/view/images/star-25.png");
-                ImageIcon starImage = new ImageIcon(starIconPath);
-                starIcon.setIcon(starImage);
-                starIcon.setAlignmentX(Component.LEFT_ALIGNMENT);
-                ratingPanel.add(starIcon);
+                // Title
+                JLabel titleLabel = new JLabel(rowData.getString("title"));
+                titleLabel.setForeground(Color.WHITE);
+                titleLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+                titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                titleLabel.setBounds(0, ratingFilm.getY() + 10, poster.getWidth(), 30);
+                cardPanel.add(titleLabel);
+                titleLabel.setVisible(false);
 
-                // Rating Score
-                JLabel ratingScore = new JLabel();
-                ratingScore.setForeground(Color.WHITE);
-                ratingScore.setText(" " + String.valueOf(rowData.getFloat("rating_score")));
-                ratingScore.setFont(new Font("Serif", Font.PLAIN, 18));
-                ratingScore.setAlignmentX(Component.LEFT_ALIGNMENT);
-                ratingPanel.add(ratingScore);
+                // Selengkapnya
+                JLabel selengkapnya = new JLabel("<html><u>Lihat Selengkapnya</u></html>");
+                selengkapnya.setForeground(Color.WHITE);
+                selengkapnya.setFont(new Font("Serif", Font.PLAIN, 12));
+                selengkapnya.setHorizontalAlignment(SwingConstants.CENTER);
+                selengkapnya.setBounds(0, titleLabel.getY() + 25, poster.getWidth(), 20);
+                cardPanel.add(selengkapnya);
+                selengkapnya.setVisible(false);
 
-                // Rating Age
-                JLabel ageScore = new JLabel();
-                String ageCategory = rowData.getString("age_category");
-                if (ageCategory.equals("R")) {
-                    ageScore.setForeground(Color.GREEN);
-                    ageCategory = "R 13+";
-                } else if (ageCategory.equals("D")) {
-                    ageScore.setForeground(Color.RED);
-                    ageCategory = "D 17+";
-                } else if (ageCategory.equals("P")) {
-                    ageScore.setForeground(Color.WHITE);
-                    ageCategory = "-";
-                } else {
-                    ageScore.setForeground(Color.WHITE);
-                }
-                ageScore.setText("                      " + ageCategory);
-                ageScore.setFont(new Font("Serif", Font.PLAIN, 18));
-                ageScore.setAlignmentX(Component.RIGHT_ALIGNMENT);
-                ratingPanel.add(ageScore);
+                // Gradient Label
+                JLabel labelGradient = new JLabel();
+                labelGradient.setIcon(new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/gradientHover.png")));
+                labelGradient.setBounds(-5, poster.getHeight() - 118, 260, 128);
+                cardPanel.add(labelGradient);
+                labelGradient.setVisible(false);
 
-                // Rating Space
-                JLabel ratingSpace = new JLabel();
-                ratingSpace.setText("-----");
-                ratingSpace.setForeground(Color.decode("#222222"));
-                ratingSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                ratingPanel.add(ratingSpace);
-
-                cardPanel.add(ratingPanel);
-
-                // Top Film Space
-                JLabel topFilmSpace = new JLabel();
-                topFilmSpace.setText("---------");
-                topFilmSpace.setForeground(Color.decode("#222222"));
-                topFilmSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topFilmSpace);
-
-                // Film Title
-                JLabel filmTitle = new JLabel();
-                filmTitle.setPreferredSize(new Dimension(230, 10));
-                filmTitle.setMaximumSize(new Dimension(220, 30));
-                filmTitle.setHorizontalAlignment(SwingConstants.CENTER);
-                filmTitle.setText(rowData.getString("title"));
-                filmTitle.setForeground(Color.WHITE);
-                filmTitle.setFont(new Font("Serif", Font.PLAIN, 20));
-                filmTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(filmTitle);
-
-                // Top Button Space
-                JLabel topButtonSpace = new JLabel();
-                topButtonSpace.setText("---------");
-                topButtonSpace.setForeground(Color.decode("#222222"));
-                topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topButtonSpace);
-
-                // No Order Button for Upcoming
-                // Top Button Space
-                JLabel topButtonSpace2 = new JLabel();
-                topButtonSpace2.setText("---------");
-                topButtonSpace2.setForeground(Color.decode("#222222"));
-                topButtonSpace.setAlignmentX(Component.CENTER_ALIGNMENT);
-                cardPanel.add(topButtonSpace2);
-
-                // Detail Button
-                JButton detailButton = new JButton();
-                detailButton.setForeground(Color.WHITE);
-                detailButton.setBackground(Color.decode("#555553"));
-                detailButton.setText("Detail Film");
-                detailButton.addActionListener(new ActionListener() {
+                poster.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                poster.addMouseListener(new MouseListener() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
+                    public void mouseClicked(MouseEvent e) {
                         DetailFilmController detailFilmController = new DetailFilmController();
                         try {
                             detailFilmController.showDetail(view, rowData);
@@ -274,15 +253,33 @@ public class UpcomingController {
                             Logger.getLogger(UpcomingController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        onMouseEntered(e, labelGradient, cardPanel, ratingFilm, titleLabel, selengkapnya);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        onMouseExited(e, labelGradient, cardPanel, ratingFilm, titleLabel, selengkapnya);
+                    }
                 });
-                detailButton.setFont(new Font("Serif", Font.PLAIN, 18));
-                detailButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                detailButton.setPreferredSize(new Dimension(200, 30));
-                detailButton.setMaximumSize(new Dimension(200, 30));
-                cardPanel.add(detailButton);
+
+                cardPanel.add(poster);
 
                 contentPanel.add(cardPanel);
                 gridPane.add(contentPanel);
+
             }
 
             if (model.getRequestID() == nextRID) {
@@ -292,6 +289,48 @@ public class UpcomingController {
                 System.out.println("cancel load upcoming");
             }
         }
+    }
+
+    public ImageIcon getRatingIcon(double scoreDouble) {
+        ImageIcon icon = null;
+        int score = (int) scoreDouble;
+        System.out.println("Score : " + score);
+        if (score == 0) {
+            System.out.println("Bintang 0");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-0.png"));
+        } else if (score > 0 && score < 2) {
+            System.out.println("Bintang 1");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-1.png"));
+        } else if (score >= 2 && score < 4) {
+            System.out.println("Bintang 2");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-2.png"));
+        } else if (score >= 4 && score < 6) {
+            System.out.println("Bintang 3");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-3.png"));
+        } else if (score >= 6 && score <= 8) {
+            System.out.println("Bintang 4");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-4.png"));
+        } else if (score > 8) {
+            System.out.println("Bintang 5");
+            icon = new ImageIcon(getClass().getResource("/co/gararetech/cinemas/view/images/star-5.png"));
+        }
+        return icon;
+    }
+
+    public void onMouseEntered(MouseEvent e, JLabel info, JPanel parent, JLabel ratingFilm, JLabel titleLabel, JLabel selengkapnya) {
+        titleLabel.setVisible(true);
+        selengkapnya.setVisible(true);
+        ratingFilm.setVisible(true);
+        info.setVisible(true);
+        parent.revalidate();
+    }
+
+    public void onMouseExited(MouseEvent e, JLabel info, JPanel parent, JLabel ratingFilm, JLabel titleLabel, JLabel selengkapnya) {
+        titleLabel.setVisible(false);
+        selengkapnya.setVisible(false);
+        ratingFilm.setVisible(false);
+        info.setVisible(false);
+        parent.revalidate();
     }
 
     public void setNewGrid(DashboardView view) throws IOException {

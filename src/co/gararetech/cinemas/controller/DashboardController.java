@@ -384,7 +384,7 @@ public class DashboardController {
                     openTab(controller, view);
                     getProfilePic(view);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
+//                    JOptionPane.showMessageDialog(view, "Kesalahan system " + ex.getMessage());
                     Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;

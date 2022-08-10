@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URLConnection;
 import java.nio.file.Files;
@@ -28,10 +29,10 @@ public class GoogleCloudStorage {
     private Storage storage;
 
     public GoogleCloudStorage() throws URISyntaxException, FileNotFoundException, IOException {
-        String jsonAccountPath = getClass().getResource("/co/gararetech/cinemas/credentials/gararetech-account.json").getPath().replaceAll("%20", " ");
+        InputStream jsonAccountPath = this.getClass().getResourceAsStream("/co/gararetech/cinemas/credentials/gararetech-account.json");
         StorageOptions storageOptions = StorageOptions.newBuilder()
                 .setProjectId(this.project)
-                .setCredentials(GoogleCredentials.fromStream(new FileInputStream(jsonAccountPath))).build();
+                .setCredentials(GoogleCredentials.fromStream(jsonAccountPath)).build();
         this.storage = storageOptions.getService();
     }
 
